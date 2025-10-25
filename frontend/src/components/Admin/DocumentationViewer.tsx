@@ -142,13 +142,13 @@ To view the full content:
 2. Navigate to the docs folder
 3. Open \`${doc.path.split('/').pop()}\`
 
-## Quick Links
+**Quick Links**
 
 - [View in GitHub](#)
 - [Download PDF](#)
 - [Edit Documentation](#)
 
-## Related Documentation
+**Related Documentation**
 
 ${DOCUMENTATION
   .filter(d => d.category === doc.category && d.id !== doc.id)
