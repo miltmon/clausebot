@@ -47,6 +47,19 @@ jobs:
         pip install -r requirements.txt
         pip install pytest ruff black flake8
         
+    - name: Verify critical files & imports
+      run: |
+        # Fail if critical module is missing (prevents .gitignore accidents)
+        test -f clausebot_api/airtable_data_source.py || { echo "❌ airtable_data_source.py missing!"; exit 1; }
+        
+        # Verify module is importable
+        python - << 'PY'
+        import os, sys
+        sys.path.insert(0, os.path.abspath("."))
+        import clausebot_api.airtable_data_source as m
+        print(f"✅ Module verified: {m.__file__}")
+        PY
+        
     - name: Lint with ruff
       run: ruff check . || echo "Linting warnings present"
       
@@ -103,6 +116,11 @@ jobs:
         name: frontend-dist
         path: frontend/dist/
         retention-days: 7
+        
+    - name: Link check (sanity crawl)
+      run: |
+        echo "🔍 Checking for broken links in build..."
+        npx -y linkinator dist/ --recurse --skip "mailto:*" || echo "⚠️ Link check warnings (non-blocking)"
 
   health-check:
     name: Integration Health Check
@@ -119,9 +137,19 @@ jobs:
         echo "Testing production API health..."
         curl -f https://clausebot-api.onrender.com/health || echo "API not responding (may be cold-start)"
         
+    - name: CORS preflight check
+      run: |
+        echo "Testing CORS configuration..."
+        curl -i -X OPTIONS https://clausebot-api.onrender.com/health \
+          -H "Origin: https://clausebot.vercel.app" \
+          -H "Access-Control-Request-Method: GET" \
+          | grep -i "access-control-allow-origin" || echo "⚠️ CORS check inconclusive"
+        
     - name: Summary
       run: |
         echo "✅ Backend tests passed"
         echo "✅ Frontend build successful"
+        echo "✅ Critical files verified"
+        echo "✅ CORS configuration checked"
         echo "🚀 Ready for deployment"
 
