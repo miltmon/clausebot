@@ -1,8 +1,11 @@
 
-import React from "react";
-import { ArrowRight } from "lucide-react";
+import React, { useState } from "react";
+import { ArrowRight, Brain } from "lucide-react";
+import { QuizModal } from "./QuizModal";
 
 const Hero = () => {
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
+
   return (
     <section className="bg-[#0B1220] text-white" id="hero">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -29,12 +32,13 @@ const Hero = () => {
             Get Started Free
             <ArrowRight className="w-4 h-4" />
           </a>
-          <a 
-            href="/clausebot" 
+          <button 
+            onClick={() => setIsQuizOpen(true)}
             className="px-5 py-3 rounded-lg border border-white/20 hover:bg-white/10 transition-colors duration-200 flex items-center justify-center gap-2"
           >
-            Explore ClauseBot
-          </a>
+            <Brain className="w-4 h-4" />
+            Start ClauseBot Quiz
+          </button>
         </div>
 
         <blockquote className="mt-8 text-white/70 italic">
@@ -43,6 +47,12 @@ const Hero = () => {
           <span className="not-italic"> — "Miltmon"</span>
         </blockquote>
       </div>
+
+      <QuizModal 
+        isOpen={isQuizOpen} 
+        onClose={() => setIsQuizOpen(false)}
+        category="Structural Welding"
+      />
     </section>
   );
 
