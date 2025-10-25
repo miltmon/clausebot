@@ -25,16 +25,16 @@ $endpoints = @(
     },
     @{
         Name = "Quiz API"
-        URL = "https://clausebot-api.onrender.com/v1/quiz/fundamentals"
+        URL = "https://clausebot-api.onrender.com/v1/quiz"
         ExpectedStatus = 200
-        ExpectedKeyword = "questions"
+        ExpectedKeyword = "items"
         Critical = $false
     },
     @{
-        Name = "Crosswalk API"
-        URL = "https://clausebot-api.onrender.com/v1/crosswalk/stats"
+        Name = "Quiz Health Detailed"
+        URL = "https://clausebot-api.onrender.com/health/quiz/detailed"
         ExpectedStatus = 200
-        ExpectedKeyword = "total"
+        ExpectedKeyword = "eligible"
         Critical = $false
     },
     @{

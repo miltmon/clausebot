@@ -15,8 +15,8 @@
 - Frontend: `https://clausebot.vercel.app/`
 
 **Content Endpoints (Important):**
-- Quiz API: `https://clausebot-api.onrender.com/v1/quiz/fundamentals`
-- Crosswalk API: `https://clausebot-api.onrender.com/v1/crosswalk/stats`
+- Quiz API: `https://clausebot-api.onrender.com/v1/quiz`
+- Quiz Health: `https://clausebot-api.onrender.com/health/quiz/detailed`
 
 ### Monitoring Intervals
 
@@ -118,10 +118,10 @@ SSL Certificate Monitoring: Enabled (alert 7 days before expiry)
 ```
 Name: ClauseBot Quiz API
 Type: HTTP(s)
-URL: https://clausebot-api.onrender.com/v1/quiz/fundamentals
+URL: https://clausebot-api.onrender.com/v1/quiz
 Method: GET
 Expected Status: 200 OK
-Keyword Check: "questions" (in response body)
+Keyword Check: "items" (in response body)
 Interval: Every 5 minutes
 Timeout: 30 seconds
 Alert After: 2 consecutive failures
@@ -130,10 +130,10 @@ Alert After: 2 consecutive failures
 **Expected Response:**
 ```json
 {
-  "category": "fundamentals",
   "count": 5,
+  "category": "default",
   "source": "airtable",
-  "questions": [...]
+  "items": [...]
 }
 ```
 
@@ -145,18 +145,18 @@ Alert After: 2 consecutive failures
 
 ---
 
-### Monitor 4: ClauseBot Crosswalk API
+### Monitor 4: ClauseBot Quiz Health
 
-**Purpose:** Crosswalk data availability
+**Purpose:** Quiz data quality and availability monitoring
 
 **Configuration:**
 ```
-Name: ClauseBot Crosswalk API
+Name: ClauseBot Quiz Health
 Type: HTTP(s)
-URL: https://clausebot-api.onrender.com/v1/crosswalk/stats
+URL: https://clausebot-api.onrender.com/health/quiz/detailed
 Method: GET
 Expected Status: 200 OK
-Keyword Check: "total" (in response body)
+Keyword Check: "eligible" (in response body)
 Interval: Every 5 minutes
 Timeout: 30 seconds
 Alert After: 2 consecutive failures
@@ -165,17 +165,20 @@ Alert After: 2 consecutive failures
 **Expected Response:**
 ```json
 {
-  "total": 1234,
-  "editions": [...],
-  "categories": [...]
+  "records": {
+    "total": 121,
+    "quiz_eligible": 114,
+    "production_ready": 16
+  },
+  "distribution": {...}
 }
 ```
 
 **Alert Actions:**
-1. Check database connection
-2. Review crosswalk data seed status
-3. Check Supabase connection if used
-4. Verify data integrity
+1. Check Airtable connection status
+2. Review data quality metrics
+3. Verify production-ready question count
+4. Check filtering logic if eligible count drops
 
 ---
 
