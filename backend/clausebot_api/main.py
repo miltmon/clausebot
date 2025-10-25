@@ -29,8 +29,7 @@ ALLOWED_ORIGINS = [
     "http://localhost:8081",
 ]
 
-# Allow Vercel preview deployments (*.vercel.app)
-# Note: In production, consider more restrictive patterns
+# Add environment-specific origins (comma-separated)
 env_origins = os.getenv("CORS_ALLOW_ORIGINS", "")
 if env_origins:
     ALLOWED_ORIGINS.extend([x.strip() for x in env_origins.split(",") if x.strip()])
@@ -38,6 +37,7 @@ if env_origins:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",  # Support Vercel preview deployments
     allow_credentials=True,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "X-API-Key", "Accept"],
