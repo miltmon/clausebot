@@ -145,11 +145,34 @@ jobs:
           -H "Access-Control-Request-Method: GET" \
           | grep -i "access-control-allow-origin" || echo "⚠️ CORS check inconclusive"
         
+    - name: Verify monitoring docs exist
+      run: |
+        test -f docs/MONITORING_GUIDE.md || { echo "❌ MONITORING_GUIDE.md missing!"; exit 1; }
+        test -f docs/MONITORING_QUICK_REF.md || { echo "❌ MONITORING_QUICK_REF.md missing!"; exit 1; }
+        echo "✅ Monitoring documentation present"
+        
+    - name: Check monitoring doc integrity (non-blocking)
+      continue-on-error: true
+      run: |
+        echo "Checking monitoring documentation integrity..."
+        
+        # Check quick reference hash
+        if [ -f docs/monitoring_quick_ref.hash ]; then
+          q=$(sha256sum docs/MONITORING_QUICK_REF.md | awk '{print $1}')
+          qh=$(cat docs/monitoring_quick_ref.hash | tr -d '\r\n')
+          if [ "$q" != "$qh" ]; then
+            echo "::warning::MONITORING_QUICK_REF.md modified without updating hash"
+          else
+            echo "✅ MONITORING_QUICK_REF.md hash verified"
+          fi
+        fi
+        
     - name: Summary
       run: |
         echo "✅ Backend tests passed"
         echo "✅ Frontend build successful"
         echo "✅ Critical files verified"
         echo "✅ CORS configuration checked"
+        echo "✅ Monitoring docs verified"
         echo "🚀 Ready for deployment"
 
