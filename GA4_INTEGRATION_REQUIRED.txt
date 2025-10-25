@@ -1,0 +1,28 @@
+﻿# ============================================================================
+# MANUAL ACTION REQUIRED: Integrate GA4 helper
+# ============================================================================
+# File: frontend/src/main.tsx (or App.tsx - whichever is your entry point)
+#
+# Add at the top:
+
+import { initGA } from './ga';
+
+# Add after imports, before ReactDOM.render or root.render:
+
+initGA();
+
+# Example:
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { initGA } from './ga'
+
+initGA(); // ← Add this line
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+
+# ============================================================================

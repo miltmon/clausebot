@@ -1,0 +1,22 @@
+﻿# ============================================================================
+# MANUAL ACTION REQUIRED: Update backend CORS configuration
+# ============================================================================
+# File: backend/clausebot_api/main.py (or wherever FastAPI app is created)
+#
+# Replace existing CORS middleware with:
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://clausebot.ai",
+        "http://localhost:5173"
+    ],
+    allow_origin_regex=r"https://.*\.vercel\.app",  # ← Regex for Vercel previews
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ============================================================================
