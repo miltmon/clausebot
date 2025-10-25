@@ -176,41 +176,54 @@ export const QuizModal = ({ isOpen, onClose, category = "Structural Welding" }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl" aria-describedby="quiz-description">
+      <DialogContent 
+        className="max-w-2xl" 
+        aria-labelledby="quiz-title"
+        aria-describedby="quiz-description"
+      >
         <DialogHeader>
           <div className="flex items-center justify-between">
-            <DialogTitle>ClauseBot Quiz</DialogTitle>
+            <DialogTitle id="quiz-title">ClauseBot Quiz</DialogTitle>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleClose();
               }}
               className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              aria-label="Close ClauseBot overlay"
+              aria-label="Close ClauseBot quiz modal"
+              type="button"
             >
               <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
             </button>
           </div>
           <div id="quiz-description" className="flex items-center justify-between text-sm text-muted-foreground">
-            <Badge variant="outline">
+            <Badge variant="outline" role="status" aria-live="polite">
               Question {currentIndex + 1} of {questions.length}
             </Badge>
-            <span>Score: {score}/{currentIndex + (isAnswered ? 1 : 0)}</span>
+            <span role="status" aria-live="polite" aria-label={`Current score: ${score} out of ${currentIndex + (isAnswered ? 1 : 0)}`}>
+              Score: {score}/{currentIndex + (isAnswered ? 1 : 0)}
+            </span>
           </div>
         </DialogHeader>
 
         {loading ? (
-          <div className="py-12 text-center">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="py-12 text-center" role="status" aria-live="polite">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary" aria-hidden="true"></div>
             <p className="mt-4 text-muted-foreground">Loading quiz questions...</p>
           </div>
         ) : (
           <div className="space-y-6 py-4">
             {/* Question */}
-            <div className="text-lg font-medium">{currentQuestion.q}</div>
+            <h2 className="text-lg font-medium" id={`question-${currentQuestion.id}`}>
+              {currentQuestion.q}
+            </h2>
 
             {/* Answer Options */}
-            <div className="space-y-3">
+            <fieldset className="space-y-3">
+              <legend className="sr-only">
+                Select your answer for question {currentIndex + 1}
+              </legend>
               {currentQuestion.a.map((option, index) => {
                 const letter = String.fromCharCode(65 + index); // A, B, C, D
                 const isSelected = selectedAnswer === letter;
@@ -223,6 +236,10 @@ export const QuizModal = ({ isOpen, onClose, category = "Structural Welding" }: 
                     key={letter}
                     onClick={() => handleAnswer(letter)}
                     disabled={isAnswered}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    aria-labelledby={`answer-${letter}-${currentQuestion.id}`}
                     className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                       showCorrect
                         ? 'border-green-500 bg-green-50'
@@ -235,29 +252,43 @@ export const QuizModal = ({ isOpen, onClose, category = "Structural Welding" }: 
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <Badge variant={isAnswered ? (isCorrect ? 'default' : 'outline') : 'secondary'}>
+                        <Badge 
+                          variant={isAnswered ? (isCorrect ? 'default' : 'outline') : 'secondary'}
+                          aria-hidden="true"
+                        >
                           {letter}
                         </Badge>
-                        <span>{option}</span>
+                        <span id={`answer-${letter}-${currentQuestion.id}`}>{option}</span>
                       </div>
-                      {showCorrect && <CheckCircle className="h-5 w-5 text-green-600" />}
-                      {showIncorrect && <XCircle className="h-5 w-5 text-red-600" />}
+                      {showCorrect && <CheckCircle className="h-5 w-5 text-green-600" aria-label="Correct answer" />}
+                      {showIncorrect && <XCircle className="h-5 w-5 text-red-600" aria-label="Incorrect answer" />}
                     </div>
                   </button>
                 );
               })}
-            </div>
+            </fieldset>
 
             {/* Hint System */}
             {!isAnswered && !showHint && (
-              <Button variant="outline" size="sm" onClick={handleHint} className="gap-2">
-                <Lightbulb className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleHint} 
+                className="gap-2"
+                aria-label="Show hint for current question"
+                type="button"
+              >
+                <Lightbulb className="h-4 w-4" aria-hidden="true" />
                 Show Hint
               </Button>
             )}
 
             {showHint && !isAnswered && (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm">
+              <div 
+                className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm"
+                role="region"
+                aria-label="Question hint"
+              >
                 <div className="font-medium text-blue-900 mb-1">Hint:</div>
                 <div className="text-blue-800">
                   Think about the category: {currentQuestion.category || 'General'}
@@ -267,7 +298,12 @@ export const QuizModal = ({ isOpen, onClose, category = "Structural Welding" }: 
 
             {/* Explanation (after answer) */}
             {isAnswered && currentQuestion.explanation && (
-              <div className="p-4 bg-muted rounded-lg text-sm">
+              <div 
+                className="p-4 bg-muted rounded-lg text-sm"
+                role="region"
+                aria-live="polite"
+                aria-label="Answer explanation"
+              >
                 <div className="font-medium mb-1">Explanation:</div>
                 <div>{currentQuestion.explanation}</div>
               </div>
@@ -276,7 +312,11 @@ export const QuizModal = ({ isOpen, onClose, category = "Structural Welding" }: 
             {/* Navigation */}
             {isAnswered && (
               <div className="flex justify-end">
-                <Button onClick={handleNext}>
+                <Button 
+                  onClick={handleNext}
+                  type="button"
+                  aria-label={currentIndex < questions.length - 1 ? 'Continue to next question' : 'Finish quiz and view results'}
+                >
                   {currentIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
                 </Button>
               </div>
