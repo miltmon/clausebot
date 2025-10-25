@@ -18,6 +18,7 @@ import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
 import ClauseBot from "./pages/ClauseBot";
 import KnowledgeBase from "./pages/KnowledgeBase";
+import Health from "./pages/Health";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/professional" element={<Professional />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/health" element={<Health />} />
           
           {/* Auth route */}
           <Route path="/auth" element={<Auth />} />

@@ -1,5 +1,6 @@
 
 import React from "react";
+import { SystemHealth } from './SystemHealth';
 
 const Footer = () => {
   return (
@@ -21,9 +22,13 @@ const Footer = () => {
             </a>
           </nav>
         </div>
-        <p className="mt-3 text-gray-500">
-          Important: ClauseBot supports compliance decisions; it does not replace the engineer of record.
-        </p>
+        
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mt-4 pt-4 border-t border-gray-200">
+          <p className="text-gray-500">
+            Important: ClauseBot supports compliance decisions; it does not replace the engineer of record.
+          </p>
+          <SystemHealth />
+        </div>
       </div>
     </footer>
   );
