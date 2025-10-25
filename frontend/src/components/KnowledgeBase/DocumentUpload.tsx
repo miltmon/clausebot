@@ -131,7 +131,7 @@ export const DocumentUpload = () => {
           scope: scope,
           entity_name: scope === 'entity' ? entityName : null,
           tags: tags.split(',').map(t => t.trim()).filter(Boolean)
-        }] as any);
+        }]);
 
       if (insertError) throw insertError;
 

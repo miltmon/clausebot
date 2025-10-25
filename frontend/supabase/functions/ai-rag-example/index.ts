@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,7 +14,7 @@ interface ReferenceDocument {
 }
 
 async function loadReferenceDocuments(
-  supabase: any,
+  supabase: SupabaseClient,
   functionName: string,
   entityName?: string
 ): Promise<{ context: string; tokenCount: number; docsLoaded: number }> {

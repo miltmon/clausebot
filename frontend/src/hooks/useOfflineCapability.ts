@@ -30,7 +30,7 @@ export const useOfflineCapability = () => {
       return { questions: [], answers: [] };
     }
   });
-  const syncQueueRef = useRef<Array<{ type: string; data: any }>>([]);
+  const syncQueueRef = useRef<Array<{ type: string; data: Record<string, unknown> }>>([]);
 
   // Monitor online/offline status
   useEffect(() => {
@@ -82,7 +82,7 @@ export const useOfflineCapability = () => {
   }, [offlineData, saveOfflineData]);
 
   // Cache an answer for offline use
-  const cacheAnswer = useCallback((question: string, answer: any) => {
+  const cacheAnswer = useCallback((question: string, answer: { answer?: string }) => {
     const newAnswer = {
       id: Date.now().toString(),
       question,
@@ -121,7 +121,7 @@ export const useOfflineCapability = () => {
   }, [offlineData.answers]);
 
   // Add to sync queue for when we come back online
-  const addToSyncQueue = useCallback((type: string, data: any) => {
+  const addToSyncQueue = useCallback((type: string, data: Record<string, unknown>) => {
     syncQueueRef.current.push({ type, data });
     try {
       localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(syncQueueRef.current));
