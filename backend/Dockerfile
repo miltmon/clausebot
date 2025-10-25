@@ -6,6 +6,13 @@ WORKDIR /app
 # system deps
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
+# build info (for /buildinfo endpoint)
+ARG GIT_SHA=unknown
+ARG BUILD_DATE=unknown
+RUN echo "REPO=miltmon/clausebot" > /app/buildinfo.txt && \
+    echo "SHA=${GIT_SHA}" >> /app/buildinfo.txt && \
+    echo "DATE=${BUILD_DATE}" >> /app/buildinfo.txt
+
 # app deps
 COPY requirements.txt ./
 RUN pip install -U pip && pip install -r requirements.txt
