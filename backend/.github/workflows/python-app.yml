@@ -1,0 +1,60 @@
+# Python Application - Test & Lint Workflow
+# Pinned actions to SHA commits for supply-chain security
+
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Global read-only permissions
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    # Job-level read-only permissions
+    permissions:
+      contents: read
+    
+    steps:
+    # Pinned to v4.2.2 commit SHA
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+    
+    - name: Set up Python 3.11
+      # Pinned to v5.3.0 commit SHA
+      uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Lint with ruff
+      run: |
+        ruff check .
+    
+    - name: Check code formatting with black
+      run: |
+        black --check .
+    
+    - name: Run tests
+      run: |
+        pytest tests/ --verbose
+      env:
+        FEATURE_CLAUSEBOT_PUBLIC: false
+        API_KEY_REQUIRED: true

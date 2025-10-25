@@ -1,0 +1,128 @@
+# Node.js CI workflow with build, test, lint, type checking, and artifact generation
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871  # v4.2.1
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6  # v4.0.4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
+    
+    - name: Enable Corepack for package manager pinning
+      run: |
+        corepack enable
+        echo "Node version: $(node --version)"
+        echo "NPM version: $(npm --version)"
+        echo "Package manager versions pinned via corepack"
+        
+    - name: Install dependencies with locked versions (no postinstall scripts)
+      run: npm ci --ignore-scripts
+      env:
+        NODE_ENV: development
+      
+    - name: Run postinstall scripts explicitly (controlled)
+      run: npm rebuild
+      
+    - name: Run linter
+      run: npm run lint
+      continue-on-error: false
+      
+    - name: Run type checking
+      run: |
+        if [ -f "tsconfig.json" ]; then
+          echo "Running TypeScript type checking..."
+          npx tsc --noEmit --pretty
+        else
+          echo "No tsconfig.json found, checking for JavaScript type checking..."
+          if grep -q '"checkJs"' jsconfig.json 2>/dev/null || grep -q '"checkJs"' tsconfig.json 2>/dev/null; then
+            echo "Running JavaScript type checking with TypeScript..."
+            npx tsc --noEmit --allowJs --checkJs --pretty
+          else
+            echo "No type checking configuration found - skipping"
+          fi
+        fi
+      continue-on-error: false
+      
+    - name: Run tests
+      run: npm test
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Generate CI compliance summary
+      if: always() && matrix.node-version == '20.x'
+      run: |
+        echo "Generating CI compliance summary..."
+        node scripts/build ci summary.js || echo "Summary generation skipped (script may need artifact files)"
+      continue-on-error: true
+      
+      name: Upload CI compliance summary
+      if: always() && matrix.node version == '20.x'
+      uses: actions/upload artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      with:
+        name: ci compliance summary
+        path: ci reports/ci compliance summary.html
+        retention-days: 90
+      
+      name: Upload build artifacts
+      if: matrix.node version == '20.x'
+      uses: actions/upload artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      with:
+        name: build artifacts
+        path: |
+          dist/
+          build/
+        retention days: 30
+      
+    - name: Generate SBOM (Software Bill of Materials)
+      if: github.event_name == 'release' && matrix.node version == '20.x'
+      run: |
+        npm install  g @cyclonedx/cyclonedx npm
+        cyclonedx npm   output file sbom.json
+      
+      name: Upload SBOM
+      if: github.event_name == 'release' && matrix.node version == '20.x'
+      uses: actions/upload artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      with:
+        name: sbom
+        path: sbom.json
+        retention days: 90
+      
+    - name: Send failure notification
+      if: failure()
+      uses: dawidd6/action-send-mail@2cea9617b09d79a095af21254fbcb7ae95903dde  # v3.12.0
+      with:
+        server_address: ${{ secrets.MAIL_SERVER }}
+        server_port: ${{ secrets.MAIL_PORT }}
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: 'CI Failure: Node.js CI workflow failed'
+        body: |
+          Node.js CI workflow failed for ${{ github.repository }}
+          Branch: ${{ github.ref }}
+          Commit: ${{ github.sha }}
+          Node version: ${{ matrix.node-version }}
+          
+          View details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: GitHub Actions

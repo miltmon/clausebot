@@ -1,0 +1,74 @@
+# Semgrep OSS security linting workflow
+# Scans code for security vulnerabilities and outputs SARIF format
+name: Semgrep Security Scan
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+
+jobs:
+  semgrep:
+    name: Security Linting with Semgrep
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871  # v4.2.1
+      
+    - name: Run Semgrep OSS
+      uses: semgrep/semgrep-action@713efdd345f3035d9d395d7c20b6610f9edb93dc  # v1
+      with:
+        config: >-
+          p/security-audit
+          p/secrets
+          p/owasp-top-ten
+          p/react
+          p/typescript
+          p/javascript
+        generateSarif: true
+      env:
+        SEMGREP_TIMEOUT: 300
+        SEMGREP_RULES: auto
+    
+    - name: Upload Semgrep SARIF results
+      if: always()
+      uses: github/codeql-action/upload-sarif@c36620d31ac7c881962c3d9dd939c40ec9434f2b  # v3.26.12
+      with:
+        sarif_file: semgrep.sarif
+        category: semgrep
+    
+    - name: Upload Semgrep results as artifact
+      if: always()
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      with:
+        name: semgrep-results
+        path: semgrep.sarif
+        retention-days: 30
+    
+    - name: Send failure notification
+      if: failure()
+      uses: dawidd6/action-send-mail@2cea9617b09d79a095af21254fbcb7ae95903dde  # v3.12.0
+      with:
+        server_address: ${{ secrets.MAIL_SERVER }}
+        server_port: ${{ secrets.MAIL_PORT }}
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: 'CI Failure: Semgrep security scan failed'
+        body: |
+          Semgrep security scan failed for ${{ github.repository }}
+          Branch: ${{ github.ref }}
+          Commit: ${{ github.sha }}
+          
+          View details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: GitHub Actions

@@ -1,0 +1,56 @@
+# Claude Copy Review Checklist
+
+## **AWS D1.1:2025 ALIGNMENT CHECK:**
+
+### **✅ Technical Accuracy:**
+- [ ] All references to "AWS D1.1" specify "2020" edition
+- [ ] No claims of "compliance" without verification
+- [ ] Technical terms used correctly (WPS, PQR, essential variables)
+- [ ] Code references properly anchored with "(verify in code)"
+
+### **✅ Content Standards:**
+- [ ] No overclaims about capabilities
+- [ ] Professional tone maintained
+- [ ] Technical accuracy verified
+- [ ] Industry terminology correct
+
+### **✅ Specific Elements to Review:**
+
+#### **Headlines:**
+```
+"AWS CWI Quest App" ✅
+"Master AWS D1.1:2025 with interactive practice questions" ✅
+```
+
+#### **Descriptions:**
+- [ ] "AWS D1.1:2025" referenced correctly
+- [ ] No claims about "certification" or "compliance"
+- [ ] Focus on "learning" and "practice"
+- [ ] Professional language throughout
+
+#### **CTA Text:**
+```
+"Start 10-Question Warm-Up" ✅
+"Study by Category" ✅
+"Start 25-Question Challenge" ✅
+```
+
+#### **Beta Messaging:**
+```
+"Beta Preview — mobile-optimized; features may change." ✅
+```
+
+## **RED FLAGS TO FLAG:**
+- Claims of "AWS certified" or "compliant"
+- References to outdated AWS D1.1 editions
+- Overclaims about accuracy or capabilities
+- Unprofessional or casual language
+- Technical inaccuracies
+
+## **REVIEW FOCUS:**
+- Line-by-line technical accuracy
+- AWS D1.1:2025 edition consistency
+- Professional tone maintenance
+- No overclaims or compliance statements
+
+## **STATUS:** ✅ READY FOR CLAUDE REVIEW

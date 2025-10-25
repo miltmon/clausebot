@@ -1,0 +1,33 @@
+# Root
+.DS_Store
+.vscode/
+.env*
+*.log
+*.pyc
+
+# Backend (Python/FastAPI)
+backend/__pycache__/
+backend/.venv/
+backend/venv/
+backend/.pytest_cache/
+backend/*.egg-info/
+backend/dist/
+backend/build/
+
+# Frontend (React/Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/.vercel/
+frontend/build/
+
+# Platform-specific
+.vercel/
+.render/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+

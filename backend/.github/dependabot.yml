@@ -1,0 +1,51 @@
+version: 2
+updates:
+  # Python dependencies (main package)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "miltmon"
+    assignees:
+      - "miltmon"
+    commit-message:
+      prefix: "🔒 security"
+      include: "scope"
+    
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "miltmon"
+    assignees:
+      - "miltmon"
+    commit-message:
+      prefix: "🔧 ci"
+      include: "scope"
+
+  # Docker dependencies (if using multi-stage builds)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 2
+    reviewers:
+      - "miltmon"
+    assignees:
+      - "miltmon"
+    commit-message:
+      prefix: "🐳 docker"
+      include: "scope"

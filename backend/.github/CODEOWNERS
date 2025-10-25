@@ -1,0 +1,20 @@
+# CODEOWNERS file for clausebot api
+# These owners will be the default owners for everything in the repo
+# They will be requested for review when someone opens a pull request
+
+# Default owners for entire repository
+* @miltmon
+
+# Security and compliance related files
+/SECURITY.md @miltmon
+/.github/workflows/ @miltmon
+/.github/CODEOWNERS @miltmon
+
+# Configuration files
+*.yml @miltmon
+*.yaml @miltmon
+*.json @miltmon
+
+# Documentation
+*.md @miltmon
+/docs/ @miltmon

@@ -1,0 +1,237 @@
+# Module 1 — WPS/PQR Essentials
+
+**Scope:** AWS D1.1:2025 (Clause 5 + Table 5.2), ASME Section IX (QW-400 series)
+**Tags:** #awsd1.1 #cwi2025 #codeupdate
+
+## Learning outcomes (learner-facing)
+
+1. Distinguish between **WPS (procedure)** and **PQR (record)** and their relationship to production welding. *(verify in code)*
+2. Apply **essential variables** correctly (process, base metals, filler metals, positions, thickness, diameter, backing, preheat, PWHT). *(verify)*
+3. Use **prequalified WPS** tables and determine when **qualification by testing** is required. *(verify)*
+4. Audit a **PQR** and confirm it supports the **WPS** for production work. *(verify)*
+
+---
+
+## Lesson 1.1 (≤10 min) — WPS vs PQR: Purpose and Relationship
+
+**Objectives**
+
+* Understand the difference between WPS (procedure) and PQR (record).
+* Know when each is used in production.
+
+**Script (deliver to LMS)**
+
+* **WPS (Welding Procedure Specification):** The **recipe** that tells the welder how to make the weld. Contains all the variables, parameters, and instructions. *(verify in ASME IX & AWS D1.1)*
+* **PQR (Procedure Qualification Record):** The **proof** that the WPS works. Documents the actual test results, mechanical properties, and qualification data. *(verify)*
+* **Relationship:** PQR **qualifies** the WPS; WPS **guides** production welding. You cannot use a WPS in production without a supporting PQR. *(verify)*
+* **Production use:** WPS is the working document; PQR is the qualification evidence that must be maintained and auditable. *(verify)*
+
+**Micro-drill (2× T/F)**
+
+* "A WPS can be used in production without a PQR." → **False** (PQR is required to qualify the WPS). *(verify)*
+* "The PQR contains the actual test results from qualification." → **True** (PQR documents the test data). *(verify)*
+
+---
+
+## Lesson 1.2 (≤10 min) — Essential Variables and Prequalified WPS
+
+**Objectives**
+
+* Identify essential variables that affect weld quality.
+* Use prequalified WPS tables correctly.
+
+**Script**
+
+* **Essential variables:** Changes that affect weld quality and require requalification. Include process, base metals, filler metals, positions, thickness, diameter, backing, preheat, PWHT. *(verify in ASME IX & AWS D1.1)*
+* **Prequalified WPS:** Some combinations are prequalified and don't require testing. Use **Table 5.2** in AWS D1.1 for structural work. *(verify)*
+* **Qualification by testing:** When variables fall outside prequalified limits, you must qualify by testing and create a PQR. *(verify)*
+* **Base metal groups:** Different base metals may require different qualification approaches; check the grouping tables. *(verify)*
+
+**Micro-drill (choose best answer)**
+
+* "Changing from SMAW to GMAW requires:" **Requalification** (different process). *(verify)*
+* "Using a prequalified WPS means:" **No testing required** (if all variables are within limits). *(verify)*
+
+---
+
+## Lesson 1.3 (≤10 min) — PQR Audit and Production Support
+
+**Objectives**
+
+* Audit a PQR for completeness and accuracy.
+* Confirm WPS support for production work.
+
+**Script**
+
+* **PQR audit checklist:** Welder ID, process, base metals, filler metals, positions tested, thickness/diameter ranges, mechanical test results, acceptance criteria, certification. *(verify)*
+* **WPS support:** Confirm the PQR covers all variables used in the WPS for production. Check thickness ranges, positions, base metal groups, filler classifications. *(verify)*
+* **Documentation:** PQR must be complete, signed, and maintained. Incomplete or unsigned PQRs cannot support production WPSs. *(verify)*
+* **Traceability:** Link between WPS and PQR must be clear and auditable. *(verify)*
+
+**Exit check**
+
+* "PQR shows 1G position test; WPS calls for 3G production." → **Not supported; requalify for 3G or modify WPS.** *(verify)*
+
+---
+
+## Practical artifact — **WPS/PQR Audit Checklist** (PDF/MD)
+
+**Section A — WPS Review**
+
+* Process and transfer mode
+* Base metal groups and thickness ranges
+* Filler metal classifications and F-numbers
+* Positions and progression
+* Backing requirements
+* Preheat and interpass temperature
+* PWHT requirements
+* Essential variables summary
+
+**Section B — PQR Audit**
+
+* Welder identification and certification
+* Process and actual parameters used
+* Base metals tested and groups
+* Filler metals used and classifications
+* Positions tested vs. WPS requirements
+* Thickness/diameter ranges tested
+* Mechanical test results and acceptance
+* Certification and signatures
+
+**Section C — Production Support**
+
+* Variable coverage analysis
+* Range compatibility check
+* Documentation completeness
+* Traceability verification
+* **Accept / Hold / Requalify** + one-line reason with (verify in code)
+
+---
+
+## Short practice tasks (free-response)
+
+**SP-1 — Process Change**
+WPS calls for **SMAW** but production needs **GMAW**. What's required? *(verify)*
+
+**SP-2 — Position Coverage**
+PQR tested **1G** but WPS calls for **3G** production. Covered or requalify? *(verify)*
+
+**SP-3 — Thickness Range**
+PQR tested **1/2 in** but WPS calls for **1 in** production. Covered or requalify? *(verify)*
+
+---
+
+## Quiz (10 MCQs with rationales)
+
+1. **Purpose of WPS**
+   A WPS primarily serves as:
+   A) Test record  B) **Production procedure**  C) Welder certification  D) Material specification
+   **Answer:** B — WPS guides production welding. *(verify in code)*
+
+2. **PQR purpose**
+   A PQR primarily serves as:
+   A) **Qualification proof**  B) Production guide  C) Welder ID  D) Material list
+   **Answer:** A — PQR proves the WPS works. *(verify)*
+
+3. **Essential variables**
+   Which is NOT typically an essential variable?
+   A) Process  B) Base metal  C) **Welder name**  D) Position
+   **Answer:** C — Welder name is not an essential variable. *(verify)*
+
+4. **Prequalified WPS**
+   Using a prequalified WPS means:
+   A) **No testing required**  B) Must test anyway  C) Only visual test  D) Only RT
+   **Answer:** A — Prequalified means no qualification testing needed. *(verify)*
+
+5. **Process change**
+   Changing from SMAW to GMAW requires:
+   A) Note on WPS  B) **Requalification**  C) Supervisor approval  D) Nothing
+   **Answer:** B — Different process requires requalification. *(verify)*
+
+6. **Position coverage**
+   PQR tested 1G; WPS calls for 3G:
+   A) **Not covered**  B) Covered  C) Covered if same thickness  D) Covered if same process
+   **Answer:** A — Position must be tested to be covered. *(verify)*
+
+7. **Thickness range**
+   PQR tested 1/2 in; WPS calls for 1 in:
+   A) **Check qualification range**  B) Always covered  C) Never covered  D) Covered if same process
+   **Answer:** A — Must verify thickness qualification range. *(verify)*
+
+8. **PQR completeness**
+   A valid PQR must include:
+   A) **All essential variables tested**  B) Only process  C) Only thickness  D) Only position
+   **Answer:** A — PQR must document all essential variables. *(verify)*
+
+9. **Documentation link**
+   WPS and PQR must be:
+   A) **Linked and traceable**  B) Separate files  C) Same document  D) Optional link
+   **Answer:** A — Clear traceability is required. *(verify)*
+
+10. **Production use**
+    A WPS can be used in production when:
+    A) **Supported by valid PQR**  B) Supervisor approves  C) Welder signs  D) Any time
+    **Answer:** A — PQR qualification is required. *(verify)*
+
+*(Each rationale in your LMS should end with "(verify in code)" and avoid quoting.)*
+
+---
+
+## Drop-in seeds (JSON examples)
+
+**module**
+
+```json
+{
+  "course_slug": "cwi-core",
+  "module_slug": "m1-wps-pqr",
+  "title": "Module 1 — WPS/PQR Essentials",
+  "order_index": 1,
+  "status": "active",
+  "tags": ["awsd1.1","cwi2025","codeupdate"]
+}
+```
+
+**lessons**
+
+```json
+[
+  {"module_slug":"m1-wps-pqr","lesson_slug":"l1-wps-vs-pqr","title":"WPS vs PQR: Purpose and Relationship","duration_min":10,"content_markdown":"## WPS vs PQR\\n- WPS is the production procedure; PQR is the qualification proof. (verify)\\n- PQR qualifies the WPS; WPS guides production. (verify)\\n- Cannot use WPS without supporting PQR. (verify)"},
+  {"module_slug":"m1-wps-pqr","lesson_slug":"l2-essential-variables","title":"Essential Variables and Prequalified WPS","duration_min":10,"content_markdown":"## Essential Variables\\n- Process, base metals, filler metals, positions, thickness, diameter, backing, preheat, PWHT. (verify)\\n- Prequalified WPS use Table 5.2; qualification by testing when outside limits. (verify)"},
+  {"module_slug":"m1-wps-pqr","lesson_slug":"l3-pqr-audit","title":"PQR Audit and Production Support","duration_min":10,"content_markdown":"## PQR Audit\\n- Check completeness, accuracy, and production support. (verify)\\n- Verify variable coverage and traceability. (verify)\\n- Confirm WPS support for production work. (verify)"}
+]
+```
+
+**quiz**
+
+```json
+{"module_slug":"m1-wps-pqr","quiz_slug":"qz-m1-core","title":"M1 Core Quiz — WPS/PQR","num_items":10,"time_limit_min":15,"attempts_allowed":3}
+```
+
+**short_tasks**
+
+```json
+[
+  {"module_slug":"m1-wps-pqr","task_slug":"sp-1-process-change","title":"Process Change","instructions":"WPS calls for SMAW but production needs GMAW. What's required? + (verify in code)."},
+  {"module_slug":"m1-wps-pqr","task_slug":"sp-2-position-coverage","title":"Position Coverage","instructions":"PQR tested 1G but WPS calls for 3G production. Covered or requalify? + (verify)."},
+  {"module_slug":"m1-wps-pqr","task_slug":"sp-3-thickness-range","title":"Thickness Range","instructions":"PQR tested 1/2 in but WPS calls for 1 in production. Covered or requalify? + (verify)."}
+]
+```
+
+---
+
+## QA & governance gates (No-Drift ready)
+
+* **Edition tags:**
+  `{"code_refs":[{"code":"ASME IX","edition":"current"},{"code":"AWS D1.1","edition":"2020"}]}`
+* **Verification banner:** Green when editions match backend; flips yellow on change until re-verified.
+* **Accessibility:** Mobile 375px pass; AA contrast; quiz feedback on; alt text on images.
+* **Analytics:** `lesson_view`, `quiz_start`, `quiz_submit`, `task_submit` emitted with `module=m1-wps-pqr`.
+
+---
+
+## Instructor crib (one-liners to model)
+
+* **Accept** — *WPS supported by complete PQR with all essential variables tested and documented. (verify)*
+* **Reject** — *WPS calls for 3G production but PQR only tested 1G; requalify for 3G or modify WPS. (verify)*
+* **Hold** — *PQR incomplete; missing mechanical test results or signatures; complete before production use. (verify)*

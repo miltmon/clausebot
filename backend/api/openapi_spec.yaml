@@ -1,0 +1,502 @@
+openapi: 3.0.3
+info:
+  title: ClauseBot Local API
+  description: AWS D1.1:2020 Clause Interpretation and Script Generation API
+  version: 1.0.0
+  contact:
+    name: MiltmonNDT
+    url: https://www.miltmonndt.com
+  license:
+    name: Proprietary
+    url: https://www.miltmonndt.com/license
+
+servers:
+  - url: http://localhost:8081
+    description: Local development server
+  - url: https://api.miltmonndt.com
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Lightweight health check endpoint
+      security: []
+      responses:
+        '200':
+          description: System health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /ready:
+    get:
+      summary: Readiness check
+      description: Check if system is ready to serve requests
+      security: []
+      responses:
+        '200':
+          description: System readiness status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadinessResponse'
+
+  /metrics:
+    get:
+      summary: System metrics
+      description: Prometheus-style metrics for monitoring
+      security: []
+      responses:
+        '200':
+          description: System metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+
+  /v1/edition:
+    get:
+      summary: Get edition information
+      description: Get current AWS D1.1 edition information
+      responses:
+        '200':
+          description: Edition information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditionResponse'
+
+  /v1/integrity/check:
+    get:
+      summary: Check content integrity
+      description: Verify content checksums and integrity
+      responses:
+        '200':
+          description: Integrity check results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrityResponse'
+
+  /v1/clauses/{code}/{clause}/explain:
+    post:
+      summary: Explain clause
+      description: Get detailed explanation of a specific clause
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "AWS D1.1"
+        - name: clause
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "6.9.1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExplainRequest'
+      responses:
+        '200':
+          description: Clause explanation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExplainResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/clauses/{code}/{clause}/script:
+    post:
+      summary: Generate script
+      description: Generate voiceover script for a specific clause
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "AWS D1.1"
+        - name: clause
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "6.9.1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScriptRequest'
+      responses:
+        '200':
+          description: Generated script
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScriptResponse'
+
+  /v1/clauses/{code}/{clause}/summary:
+    get:
+      summary: Get clause summary
+      description: Get quick summary for mobile UI paint
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "AWS D1.1"
+        - name: clause
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "6.9.1"
+      responses:
+        '200':
+          description: Clause summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryResponse'
+
+  /v1/pipeline/log:
+    post:
+      summary: Log pipeline event
+      description: Log pipeline processing events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogRequest'
+      responses:
+        '200':
+          description: Log entry created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogResponse'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key in Bearer format
+
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        version:
+          type: string
+        uptime_seconds:
+          type: number
+        timestamp:
+          type: string
+          format: date-time
+        deps:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dependency'
+
+    Dependency:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+
+    ReadinessResponse:
+      type: object
+      properties:
+        ready:
+          type: boolean
+        timestamp:
+          type: string
+          format: date-time
+        checks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadinessCheck'
+
+    ReadinessCheck:
+      type: object
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+          enum: [ready, not_ready]
+
+    MetricsResponse:
+      type: object
+      properties:
+        uptime_seconds:
+          type: number
+        requests_total:
+          type: integer
+        requests_by_endpoint:
+          type: object
+        requests_by_status:
+          type: object
+        response_times:
+          $ref: '#/components/schemas/ResponseTimes'
+        cache:
+          $ref: '#/components/schemas/CacheMetrics'
+        errors_total:
+          type: integer
+
+    ResponseTimes:
+      type: object
+      properties:
+        p50_ms:
+          type: number
+        p95_ms:
+          type: number
+        p99_ms:
+          type: number
+        count:
+          type: integer
+
+    CacheMetrics:
+      type: object
+      properties:
+        hits:
+          type: integer
+        misses:
+          type: integer
+        hit_rate_percent:
+          type: number
+
+    EditionResponse:
+      type: object
+      properties:
+        edition:
+          type: string
+        timestamp:
+          type: string
+        files_count:
+          type: integer
+        last_verified:
+          type: string
+        verification_status:
+          type: string
+        checksum_valid:
+          type: boolean
+
+    IntegrityResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+        status:
+          type: string
+        files_checked:
+          type: integer
+        files_valid:
+          type: integer
+        files_invalid:
+          type: integer
+        errors:
+          type: array
+          items:
+            type: object
+
+    ExplainRequest:
+      type: object
+      properties:
+        audience:
+          type: string
+          default: student
+        depth:
+          type: string
+          default: standard
+        locale:
+          type: string
+          default: en-US
+
+    ExplainResponse:
+      type: object
+      properties:
+        summary:
+          type: string
+        examples:
+          type: array
+          items:
+            $ref: '#/components/schemas/Example'
+        pitfalls:
+          type: array
+          items:
+            type: string
+        refs:
+          $ref: '#/components/schemas/References'
+        ref_checksum:
+          type: string
+        telemetry:
+          $ref: '#/components/schemas/Telemetry'
+
+    ScriptRequest:
+      type: object
+      properties:
+        duration_min:
+          type: integer
+          default: 2
+        tone:
+          type: string
+          default: plain
+        format:
+          type: string
+          default: voiceover
+        audience:
+          type: string
+          default: student
+
+    ScriptResponse:
+      type: object
+      properties:
+        script:
+          type: string
+        duration_min:
+          type: integer
+        format:
+          type: string
+        tone:
+          type: string
+        audience:
+          type: string
+        refs:
+          $ref: '#/components/schemas/References'
+        ref_checksum:
+          type: string
+        telemetry:
+          $ref: '#/components/schemas/Telemetry'
+
+    SummaryResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        summary:
+          type: string
+        refs:
+          $ref: '#/components/schemas/References'
+        ref_checksum:
+          type: string
+        telemetry:
+          $ref: '#/components/schemas/Telemetry'
+
+    LogRequest:
+      type: object
+      required:
+        - artifact_id
+        - clause
+        - edition
+        - step
+        - actor
+        - status
+      properties:
+        artifact_id:
+          type: string
+        clause:
+          type: string
+        edition:
+          type: string
+        step:
+          type: string
+        actor:
+          type: string
+        status:
+          type: string
+
+    LogResponse:
+      type: object
+      properties:
+        ok:
+          type: boolean
+        logged:
+          type: boolean
+        file:
+          type: string
+
+    Example:
+      type: object
+      properties:
+        title:
+          type: string
+        text:
+          type: string
+
+    References:
+      type: object
+      properties:
+        code:
+          type: string
+        edition:
+          type: string
+        clause:
+          type: string
+        tables:
+          type: array
+          items:
+            type: string
+        figures:
+          type: array
+          items:
+            type: string
+
+    Telemetry:
+      type: object
+      properties:
+        model:
+          type: string
+        latency_ms:
+          type: integer
+        cache_hit:
+          type: boolean
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+        request_id:
+          type: string

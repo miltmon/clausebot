@@ -1,0 +1,148 @@
+# k6 Performance Testing workflow for basic performance smoke tests
+name: k6 Performance Testing
+
+on:
+  pull_request:
+    branches: ["main"]
+  push:
+    branches: ["main"]
+  schedule:
+    # Run weekly on Fridays at 11 AM UTC
+    - cron: '0 11 * * 5'
+  workflow_dispatch:
+
+jobs:
+  k6-smoke-test:
+    name: k6 Performance Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871  # v4.2.1
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@0a44ba7841725637a19e28fa30b79a866c81b0a6  # v4.0.4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --ignore-scripts
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Start dev server
+      run: |
+        npm run dev &
+        sleep 10
+        # Wait for server to be ready
+        timeout 30 bash -c 'until curl -sf http://localhost:5173 > /dev/null; do sleep 2; done' || true
+        
+    - name: Create k6 test script if not present
+      run: |
+        mkdir -p tests/performance
+        if [ ! -f "tests/performance/smoke.js" ]; then
+          cat > tests/performance/smoke.js << 'EOF'
+        import http from 'k6/http';
+        import { check, sleep } from 'k6';
+        import { Rate } from 'k6/metrics';
+        
+        // Custom metrics
+        const errorRate = new Rate('errors');
+        
+        // Test configuration
+        export const options = {
+          vus: 5, // Virtual users
+          duration: '30s', // Test duration
+          thresholds: {
+            http_req_duration: ['p(95)<500'], // 95% of requests should be below 500ms
+            http_req_failed: ['rate<0.1'], // Error rate should be less than 10%
+            errors: ['rate<0.1'],
+          },
+        };
+        
+        const BASE_URL = __ENV.BASE_URL || 'http://localhost:5173';
+        
+        export default function () {
+          // Test homepage
+          const homepageRes = http.get(`${BASE_URL}/`);
+          const homepageCheck = check(homepageRes, {
+            'homepage status is 200': (r) => r.status === 200,
+            'homepage loads in <500ms': (r) => r.timings.duration < 500,
+          });
+          errorRate.add(!homepageCheck);
+          
+          sleep(1);
+          
+          // Test health endpoint if available
+          const healthRes = http.get(`${BASE_URL}/health`, {
+            tags: { name: 'HealthCheck' },
+          });
+          const healthCheck = check(healthRes, {
+            'health endpoint responds': (r) => r.status === 200 || r.status === 404,
+          });
+          
+          sleep(1);
+        }
+        
+        export function handleSummary(data) {
+          return {
+            'k6-summary.json': JSON.stringify(data),
+            stdout: textSummary(data, { indent: ' ', enableColors: true }),
+          };
+        }
+        
+        function textSummary(data, options) {
+          const indent = options?.indent || '';
+          let output = '\n';
+          
+          output += `${indent}✓ checks.........................: ${(data.metrics.checks.values.passes / data.metrics.checks.values.rate * 100).toFixed(2)}%\n`;
+          output += `${indent}  ✓ http_req_duration..............: avg=${data.metrics.http_req_duration.values.avg.toFixed(2)}ms\n`;
+          output += `${indent}  ✓ http_req_failed................: ${(data.metrics.http_req_failed.values.rate * 100).toFixed(2)}%\n`;
+          output += `${indent}  ✓ http_reqs......................: ${data.metrics.http_reqs.values.count}\n`;
+          output += `${indent}  ✓ vus............................: ${data.metrics.vus.values.value}\n`;
+          
+          return output;
+        }
+        EOF
+          echo "Created stub k6 test script at tests/performance/smoke.js"
+        fi
+        
+    - name: Run k6 performance test
+      uses: grafana/k6-action@v0.3.1
+      with:
+        filename: tests/performance/smoke.js
+        flags: --out json=k6-results.json
+      env:
+        BASE_URL: http://localhost:5173
+      continue-on-error: true
+      
+    - name: Upload k6 results
+      if: always()
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+      with:
+        name: k6-results
+        path: |
+          k6-results.json
+          k6-summary.json
+        retention-days: 30
+    
+    - name: Send failure notification
+      if: failure()
+      uses: dawidd6/action-send-mail@2cea9617b09d79a095af21254fbcb7ae95903dde  # v3.12.0
+      with:
+        server_address: ${{ secrets.MAIL_SERVER }}
+        server_port: ${{ secrets.MAIL_PORT }}
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: 'CI Failure: k6 performance testing failed'
+        body: |
+          k6 performance testing workflow failed for ${{ github.repository }}
+          Branch: ${{ github.ref }}
+          Commit: ${{ github.sha }}
+          
+          View details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: GitHub Actions

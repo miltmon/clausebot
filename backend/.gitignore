@@ -1,0 +1,19 @@
+﻿# Ops/docs artifacts (not part of app code)
+AIRTABLE_*
+AUDIT_*
+SUPABASE_INTEGRATION.md
+primetime_*/
+scripts/*.ps1
+scripts/*.js
+supabase_schema_v2.sql
+
+# Python standard ignores
+**/__pycache__/
+*.pyc
+.env
+.venv/
+venv/
+
+# Local IDE
+.vscode/
+.idea/

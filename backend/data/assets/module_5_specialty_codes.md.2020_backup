@@ -1,0 +1,255 @@
+# Module 5 — Specialty Codes & Advanced Applications
+
+**Scope:** AWS D1.1 (2020 baseline → 2025 watch), ASME IX, ASME V, ASME VIII-1, ASME B31.1/B31.3, API 510, NBIC, AWS A5.x
+**Tags:** #awsd1.1 #cwi2025 #codeupdate
+
+## Learning outcomes (learner-facing)
+
+1. Map which **code/standard governs what** (construction vs in-service vs NDE vs qualifications). *(verify in code)*
+2. Apply **advanced applications** correctly (PAUT/TOFD, digital RT, waveform WPS, CVN, studs, tubular). *(verify)*
+3. Trace **filler metal classifications** (AWS A5.x) into WPS/PQR/WPQ decisions, especially with toughness. *(verify)*
+4. Produce **audit-ready documentation** across specialties (scan plans, DR technique sheets, CVN tie-ins). *(verify)*
+
+---
+
+## Instructor brief (strategic)
+
+* **Teach the map first** (who's in charge): D1.1 for structural, **ASME IX** for procedure/performance quals across codes, **ASME V** for NDE method rules, **B31.1/31.3** for piping, **VIII-1** for pressure vessels, **API 510** for in-service vessels, **NBIC** for repairs/alterations, **A5.x** for consumables. *(verify)*
+* **2020→2025 stance:** Use 2020 as the authoritative baseline; treat 2025 as **"monitor & confirm numbering/content deltas"** before instruction. *(verify)*
+
+---
+
+## Lesson scripts (≤10 min each)
+
+### L5.1 — Specialty Code Map (Who governs what)
+
+**Objectives:** Identify the governing document for typical scenarios; know when multiple codes apply.
+**Content (deliverable):**
+
+* **ASME IX:** WPS/PQR/WPQ framework; essential/supplementary essential/nonessential variables. Cross-references into construction codes. *(verify)*
+* **ASME V:** Method articles (RT/UT/PT/MT/VT) form the **procedure backbone** when referenced (API 510, VIII-1, B31.x). *(verify)*
+* **B31.1/B31.3:** Piping design/fab/exam; extent tables; PWHT timing; fluid service nuances (e.g., B31.3 Category M). *(verify)*
+* **VIII-1:** Joint efficiencies (UW-12), radiography rules (UW-11), UT references, toughness if required. *(verify)*
+* **API 510:** In-service inspection/repair/alteration; pressure tests vs NDE substitution; references to ASME V/IX/VIII-1. *(verify)*
+* **NBIC:** R-stamp context; repairs/alterations; qualification continuity via ASME IX or original code. *(verify)*
+* **AWS A5.x:** Consumable classes/supplemental designators (e.g., low-hydrogen, notch-toughness options) drive WPS/PQR choices. *(verify)*
+
+### L5.2 — Advanced NDE: PAUT/TOFD & Digital RT
+
+**Objectives:** Choose and document advanced methods per code expectations.
+**Content:**
+
+* **PAUT (D1.1 Annex H, 2020 baseline):** Equipment capability, focal laws, encoded coverage, file retention (raw + setup). *(verify)*
+* **TOFD (ref. ASME V practice when invoked):** Sizing strengths/limitations; complementary to PAUT. *(verify)*
+* **Digital RT:** IQI choice/placement, geometric unsharpness, acceptance alignment with ASME V Article 2 equation set. *(verify)*
+* **Records:** Data packages are **deliverables**, not extras (scan plan, calibration, data files, technique sheet). *(verify)*
+
+### L5.3 — Waveform WPS, CVN Integration, A5.x Implications
+
+**Objectives:** Qualify/verify procedures that use advanced power sources; tie CVN and filler classifications to WPS limits.
+**Content:**
+
+* **Waveform WPS (D1.1:2020 qualification path):** Pulse/controlled transfer modes often **not prequalified**; qualify by testing; record waveform specifics as essential when required. *(verify)*
+* **CVN consolidation (Table 6.7 in 2020):** When toughness applies (contract/code), **supplementary essential variables** become active; track heat input, interpass, groupings. *(verify)*
+* **A5.x effects:** Understand mandatory vs supplemental designators and how they affect **matching, diffusible hydrogen, and CVN suitability**. *(verify)*
+
+### L5.4 — Studs, Tubular, and Special Practices
+
+**Objectives:** Apply clause-specific rules correctly; avoid common traps.
+**Content:**
+
+* **Stud welding (D1.1 Clause 9):** ID requirements, base prep, production bend/tests, acceptance. *(verify)*
+* **Tubular (Clause 10):** Fatigue categories, UT procedures/figures, weld symbol nuances; design moved toward AISC for static calcs; ovalization considerations. *(verify)*
+* **PWHT alternatives (API 510 context):** Preheat/controlled deposition conditions & approvals when PWHT inadvisable; engineer + inspector sign-off. *(verify)*
+
+---
+
+## Crosswalk matrix — 2020 baseline → 2025 watch (use to brief instructors)
+
+| Topic                           | 2020 Baseline (teach now)                                                                                                              | 2025 Watch-Points (confirm)                                                 | Downstream Actions                                                         |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Prequalified WPS (Clause 5)** | Table 5.2 reorganized; **Table 5.3** base metals; **Table 5.7** shielding gases for A5.18; **Table 5.8** preheat/interpass. *(verify)* | Any table renumbering/content deltas; shielding gas notes; added materials. | Update ClauseBot table keys; refresh flashcards; run No-Drift diff script. |
+| **Qualification (Clause 6)**    | Waveform WPS path clarified; **CVN consolidated** in **Table 6.7**; retest clarifications. *(verify)*                                  | Any expanded waveform notes; CVN table edits; numbering shifts.             | Add Exam DB items; re-tag supplementary essential variables.               |
+| **Inspection (Clause 8)**       | Digital RT recognized; UG limits aligned to ASME V; attenuation calc update; **PAUT Annex H** added (normative). *(verify)*            | Annex H edits; DR technique notes; UT/PAUT acceptance table adjustments.    | Update PAUT templates; DR cheat-sheet; require data package upload.        |
+| **Stud/Tubular (Clauses 9/10)** | Stud ID/weld tests; tubular fatigue & UT figures; static calc alignment with AISC. *(verify)*                                          | Any figure/table changes; new tubular notes.                                | Update symbol examples; UT figure refs in LMS.                             |
+
+> **Policy:** Treat every 2025 item as **"monitor / verify"** until the exact text is confirmed. The No-Drift kit should block publication if edition tags mismatch. *(verify)*
+
+---
+
+## Practical artifacts (ready to publish)
+
+1. **PAUT Scan-Plan (one-page template)**
+   Equipment → Probe/Wedge → Focal laws → Coverage map → Calibration → Encoder → Sensitivity/specimen notes → File-naming/retention → Acceptance reference → Personnel quals. *(verify)*
+
+2. **Digital RT Technique Sheet**
+   Source & energy → SDD/geometry → IQI type/placement → Unsharpness calc → Density window → Coverage sketch → Acceptance reference → Personnel quals. *(verify)*
+
+3. **Waveform WPS Audit Card**
+   Process/transfer mode → Power source settings (pulse params) → Wire feed/program ID → Heat input calc method → Essential/supplementary essentials toggled by CVN → Supporting PQR(s). *(verify)*
+
+4. **A5.x Filler Decoder**
+   Classification → Strength match → Hydrogen designators → Toughness designators → WPS/PQR implications → "Change requires requalification?" decision box. *(verify)*
+
+(If you want these as fillable PDFs later, say "Render the four PDFs.")
+
+---
+
+## Flashcards (sample, add to deck)
+
+* **Q:** Which document governs NDE method details when invoked by construction/in-service codes?
+  **A:** **ASME Section V** Article(s) for the method. *(verify)*
+
+* **Q:** In D1.1, when are **supplementary essential variables** activated for WPS?
+  **A:** When **CVN** is required by code/contract. *(verify)*
+
+* **Q:** Two reasons PAUT data is retained?
+  **A:** **Traceability** and **re-evaluation**; raw + setup are deliverables. *(verify)*
+
+* **Q:** AWS A5.x supplemental designators influence what WPS decision?
+  **A:** **Toughness/low-hydrogen suitability** and matching rules. *(verify)*
+
+* **Q:** Who governs in-service vessel inspections/repairs?
+  **A:** **API 510**, referencing ASME V/VIII-1/IX. *(verify)*
+
+(Include 15–25 more across studs/tubular/DR/TOFD.)
+
+---
+
+## Quiz (10 MCQs + rationale)
+
+1. **Which standard is the primary source for NDE procedures when referenced by other codes?**
+   A) ASME IX  B) **ASME V**  C) AWS D1.1  D) API 510
+   **Ans:** B — Method articles define procedure/technique requirements. *(verify)*
+
+2. **A pulsed-GMAW WPS for D1.1 production is typically:**
+   A) Prequalified  B) **Qualified by testing**  C) Not permitted  D) Only visual tested
+   **Ans:** B — Waveform modes usually need qualification. *(verify)*
+
+3. **When CVN is required, which variables may become supplementary essentials?**
+   A) Groove angle only  B) **Heat input/interpass/base metal grouping**  C) Polarity only  D) Travel speed only
+   **Ans:** B — Toughness triggers supplementary essentials. *(verify)*
+
+4. **PAUT deliverables include:**
+   A) Report text only  B) Screenshots only  C) **Raw data + setup + report**  D) None
+   **Ans:** C — Data package is required. *(verify)*
+
+5. **Digital RT in D1.1 aligns unsharpness with equations from:**
+   A) ASME IX  B) **ASME V Article 2**  C) API 510  D) NBIC
+   **Ans:** B — Geometry limits/equations harmonized. *(verify)*
+
+6. **Stud welding production tests validate:**
+   A) Only appearance  B) **Soundness via bend/inspection per clause**  C) Only UT  D) Only RT
+   **Ans:** B — Clause 9 requirements. *(verify)*
+
+7. **Tubular connections in D1.1 emphasize:**
+   A) Only static strength calcs  B) **Fatigue categories + specific UT figures**  C) DR only  D) A5.x only
+   **Ans:** B — Clause 10 focus. *(verify)*
+
+8. **API 510 allows NDE in lieu of pressure test:**
+   A) Always  B) **With Engineer + Inspector approval and defined plan**  C) Never  D) Only PT
+   **Ans:** B — Formal substitution path. *(verify)*
+
+9. **ASME VIII-1 uses UW-11/UW-12 to control:**
+   A) Filler metal only  B) **Radiography requirements and joint efficiencies**  C) PAUT only  D) Toughness only
+   **Ans:** B — Core construction rules. *(verify)*
+
+10. **AWS A5.x supplemental designators primarily impact:**
+    A) Joint design  B) **WPS/PQR acceptability for toughness/hydrogen control**  C) Welder ID format  D) PWHT scheduling
+    **Ans:** B — Consumable selection with property implications. *(verify)*
+
+*(Each item in LMS includes a short rationale ending with "(verify in code)".)*
+
+---
+
+## Drop-in seeds (JSON)
+
+**module**
+
+```json
+{
+  "course_slug": "cwi-core",
+  "module_slug": "m5-specialty-advanced",
+  "title": "Module 5 — Specialty Codes & Advanced Applications",
+  "order_index": 5,
+  "status": "active",
+  "tags": ["awsd1.1","cwi2025","codeupdate","asmeix","asm ev","b31.1","b31.3","api510","nbic","asmev","a5x"]
+}
+```
+
+**lessons**
+
+```json
+[
+  {"module_slug":"m5-specialty-advanced","lesson_slug":"l1-code-map","title":"Specialty Code Map: Who Governs What","duration_min":10,"content_markdown":"Map ASME IX, ASME V, VIII-1, B31.1/31.3, API 510, NBIC, A5.x to scenarios. (verify)"},
+  {"module_slug":"m5-specialty-advanced","lesson_slug":"l2-advanced-nde","title":"Advanced NDE: PAUT/TOFD & Digital RT","duration_min":10,"content_markdown":"Annex H PAUT; TOFD complement; DR technique + unsharpness; data packages. (verify)"},
+  {"module_slug":"m5-specialty-advanced","lesson_slug":"l3-waveform-cvn-a5","title":"Waveform WPS • CVN • A5.x Implications","duration_min":10,"content_markdown":"Waveform qualification path; CVN Table (2020 baseline); supplementary essentials; filler designators. (verify)"},
+  {"module_slug":"m5-specialty-advanced","lesson_slug":"l4-stud-tubular-pwht","title":"Studs, Tubular, and Special Practices","duration_min":10,"content_markdown":"Stud ID/tests; tubular fatigue/UT figures; PWHT alternatives with approvals. (verify)"}
+]
+```
+
+**quiz**
+
+```json
+{"module_slug":"m5-specialty-advanced","quiz_slug":"qz-m5-core","title":"M5 Core Quiz — Specialty Codes & Advanced","num_items":10,"time_limit_min":18,"attempts_allowed":3}
+```
+
+**governance / No-Drift**
+
+```json
+{
+  "code_refs":[
+    {"code":"AWS D1.1","edition":"2020"},
+    {"code":"AWS D1.1","edition":"2025","status":"monitor"},
+    {"code":"ASME Section IX","edition":"current"},
+    {"code":"ASME Section V","edition":"current"},
+    {"code":"ASME Section VIII-1","edition":"current"},
+    {"code":"ASME B31.1","edition":"current"},
+    {"code":"ASME B31.3","edition":"current"},
+    {"code":"API 510","edition":"current"},
+    {"code":"NBIC","edition":"current"},
+    {"code":"AWS A5.x","edition":"current"}
+  ],
+  "update_triggers":[
+    "aws_d1_1_new_edition_release",
+    "asme_v_article_revision",
+    "api_510_revision",
+    "a5x_supp_designator_change"
+  ]
+}
+```
+
+**analytics**
+
+```json
+{"events":["lesson_view","quiz_start","quiz_submit","artifact_download"],"module":"m5-specialty-advanced"}
+```
+
+---
+
+## ClauseBot intents (add to NLU)
+
+* **"What governs \_\_\_?"** → Code map lookup (returns controlling code + verify anchors).
+* **"Is pulsed GMAW prequalified?"** → Waveform path (testing) + (verify).
+* **"Do I need CVN here?"** → Contract → code table (CVN ON/OFF) + supplementary essentials toggle.
+* **"PAUT deliverables?"** → Data package checklist + (verify).
+* **"A5.XX what does 'H4R' mean for my WPS?"** → Hydrogen/toughness implications + (verify).
+
+---
+
+## Team ops checklist (D1.1:2025 prep)
+
+* [ ] Run **No-Drift diff**: D1.1 2020 vs 2025 (tables/figures/annex renumbers).
+* [ ] Update **ClauseBot keys** for any renumbered tables (5.x, 6.x, 8.x, Annex H).
+* [ ] Re-render flashcards and regenerate Exam DB items with new numbering.
+* [ ] Require PAUT/DR **data package uploads** in LMS submissions.
+* [ ] Add A5.x **supplemental designator** explainer to WPS authoring lesson.
+
+---
+
+## Instructor crib — one-liners to model
+
+* **Accept** — *PAUT scan plan complete with focal laws, coverage map, and data retention plan per Annex H. (verify)*
+* **Reject** — *Waveform WPS not qualified; pulse mode requires testing per D1.1 path. (verify)*
+* **Hold** — *CVN required by contract; supplementary essential variables must be activated in WPS. (verify)*
+* **Plan** — *API 510 alteration; NDE substitution plan with Engineer/Inspector approval per code. (verify)*

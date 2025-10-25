@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /clausebot
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /preview/
+Disallow: /auth
+
+Allow: /
+Allow: /academy
+Allow: /pricing
+Allow: /professional
+Allow: /demo
+
+Sitemap: https://clausebot.miltmonndt.com/sitemap.xml

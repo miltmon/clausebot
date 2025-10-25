@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: clausebot-api
+    env: docker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /health
+    startCommand: "uvicorn clausebot_api.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHONPATH
+        value: "."
+      - key: PORT
+        value: 8081
+      - key: CLAUSEBOT_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: PLATFORM_VERSION
+        value: AWS D1.1:2025-r1
+      - key: ALLOW_ORIGINS
+        value: https://clausebot.miltmonndt.com,https://www.miltmonndt.com
+      - key: READONLY
+        value: "0"
+      - key: CLAUSEBOT_EDITION
+        value: AWS_D1.1:2025
+      - key: CONTENT_DIR
+        value: ./data
+      - key: INDEX_DIR
+        value: ./data/codes/aws_d1_1_2020/index
+      - key: AIRTABLE_API_KEY
+        sync: false
+      - key: AIRTABLE_BASE_ID
+        value: appJQ23u70iwOl5Nn
+      - key: AIRTABLE_TABLE
+        value: tblvvclz8NSpiSVR9
+      - key: AIRTABLE_VIEW
+        value: viw5Q9YwrJ9Saz8ca

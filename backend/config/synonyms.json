@@ -1,0 +1,38 @@
+{
+  "synonyms": {
+    "vt": ["visual testing", "visual inspection", "table 8.1", "acceptance", "visual examination"],
+    "gmaw-s": ["short-circuit", "short circuit", "short arc", "short circuiting transfer"],
+    "hi-lo": ["mismatch", "offset", "internal misalignment", "high-low"],
+    "heat input": ["amps volts travel speed", "a*v*60/(ts*1000)", "energy input", "thermal input"],
+    "wps": ["welding procedure specification", "procedure spec", "welding procedure"],
+    "pqr": ["procedure qualification record", "qualification record"],
+    "preheat": ["preheating", "pre-heat", "minimum preheat", "preheat temperature"],
+    "toughness": ["notch toughness", "impact toughness", "charpy", "cvn"],
+    "prequalified": ["prequalification", "pre-qualified", "pre-qual"],
+    "essential variables": ["essential vars", "essential parameters"],
+    "supplementary essential": ["supp essential", "supplementary-essential"],
+    "undercut": ["undercutting", "under-cut", "groove undercut"],
+    "reinforcement": ["weld reinforcement", "excess weld metal", "crown"],
+    "overlap": ["cold lap", "lack of fusion", "incomplete fusion"],
+    "porosity": ["gas pockets", "blowholes", "gas holes"],
+    "crack": ["cracking", "hot crack", "cold crack", "hydrogen crack"],
+    "base metal": ["base material", "parent metal", "substrate"],
+    "filler metal": ["filler material", "electrode", "welding rod"],
+    "joint": ["weld joint", "joint design", "joint preparation"],
+    "groove": ["groove weld", "butt joint", "full penetration"],
+    "fillet": ["fillet weld", "corner joint", "lap joint"],
+    "qualification": ["qual", "procedure qualification", "welder qualification"],
+    "fabrication": ["fab", "construction", "welding fabrication"],
+    "inspection": ["testing", "examination", "quality control", "qc"],
+    "acceptance": ["acceptance criteria", "workmanship", "quality standards"],
+    "aws": ["american welding society"],
+    "asme": ["american society mechanical engineers"],
+    "api": ["american petroleum institute"],
+    "d1.1": ["structural welding code", "steel welding code"]
+  },
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-09-19",
+    "description": "Synonym mapping for ClauseBot query expansion"
+  }
+}
