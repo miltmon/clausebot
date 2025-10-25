@@ -1,5 +1,4 @@
 ﻿# Ops/docs artifacts (not part of app code)
-AIRTABLE_*
 AUDIT_*
 SUPABASE_INTEGRATION.md
 primetime_*/
