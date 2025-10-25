@@ -24,17 +24,17 @@ $endpoints = @(
         Critical = $true
     },
     @{
-        Name = "Quiz API"
+        Name = "Quiz Content"
         URL = "https://clausebot-api.onrender.com/v1/quiz"
         ExpectedStatus = 200
         ExpectedKeyword = "items"
         Critical = $false
     },
     @{
-        Name = "Quiz Health Detailed"
-        URL = "https://clausebot-api.onrender.com/health/quiz/detailed"
+        Name = "Quiz Data Quality"
+        URL = "https://clausebot-api.onrender.com/health/quiz/baseline"
         ExpectedStatus = 200
-        ExpectedKeyword = "eligible"
+        ExpectedKeyword = "eligible_in_sample"
         Critical = $false
     },
     @{
@@ -119,7 +119,7 @@ if ($criticalFailed -gt 0) {
 
 # Detailed Results Table
 Write-Host "`n=== DETAILED RESULTS ===" -ForegroundColor Cyan
-$results | Format-Table Name, Status, StatusCode, ResponseTime, KeywordFound -AutoSize
+$results | Select-Object Name, Status, StatusCode, ResponseTime, KeywordFound | Format-Table -AutoSize
 
 # Response Time Analysis
 Write-Host "`n=== RESPONSE TIME ANALYSIS ===" -ForegroundColor Cyan

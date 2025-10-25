@@ -15,8 +15,8 @@
 - Frontend: `https://clausebot.vercel.app/`
 
 **Content Endpoints (Important):**
-- Quiz API: `https://clausebot-api.onrender.com/v1/quiz`
-- Quiz Health: `https://clausebot-api.onrender.com/health/quiz/detailed`
+- Quiz Content: `https://clausebot-api.onrender.com/v1/quiz`
+- Quiz Data Quality: `https://clausebot-api.onrender.com/health/quiz/baseline`
 
 ### Monitoring Intervals
 
@@ -110,13 +110,13 @@ SSL Certificate Monitoring: Enabled (alert 7 days before expiry)
 
 ---
 
-### Monitor 3: ClauseBot Quiz API
+### Monitor 3: ClauseBot Quiz Content
 
-**Purpose:** Quiz content delivery verification
+**Purpose:** Quiz content delivery verification (actual endpoint users hit)
 
 **Configuration:**
 ```
-Name: ClauseBot Quiz API
+Name: ClauseBot Quiz Content
 Type: HTTP(s)
 URL: https://clausebot-api.onrender.com/v1/quiz
 Method: GET
@@ -131,32 +131,40 @@ Alert After: 2 consecutive failures
 ```json
 {
   "count": 5,
-  "category": "default",
+  "category": "Structural Welding",
   "source": "airtable",
-  "items": [...]
+  "items": [
+    {"id": "...", "q": "...", "a": "...", "correct": "B"}
+  ]
 }
 ```
+
+**Performance Note:**
+- Response time: ~3000ms (slower due to Airtable fetch)
+- This is acceptable and expected for content delivery
+- Timeout set to 30s to accommodate
 
 **Alert Actions:**
 1. Check Airtable connection: `/health/airtable` endpoint
 2. Review Airtable API status
 3. Check AIRTABLE_API_KEY environment variable in Render
 4. Verify quiz data in Airtable base
+5. Consider caching if response time becomes problematic
 
 ---
 
-### Monitor 4: ClauseBot Quiz Health
+### Monitor 4: ClauseBot Quiz Data Quality
 
-**Purpose:** Quiz data quality and availability monitoring
+**Purpose:** Quiz data availability and quality metrics
 
 **Configuration:**
 ```
-Name: ClauseBot Quiz Health
+Name: ClauseBot Quiz Data Quality
 Type: HTTP(s)
-URL: https://clausebot-api.onrender.com/health/quiz/detailed
+URL: https://clausebot-api.onrender.com/health/quiz/baseline
 Method: GET
 Expected Status: 200 OK
-Keyword Check: "eligible" (in response body)
+Keyword Check: "eligible_in_sample" (in response body)
 Interval: Every 5 minutes
 Timeout: 30 seconds
 Alert After: 2 consecutive failures
@@ -165,20 +173,25 @@ Alert After: 2 consecutive failures
 **Expected Response:**
 ```json
 {
-  "records": {
-    "total": 121,
-    "quiz_eligible": 114,
-    "production_ready": 16
-  },
-  "distribution": {...}
+  "status": "connected",
+  "configured": true,
+  "sample_size": 100,
+  "eligible_in_sample": 93,
+  "view": "Grid view"
 }
 ```
 
+**Performance Note:**
+- Response time: ~500ms (fast, lightweight)
+- Good for detecting data quality issues early
+
 **Alert Actions:**
 1. Check Airtable connection status
-2. Review data quality metrics
-3. Verify production-ready question count
-4. Check filtering logic if eligible count drops
+2. Review data quality if eligible_in_sample drops significantly
+3. Verify Airtable view configuration
+4. Check data filtering logic if metrics change unexpectedly
+
+**Note:** This endpoint is faster than /v1/quiz because it only returns metrics, not full quiz data
 
 ---
 
