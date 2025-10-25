@@ -11,6 +11,7 @@ except Exception:
 from clausebot_api.airtable_data_source import get_airtable_health
 from clausebot_api.routes.quiz import router as quiz_router, DEFAULT_CATEGORY
 from clausebot_api.routes.health import router as health_router
+from clausebot_api.routes.buildinfo import router as buildinfo_router
 
 APP_NAME = os.getenv("APP_NAME", "clausebot-api")
 APP_VERSION = os.getenv("APP_VERSION", "0.1.0")
@@ -61,6 +62,7 @@ app.include_router(quiz_router, prefix="/api", tags=["quiz-legacy"])
 
 # Health diagnostics
 app.include_router(health_router, tags=["health"])
+app.include_router(buildinfo_router, tags=["system"])
 
 @app.get("/health/quiz")
 def quiz_health() -> Dict[str, Any]:
