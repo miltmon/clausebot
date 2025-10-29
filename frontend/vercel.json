@@ -168,12 +168,6 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "functions": {
-    "api/**/*": {
-      "maxDuration": 300
-    }
-  },
-  "crons": []
+  ]
 }
 
