@@ -1,4 +1,34 @@
+# ClauseBot Full-Stack Blueprint
+# Supabase as primary DB + Valkey cache + async worker + nightly cron
+# Refs: https://render.com/docs/blueprint-spec
+
+envVarGroups:
+  - name: clausebot-shared
+    envVars:
+      # Platform constants
+      - key: PLATFORM_VERSION
+        value: "AWS D1.1:2025-r1"
+      - key: CLAUSEBOT_EDITION
+        value: "AWS_D1.1:2025"
+      - key: ALLOW_ORIGINS
+        value: "https://clausebot.vercel.app,https://clausebot.miltmonndt.com,https://www.miltmonndt.com"
+      
+      # Secrets (set values in Render dashboard)
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: AIRTABLE_PAT
+        sync: false
+      - key: AIRTABLE_BASE_ID
+        sync: false
+      - key: AIRTABLE_CLAUSES_TABLE
+        sync: false
+      - key: AIRTABLE_EDITIONS_TABLE
+        sync: false
+
 services:
+  # Main API (FastAPI + uvicorn)
   - type: web
     name: clausebot-api
     env: docker
@@ -7,33 +37,88 @@ services:
     healthCheckPath: /health
     startCommand: "uvicorn clausebot_api.main:app --host 0.0.0.0 --port $PORT"
     envVars:
+      - fromGroup: clausebot-shared
       - key: PYTHONPATH
         value: "."
       - key: PORT
-        value: 8081
-      - key: CLAUSEBOT_API_KEY
-        sync: false
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_SERVICE_KEY
-        sync: false
-      - key: PLATFORM_VERSION
-        value: AWS D1.1:2025-r1
-      - key: ALLOW_ORIGINS
-        value: https://clausebot.miltmonndt.com,https://www.miltmonndt.com
+        value: "8081"
       - key: READONLY
         value: "0"
-      - key: CLAUSEBOT_EDITION
-        value: AWS_D1.1:2025
       - key: CONTENT_DIR
-        value: ./data
+        value: "./data"
       - key: INDEX_DIR
-        value: ./data/codes/aws_d1_1_2020/index
-      - key: AIRTABLE_API_KEY
-        sync: false
-      - key: AIRTABLE_BASE_ID
-        value: appJQ23u70iwOl5Nn
-      - key: AIRTABLE_TABLE
-        value: tblvvclz8NSpiSVR9
-      - key: AIRTABLE_VIEW
-        value: viw5Q9YwrJ9Saz8ca
+        value: "./data/codes/aws_d1_1_2020/index"
+      # Cache TTL in seconds (5 min default)
+      - key: QUIZ_CACHE_TTL
+        value: "300"
+      # Valkey/Redis connection from key-value service
+      - key: KV_URL
+        fromService:
+          type: pserv
+          name: clausebot-kv
+          property: connectionString
+
+  # Background worker (RQ for async jobs)
+  - type: worker
+    name: clausebot-worker
+    env: docker
+    plan: starter
+    autoDeploy: true
+    startCommand: "python -m jobs.worker"
+    envVars:
+      - fromGroup: clausebot-shared
+      - key: PYTHONPATH
+        value: "."
+      - key: KV_URL
+        fromService:
+          type: pserv
+          name: clausebot-kv
+          property: connectionString
+
+  # Nightly Airtable → Supabase sync
+  - type: cron
+    name: clausebot-nightly-sync
+    schedule: "0 9 * * *"    # 09:00 UTC (01:00 PT / 02:00 PDT)
+    env: docker
+    startCommand: "python -m jobs.airtable_sync"
+    envVars:
+      - fromGroup: clausebot-shared
+      - key: PYTHONPATH
+        value: "."
+      - key: SYNC_MODE
+        value: "airtable_to_supabase"
+      - key: KV_URL
+        fromService:
+          type: pserv
+          name: clausebot-kv
+          property: connectionString
+
+  # Automated backups (daily)
+  - type: cron
+    name: clausebot-backup
+    schedule: "0 2 * * *"    # 02:00 UTC (before sync)
+    env: docker
+    startCommand: "python -m jobs.backup"
+    envVars:
+      - fromGroup: clausebot-shared
+      - key: PYTHONPATH
+        value: "."
+      - key: BACKUP_STORAGE
+        value: "local"  # Change to "s3" for cloud storage
+      - key: BACKUP_RETENTION_DAYS
+        value: "30"
+      # Optional S3 config (uncomment if using S3):
+      # - key: BACKUP_BUCKET
+      #   sync: false
+      # - key: BACKUP_ACCESS_KEY
+      #   sync: false
+      # - key: BACKUP_SECRET_KEY
+      #   sync: false
+
+# Valkey (Redis-compatible) for hot-path caching
+# Sub-50ms lookups for quiz, references, code indices
+databases:
+  - name: clausebot-kv
+    plan: starter
+    databaseName: clausebot
+    user: clausebot

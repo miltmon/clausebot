@@ -1,0 +1,214 @@
+name: Cache Header Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/vercel.json'
+      - 'frontend/src/**'
+      - '.github/workflows/cache-validation.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'frontend/vercel.json'
+      - 'frontend/src/**'
+
+jobs:
+  validate-cache-config:
+    name: Validate Cache Configuration
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate vercel.json syntax
+        run: |
+          echo "🔍 Validating vercel.json syntax..."
+          if ! jq empty frontend/vercel.json 2>/dev/null; then
+            echo "❌ vercel.json contains invalid JSON"
+            exit 1
+          fi
+          echo "✅ vercel.json is valid JSON"
+      
+      - name: Check cache header configuration
+        run: |
+          echo "🔍 Checking cache header configuration..."
+          
+          # Check for required cache patterns
+          required_patterns=(
+            "/api/:path*"
+            "/health"
+            "/buildinfo"
+            "/assets/:path*"
+            "/stream/:path*"
+            "/ws/:path*"
+          )
+          
+          for pattern in "${required_patterns[@]}"; do
+            if grep -q "\"source\": \"$pattern\"" frontend/vercel.json; then
+              echo "✅ Found cache config for: $pattern"
+            else
+              echo "⚠️  Missing cache config for: $pattern"
+            fi
+          done
+      
+      - name: Verify no-cache for API endpoints
+        run: |
+          echo "🔍 Verifying no-cache policy for API endpoints..."
+          
+          if grep -A 20 '"/api/:path\*"' frontend/vercel.json | grep -q "no-store"; then
+            echo "✅ API endpoints correctly configured with no-store"
+          else
+            echo "❌ API endpoints missing no-store directive"
+            exit 1
+          fi
+      
+      - name: Verify immutable cache for static assets
+        run: |
+          echo "🔍 Verifying immutable cache for static assets..."
+          
+          if grep -A 20 '"/assets/:path\*"' frontend/vercel.json | grep -q "immutable"; then
+            echo "✅ Static assets correctly configured with immutable"
+          else
+            echo "⚠️  Static assets missing immutable directive"
+          fi
+      
+      - name: Check WebSocket CSP configuration
+        run: |
+          echo "🔍 Checking WebSocket CSP configuration..."
+          
+          if grep -q "wss://" frontend/vercel.json; then
+            echo "✅ WebSocket (wss://) configured in CSP"
+          else
+            echo "⚠️  WebSocket (wss://) not found in CSP - add if using WebSockets"
+          fi
+      
+      - name: Validate security headers
+        run: |
+          echo "🔍 Validating security headers..."
+          
+          required_headers=(
+            "X-Content-Type-Options"
+            "X-Frame-Options"
+            "X-XSS-Protection"
+            "Content-Security-Policy"
+          )
+          
+          for header in "${required_headers[@]}"; do
+            if grep -q "\"key\": \"$header\"" frontend/vercel.json; then
+              echo "✅ Found security header: $header"
+            else
+              echo "❌ Missing security header: $header"
+              exit 1
+            fi
+          done
+      
+      - name: Check function timeout configuration
+        run: |
+          echo "🔍 Checking function timeout configuration..."
+          
+          if grep -q "maxDuration" frontend/vercel.json; then
+            timeout=$(jq -r '.functions."api/**/*".maxDuration // "not set"' frontend/vercel.json)
+            echo "✅ Function timeout set to: ${timeout}s"
+            
+            if [ "$timeout" -gt 300 ]; then
+              echo "⚠️  Warning: Timeout exceeds Hobby/Pro limit (300s)"
+            fi
+          else
+            echo "⚠️  No function timeout configured"
+          fi
+
+  post-deploy-validation:
+    name: Post-Deploy Cache Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate-cache-config
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Wait for Vercel deployment
+        run: |
+          echo "⏳ Waiting 60 seconds for Vercel deployment to complete..."
+          sleep 60
+      
+      - name: Run cache audit script
+        shell: pwsh
+        run: |
+          Write-Host "🔍 Running cache audit..."
+          ./scripts/cache-audit.ps1 -Url "https://clausebot.vercel.app" -GenerateReport
+      
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cache-audit-report
+          path: cache-audit-report-*.json
+          retention-days: 30
+
+  cache-invalidation:
+    name: Cache Invalidation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate-cache-config
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check if cache purge needed
+        id: check_purge
+        run: |
+          echo "🔍 Checking if cache purge is needed..."
+          
+          # Check if API schema or critical files changed
+          changed_files="${{ toJson(github.event.commits.*.modified) }}"
+          
+          if echo "$changed_files" | grep -qE "(api|schema|quiz|health)"; then
+            echo "needs_purge=true" >> $GITHUB_OUTPUT
+            echo "✅ Cache purge needed due to schema/API changes"
+          else
+            echo "needs_purge=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  No cache purge needed"
+          fi
+      
+      - name: Purge Vercel Data Cache
+        if: steps.check_purge.outputs.needs_purge == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          echo "🔄 Purging Vercel Data Cache..."
+          
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "⚠️  VERCEL_TOKEN or VERCEL_PROJECT_ID not set - skipping purge"
+            exit 0
+          fi
+          
+          response=$(curl -X DELETE \
+            "https://api.vercel.com/v1/projects/${VERCEL_PROJECT_ID}/data-cache" \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -w "\n%{http_code}" -s)
+          
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+          
+          if [ "$http_code" = "200" ] || [ "$http_code" = "204" ]; then
+            echo "✅ Cache purged successfully"
+          else
+            echo "⚠️  Cache purge returned status: $http_code"
+            echo "$body"
+          fi
+      
+      - name: Log cache purge event
+        if: steps.check_purge.outputs.needs_purge == 'true'
+        run: |
+          echo "📝 Logging cache purge event..."
+          echo "Timestamp: $(date -Iseconds)" >> $GITHUB_STEP_SUMMARY
+          echo "Trigger: Schema/API change detected" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "Author: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+

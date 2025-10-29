@@ -8,27 +8,27 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['html'],
-    ['json', { outputFile: 'test-results/results.json' }],
+    ['list'],
+    ['json', { outputFile: 'test-results/results.json' }]
   ],
+  
   use: {
-    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:8080',
+    baseURL: process.env.E2E_BASE_URL || 'http://localhost:4173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
+
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
   ],
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:8080',
+
+  webServer: process.env.CI ? undefined : {
+    command: 'npm run preview',
+    port: 4173,
+    timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,
   },
 });

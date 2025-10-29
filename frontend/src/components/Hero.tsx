@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { ArrowRight, Brain } from "lucide-react";
-import { QuizModal } from "./QuizModal";
+import { QuizModal } from "../features/quiz/QuizModal";
 
 const Hero = () => {
   const [isQuizOpen, setIsQuizOpen] = useState(false);
@@ -49,9 +49,8 @@ const Hero = () => {
       </div>
 
       <QuizModal 
-        isOpen={isQuizOpen} 
+        open={isQuizOpen} 
         onClose={() => setIsQuizOpen(false)}
-        category="Structural Welding"
       />
     </section>
   );

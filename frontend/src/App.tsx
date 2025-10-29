@@ -13,6 +13,7 @@ import WeldTrackFoundation from "./pages/WeldTrackFoundation";
 import Professional from "./pages/Professional";
 import Demo from "./pages/Demo";
 import Pricing from "./pages/Pricing";
+import Checkout from "./pages/Checkout";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
@@ -38,6 +39,7 @@ const App = () => (
           <Route path="/professional" element={<Professional />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/health" element={<Health />} />
           
           {/* Auth route */}

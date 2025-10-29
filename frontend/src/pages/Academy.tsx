@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Users, Award, Target, Clock, ArrowRight } from "lucide-react";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const Academy = () => {
+  usePageTitle("Academy");
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       {/* Header */}

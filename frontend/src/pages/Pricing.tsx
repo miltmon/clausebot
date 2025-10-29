@@ -2,14 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, X, Zap, Building2, Users, Crown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const Pricing = () => {
+  usePageTitle("Pricing");
+  const navigate = useNavigate();
+  
   const plans = [
     {
       name: "ClauseBot.Ai",
       description: "Perfect for individual welders",
       price: "$49.00",
       period: "per month",
+      planId: "basic",
       icon: Zap,
       popular: false,
       features: [
@@ -33,6 +39,7 @@ const Pricing = () => {
       description: "Multi-craft platform for professionals",
       price: "$99",
       period: "per month",
+      planId: "pro",
       icon: Building2,
       popular: true,
       features: [
@@ -50,13 +57,14 @@ const Pricing = () => {
         "Limited API calls"
       ],
       cta: "Upgrade to Pro",
-      link: "#"
+      link: "/checkout?plan=pro"
     },
     {
       name: "Enterprise",
       description: "Custom solutions for organizations",
       price: "Custom",
       period: "pricing",
+      planId: "enterprise",
       icon: Crown,
       popular: false,
       features: [
@@ -73,7 +81,7 @@ const Pricing = () => {
       ],
       limitations: [],
       cta: "Contact Sales",
-      link: "#"
+      link: "mailto:sales@clausebot.pro?subject=Enterprise Inquiry"
     }
   ];
 
@@ -188,7 +196,15 @@ const Pricing = () => {
                 <Button 
                   className={`w-full ${plan.popular ? '' : 'variant-outline'}`}
                   size="lg"
-                  onClick={() => window.open(plan.link, '_blank')}
+                  onClick={() => {
+                    if (plan.name === "ClauseBot.Ai") {
+                      window.open(plan.link, '_blank');
+                    } else if (plan.planId) {
+                      navigate(`/checkout?plan=${plan.planId}`);
+                    } else {
+                      window.location.href = plan.link;
+                    }
+                  }}
                 >
                   {plan.cta}
                 </Button>
@@ -300,10 +316,10 @@ const Pricing = () => {
             Join thousands of welding professionals who trust ClauseBot Pro for code intelligence and compliance.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="px-8">
+            <Button size="lg" className="px-8" onClick={() => navigate('/checkout?plan=pro')}>
               Start Free Trial
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => window.location.href = 'mailto:sales@clausebot.pro?subject=Sales Inquiry'}>
               Contact Sales
             </Button>
           </div>

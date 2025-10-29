@@ -1,0 +1,277 @@
+name: Test & Deploy ClauseBot
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # Security scanning with fixed versions
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for TruffleHog
+      
+      - name: TruffleHog Secrets Scan
+        uses: trufflesecurity/trufflehog@v3  # Stable tag (not SHA)
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+      
+      - name: CodeQL Initialize
+        uses: github/codeql-action/init@v3  # v3 (stable, not v4)
+        with:
+          languages: python
+      
+      - name: CodeQL Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:python"
+
+  # Lint and type checking
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff black mypy types-requests
+      
+      - name: Run Ruff (linter)
+        run: ruff check clausebot_api/ jobs/ --output-format=github
+        continue-on-error: true
+      
+      - name: Run Black (formatter check)
+        run: black --check clausebot_api/ jobs/
+        continue-on-error: true
+      
+      - name: Run MyPy (type checker)
+        run: mypy clausebot_api/ --ignore-missing-imports
+        continue-on-error: true
+
+  # Unit and integration tests
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    
+    # Test matrix for multiple Python versions
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-cov pytest-mock httpx
+      
+      - name: Create test env file
+        run: |
+          cat > .env.test << EOF
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}
+          AIRTABLE_PAT=test_token
+          AIRTABLE_BASE_ID=test_base
+          AIRTABLE_CLAUSES_TABLE=test_table
+          QUIZ_CACHE_TTL=300
+          PLATFORM_VERSION=AWS D1.1:2025-r1
+          EOF
+      
+      - name: Run pytest
+        run: |
+          pytest tests/ \
+            --cov=clausebot_api \
+            --cov=jobs \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --junitxml=test-results.xml \
+            -v
+        env:
+          ENVIRONMENT: test
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./backend/coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+        continue-on-error: true
+      
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.python-version }}
+          path: backend/test-results.xml
+
+  # Performance tests
+  performance:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: ./backend
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio pytest-benchmark
+      
+      - name: Run performance tests
+        run: pytest tests/test_performance.py -v --benchmark-only
+        continue-on-error: true
+
+  # Smoke tests on deployed environment
+  smoke-test:
+    name: Smoke Tests (Production)
+    runs-on: ubuntu-latest
+    needs: [security-scan, lint, test]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Wait for Render deployment
+        run: sleep 120  # Wait 2 minutes for auto-deploy
+      
+      - name: Test /health endpoint
+        run: |
+          response=$(curl -s -w "\n%{http_code}" https://clausebot-api.onrender.com/health)
+          status_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+          
+          echo "Status: $status_code"
+          echo "Body: $body"
+          
+          if [ "$status_code" != "200" ]; then
+            echo "❌ Health check failed with status $status_code"
+            exit 1
+          fi
+          
+          if ! echo "$body" | jq -e '.ok == true' > /dev/null; then
+            echo "❌ Health check returned ok=false"
+            exit 1
+          fi
+          
+          echo "✅ Health check passed"
+      
+      - name: Test /health/cache endpoint
+        run: |
+          response=$(curl -s -w "\n%{http_code}" https://clausebot-api.onrender.com/health/cache)
+          status_code=$(echo "$response" | tail -n1)
+          
+          if [ "$status_code" != "200" ]; then
+            echo "❌ Cache health check failed"
+            exit 1
+          fi
+          
+          echo "✅ Cache health check passed"
+      
+      - name: Test /quiz endpoint
+        run: |
+          response=$(curl -s -w "\n%{http_code}" "https://clausebot-api.onrender.com/quiz?count=5")
+          status_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+          
+          if [ "$status_code" != "200" ]; then
+            echo "❌ Quiz endpoint failed"
+            exit 1
+          fi
+          
+          count=$(echo "$body" | jq -r '.count')
+          if [ "$count" != "5" ]; then
+            echo "❌ Quiz returned wrong count: $count"
+            exit 1
+          fi
+          
+          echo "✅ Quiz endpoint passed"
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "🚨 Smoke tests failed! Production may be unhealthy."
+          # Add Slack/Teams notification here if desired
+
+  # Deployment summary
+  deploy-summary:
+    name: Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [smoke-test]
+    if: always() && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## 🚀 ClauseBot Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.smoke-test.result }}" == "success" ]; then
+            echo "### ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
+            echo "All smoke tests passed. Production is healthy." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Deployment Issues Detected" >> $GITHUB_STEP_SUMMARY
+            echo "Smoke tests failed. Check logs for details." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Endpoints:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Health: https://clausebot-api.onrender.com/health" >> $GITHUB_STEP_SUMMARY
+          echo "- Cache: https://clausebot-api.onrender.com/health/cache" >> $GITHUB_STEP_SUMMARY
+          echo "- Quiz: https://clausebot-api.onrender.com/quiz" >> $GITHUB_STEP_SUMMARY
+

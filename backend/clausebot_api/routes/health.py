@@ -129,3 +129,33 @@ def quiz_health_baseline() -> Dict[str, Any]:
             "error": str(e)
         }
 
+
+@router.get("/health/cache")
+async def cache_health() -> Dict[str, Any]:
+    """
+    Cache health and performance metrics.
+    
+    Returns:
+        - ok: Cache connectivity status
+        - enabled: Whether cache is configured
+        - ttl_seconds: Default TTL setting
+        - keyspace_hits: Number of successful cache lookups
+        - keyspace_misses: Number of cache misses
+        - hit_rate: Cache hit rate percentage
+    """
+    from clausebot_api.cache import cache
+    
+    result = await cache.health_check()
+    
+    # Calculate hit rate if we have stats
+    if result.get("ok") and "keyspace_hits" in result:
+        hits = result["keyspace_hits"]
+        misses = result["keyspace_misses"]
+        total = hits + misses
+        
+        if total > 0:
+            result["hit_rate"] = round((hits / total) * 100, 2)
+        else:
+            result["hit_rate"] = 0.0
+    
+    return result
