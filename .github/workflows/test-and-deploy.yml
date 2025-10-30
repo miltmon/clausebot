@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0  # Full history for TruffleHog
       
       - name: TruffleHog Secrets Scan
-        uses: trufflesecurity/trufflehog@v3  # Stable tag (not SHA)
+        uses: trufflesecurity/trufflehog@main  # Stable tag (not SHA)
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
@@ -33,12 +33,12 @@ jobs:
           extra_args: --debug --only-verified
       
       - name: CodeQL Initialize
-        uses: github/codeql-action/init@v3  # v3 (stable, not v4)
+        uses: github/codeql-action/init@main  # v3 (stable, not v4)
         with:
           languages: python
       
       - name: CodeQL Analyze
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@main
         with:
           category: "/language:python"
 
@@ -274,4 +274,5 @@ jobs:
           echo "- Health: https://clausebot-api.onrender.com/health" >> $GITHUB_STEP_SUMMARY
           echo "- Cache: https://clausebot-api.onrender.com/health/cache" >> $GITHUB_STEP_SUMMARY
           echo "- Quiz: https://clausebot-api.onrender.com/quiz" >> $GITHUB_STEP_SUMMARY
+
 
