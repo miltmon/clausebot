@@ -1,0 +1,46 @@
+name: Repo Audit (Org-Wide)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *" # Daily at 06:00 UTC (11pm PDT / 10pm PST)
+
+jobs:
+  repo-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq curl
+
+      - name: Make script executable
+        run: |
+          chmod +x scripts/repo_audit.sh
+
+      - name: Run repo audit (read-only)
+        env:
+          # ORG_GITHUB_TOKEN must be a PAT with repo + admin:repo_hook scopes
+          GITHUB_API_TOKEN: ${{ secrets.ORG_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://hqhughgdraokwmreronk.supabase.co' }}
+          AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY || '' }}
+        run: |
+          mkdir -p repo_audit_output
+          ./scripts/repo_audit.sh
+          echo "=== Audit Summary ==="
+          ls -lh repo_audit_output/
+          echo "Latest report:"
+          cat repo_audit_output/repo-audit-*.json | jq -r '.generated_at'
+
+      - name: Upload audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-audit-${{ github.run_id }}
+          path: repo_audit_output/
+          retention-days: 90
