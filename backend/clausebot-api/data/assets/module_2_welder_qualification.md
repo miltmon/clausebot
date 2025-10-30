@@ -1,0 +1,239 @@
+# Module 2 — Welder Qualification
+
+**Scope:** AWS D1.1:2025 (Clause 6), ASME Section IX (QW-300 series)
+**Tags:** #awsd1.1 #cwi2025 #codeupdate
+
+## Learning outcomes (learner-facing)
+
+1. Distinguish between **welder qualification** and **welder certification** and their relationship to production welding. *(verify in code)*
+2. Apply **essential welder variables** correctly (process, positions, thickness, diameter, progression, backing). *(verify)*
+3. Use **qualification ranges** and determine when **requalification** is required. *(verify)*
+4. Audit a **welder qualification record** and confirm the **extent of qualification** for production work. *(verify)*
+
+---
+
+## Lesson 2.1 (≤10 min) — Welder Qualification vs Certification
+
+**Objectives**
+
+* Understand the difference between qualification and certification.
+* Know when each is used in production.
+
+**Script (deliver to LMS)**
+
+* **Welder Qualification:** Proves the **individual** can follow a qualified WPS and deposit sound weld metal. Based on **performance testing**. *(verify in ASME IX & AWS D1.1)*
+* **Welder Certification:** Formal recognition by a **certifying body** (like AWS) that the welder meets certain standards. Based on **examination and experience**. *(verify)*
+* **Relationship:** Qualification is **employer-specific** and **WPS-specific**; certification is **portable** and **general**. *(verify)*
+* **Production use:** Qualified welders can work on production; certified welders may still need qualification for specific WPSs. *(verify)*
+
+**Micro-drill (2× T/F)**
+
+* "A certified welder is automatically qualified for all WPSs." → **False** (qualification is WPS-specific). *(verify)*
+* "Welder qualification is based on performance testing." → **True** (qualification requires actual welding tests). *(verify)*
+
+---
+
+## Lesson 2.2 (≤10 min) — Essential Welder Variables and Qualification Ranges
+
+**Objectives**
+
+* Identify essential welder variables that affect qualification.
+* Use qualification range tables correctly.
+
+**Script**
+
+* **Essential welder variables:** Changes that affect welder qualification and require requalification. Include process, positions, thickness, diameter, progression, backing. *(verify in ASME IX & AWS D1.1)*
+* **Qualification ranges:** Different positions, thicknesses, and diameters have different qualification ranges. Use the **qualification range tables** to determine coverage. *(verify)*
+* **Position qualification:** Harder positions qualify easier ones; **6G** typically covers all, or **2G+5G** in combination. *(verify)*
+* **Thickness qualification:** Test thickness determines production thickness range; check the **thickness qualification tables**. *(verify)*
+
+**Micro-drill (choose best answer)**
+
+* "Welder tested 1G; wants to weld 3G:" **Not qualified** (position not covered). *(verify)*
+* "Welder tested 6G; wants to weld 1G:" **Qualified** (harder position covers easier). *(verify)*
+
+---
+
+## Lesson 2.3 (≤10 min) — Welder Qualification Record Audit
+
+**Objectives**
+
+* Audit a welder qualification record for completeness and accuracy.
+* Confirm qualification extent for production work.
+
+**Script**
+
+* **Qualification record audit:** Welder ID, process, WPS used, positions tested, thickness/diameter ranges, test results, acceptance criteria, certification. *(verify)*
+* **Qualification extent:** Confirm the qualification covers all variables needed for production. Check position coverage, thickness ranges, diameter ranges, progression, backing. *(verify)*
+* **Documentation:** Qualification record must be complete, signed, and maintained. Incomplete or unsigned records cannot support production work. *(verify)*
+* **Traceability:** Link between qualification record and production WPS must be clear and auditable. *(verify)*
+
+**Exit check**
+
+* "Qualification shows 1G test; production needs 3G." → **Not qualified; requalify for 3G or use different welder.** *(verify)*
+
+---
+
+## Practical artifact — **Welder Qualification Audit Checklist** (PDF/MD)
+
+**Section A — Welder Identity**
+
+* Welder identification and certification
+* Employer and qualification date
+* Process and WPS reference
+* Test welder and examiner
+
+**Section B — Qualification Extent**
+
+* Positions tested vs. production requirements
+* Thickness ranges tested vs. production needs
+* Diameter ranges tested vs. production needs
+* Progression (up/down) coverage
+* Backing (with/without) coverage
+* Base metal group coverage
+
+**Section C — Test Results**
+
+* Visual examination results
+* Mechanical test results
+* NDE results (if applicable)
+* Acceptance criteria compliance
+* Certification and signatures
+
+**Section D — Production Support**
+
+* Qualification coverage analysis
+* Range compatibility check
+* Documentation completeness
+* Traceability verification
+* **Accept / Hold / Requalify** + one-line reason with (verify in code)
+
+---
+
+## Short practice tasks (free-response)
+
+**SP-1 — Position Coverage**
+Welder qualified **1G** but production needs **3G**. Covered or requalify? *(verify)*
+
+**SP-2 — Thickness Range**
+Welder tested **1/2 in** but production needs **1 in**. Covered or requalify? *(verify)*
+
+**SP-3 — Process Change**
+Welder qualified **SMAW** but production needs **GMAW**. Covered or requalify? *(verify)*
+
+---
+
+## Quiz (10 MCQs with rationales)
+
+1. **Purpose of welder qualification**
+   Welder qualification primarily proves:
+   A) **Individual skill to produce sound welds**  B) Procedure metallurgy  C) Drawing accuracy  D) Electrode shelf life
+   **Answer:** A — Qualification demonstrates welder proficiency. *(verify in code)*
+
+2. **Qualification vs certification**
+   Welder qualification is:
+   A) **Employer and WPS specific**  B) Portable across employers  C) Same as certification  D) Not required
+   **Answer:** A — Qualification is specific to employer and WPS. *(verify)*
+
+3. **Essential welder variables**
+   Which is NOT typically an essential welder variable?
+   A) Process  B) Position  C) **Welder name**  D) Thickness
+   **Answer:** C — Welder name is not an essential variable. *(verify)*
+
+4. **Position qualification**
+   Welder tested 6G; wants to weld 1G:
+   A) **Qualified**  B) Not qualified  C) Qualified if same thickness  D) Qualified if same process
+   **Answer:** A — Harder position covers easier ones. *(verify)*
+
+5. **Thickness qualification**
+   Welder tested 1/2 in; wants to weld 1 in:
+   A) **Check qualification range**  B) Always qualified  C) Never qualified  D) Qualified if same process
+   **Answer:** A — Must verify thickness qualification range. *(verify)*
+
+6. **Process change**
+   Changing from SMAW to GMAW requires:
+   A) Note on record  B) **Requalification**  C) Supervisor approval  D) Nothing
+   **Answer:** B — Different process requires requalification. *(verify)*
+
+7. **Qualification record**
+   A valid qualification record must include:
+   A) **All essential variables tested**  B) Only process  C) Only position  D) Only thickness
+   **Answer:** A — Record must document all essential variables. *(verify)*
+
+8. **Documentation link**
+   Qualification record and production WPS must be:
+   A) **Linked and traceable**  B) Separate files  C) Same document  D) Optional link
+   **Answer:** A — Clear traceability is required. *(verify)*
+
+9. **Production use**
+   A qualified welder can work in production when:
+   A) **Qualification covers production variables**  B) Supervisor approves  C) Welder signs  D) Any time
+   **Answer:** A — Qualification must cover production requirements. *(verify)*
+
+10. **Qualification extent**
+    The extent of qualification is determined by:
+    A) **Test variables and qualification ranges**  B) Welder experience  C) Supervisor decision  D) Company policy
+    **Answer:** A — Extent based on test variables and ranges. *(verify)*
+
+*(Each rationale in your LMS should end with "(verify in code)" and avoid quoting.)*
+
+---
+
+## Drop-in seeds (JSON examples)
+
+**module**
+
+```json
+{
+  "course_slug": "cwi-core",
+  "module_slug": "m2-welder-qualification",
+  "title": "Module 2 — Welder Qualification",
+  "order_index": 2,
+  "status": "active",
+  "tags": ["awsd1.1","cwi2025","codeupdate"]
+}
+```
+
+**lessons**
+
+```json
+[
+  {"module_slug":"m2-welder-qualification","lesson_slug":"l1-qualification-vs-certification","title":"Welder Qualification vs Certification","duration_min":10,"content_markdown":"## Qualification vs Certification\\n- Qualification is employer/WPS specific; certification is portable. (verify)\\n- Qualification based on performance testing; certification on examination. (verify)\\n- Both may be needed for production work. (verify)"},
+  {"module_slug":"m2-welder-qualification","lesson_slug":"l2-essential-variables-ranges","title":"Essential Welder Variables and Qualification Ranges","duration_min":10,"content_markdown":"## Essential Variables\\n- Process, positions, thickness, diameter, progression, backing. (verify)\\n- Use qualification range tables for coverage. (verify)\\n- Harder positions cover easier ones. (verify)"},
+  {"module_slug":"m2-welder-qualification","lesson_slug":"l3-qualification-record-audit","title":"Welder Qualification Record Audit","duration_min":10,"content_markdown":"## Record Audit\\n- Check completeness, accuracy, and production support. (verify)\\n- Verify qualification extent and traceability. (verify)\\n- Confirm coverage for production work. (verify)"}
+]
+```
+
+**quiz**
+
+```json
+{"module_slug":"m2-welder-qualification","quiz_slug":"qz-m2-core","title":"M2 Core Quiz — Welder Qualification","num_items":10,"time_limit_min":15,"attempts_allowed":3}
+```
+
+**short_tasks**
+
+```json
+[
+  {"module_slug":"m2-welder-qualification","task_slug":"sp-1-position-coverage","title":"Position Coverage","instructions":"Welder qualified 1G but production needs 3G. Covered or requalify? + (verify in code)."},
+  {"module_slug":"m2-welder-qualification","task_slug":"sp-2-thickness-range","title":"Thickness Range","instructions":"Welder tested 1/2 in but production needs 1 in. Covered or requalify? + (verify)."},
+  {"module_slug":"m2-welder-qualification","task_slug":"sp-3-process-change","title":"Process Change","instructions":"Welder qualified SMAW but production needs GMAW. Covered or requalify? + (verify)."}
+]
+```
+
+---
+
+## QA & governance gates (No-Drift ready)
+
+* **Edition tags:**
+  `{"code_refs":[{"code":"ASME IX","edition":"current"},{"code":"AWS D1.1","edition":"2020"}]}`
+* **Verification banner:** Green when editions match backend; flips yellow on change until re-verified.
+* **Accessibility:** Mobile 375px pass; AA contrast; quiz feedback on; alt text on images.
+* **Analytics:** `lesson_view`, `quiz_start`, `quiz_submit`, `task_submit` emitted with `module=m2-welder-qualification`.
+
+---
+
+## Instructor crib (one-liners to model)
+
+* **Accept** — *Welder qualified for all production variables with complete record and proper certification. (verify)*
+* **Reject** — *Welder qualified 1G but production needs 3G; requalify for 3G or use different welder. (verify)*
+* **Hold** — *Qualification record incomplete; missing test results or signatures; complete before production use. (verify)*

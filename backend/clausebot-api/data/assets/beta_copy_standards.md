@@ -1,0 +1,101 @@
+# Beta Copy Standards - Phase 3
+
+## **REQUIRED BETA MESSAGING:**
+
+### **✅ Primary Beta Notice:**
+```
+"Beta Preview — mobile-optimized; features may change."
+```
+
+**Placement:** Under the primary CTA on `/beta/quest-app`
+
+**Styling:**
+- Smaller font size than main content
+- Muted color (gray-600 or similar)
+- Consistent with brand typography
+- Mobile-responsive
+
+### **✅ AWS D1.1:2025 Alignment:**
+- **DO:** Reference "AWS D1.1:2025" as current standard
+- **DON'T:** Claim compliance without verification
+- **DO:** Use "(verify in code)" anchors where applicable
+- **DON'T:** Overclaim capabilities or accuracy
+
+### **✅ Copy Standards:**
+
+#### **Headlines:**
+- Clear, action-oriented
+- Mobile-friendly length
+- No jargon without explanation
+
+#### **Descriptions:**
+- Benefit-focused
+- Technical accuracy
+- Professional tone
+
+#### **CTAs:**
+- Action verbs ("Start", "Study", "Challenge")
+- Clear value proposition
+- Consistent button text
+
+## **COPY REVIEW CHECKLIST:**
+
+### **✅ Technical Accuracy:**
+- [ ] All AWS D1.1 references current (2020 edition)
+- [ ] No overclaims about compliance
+- [ ] Technical terms used correctly
+- [ ] Code references properly anchored
+
+### **✅ Brand Consistency:**
+- [ ] Tone matches WeldTrack™ branding
+- [ ] Professional but accessible language
+- [ ] Consistent terminology
+- [ ] No conflicting messages
+
+### **✅ Mobile Optimization:**
+- [ ] Text readable on mobile screens
+- [ ] Headlines fit mobile viewport
+- [ ] Descriptions concise but complete
+- [ ] CTAs clear and tappable
+
+### **✅ Beta Messaging:**
+- [ ] Beta notice prominently displayed
+- [ ] "Features may change" disclaimer
+- [ ] Mobile-optimized mention
+- [ ] Consistent across all pages
+
+## **SPECIFIC COPY ELEMENTS:**
+
+### **Main Headline:**
+```
+"AWS CWI Quest App"
+```
+
+### **Subheadline:**
+```
+"Master AWS D1.1:2025 with interactive practice questions and real-world scenarios"
+```
+
+### **CTA Buttons:**
+```
+"Start 10-Question Warm-Up"
+"Study by Category"
+"Start 25-Question Challenge"
+```
+
+### **Beta Notice:**
+```
+"Beta Preview — mobile-optimized; features may change."
+```
+
+### **Return Links:**
+```
+"Back to MiltmonNDT"
+```
+
+## **REVIEW FOCUS:**
+- **Claude:** Line-check for AWS D1.1:2025 alignment
+- **Gemini:** Visual consistency with WeldTrack™ branding
+- **Copilot:** Flag any missed CTAs or anchors
+
+## **STATUS:** ✅ READY FOR REVIEW

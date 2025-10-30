@@ -1,0 +1,185 @@
+{
+  "api_base": "http://127.0.0.1:8000",
+  "timestamp": "2025-10-01T21:08:49.2555176-07:00",
+  "summary": {
+    "total_tests": 7,
+    "failed": 5,
+    "passed": 6,
+    "critical_failures": 0,
+    "warnings_count": 7,
+    "configuration_score": "0/6"
+  },
+  "critical_issues": [],
+  "warnings": [
+    "Metrics Snapshot - Response status code does not indicate success: 500 (Internal Server Error).",
+    "Environment variable SUPABASE_URL not configured",
+    "Environment variable SUPABASE_SERVICE_ROLE_KEY not configured",
+    "Environment variable AIRTABLE_API_KEY not configured",
+    "Environment variable AIRTABLE_BASE_ID not configured",
+    "Environment variable MODEL_PROVIDER not configured",
+    "Environment variable MODEL_NAME not configured"
+  ],
+  "test_results": [
+    {
+      "Status": "PASS",
+      "Critical": true,
+      "Response": {
+        "status": "ok",
+        "service": "clausebot-api",
+        "version": "2.0.0"
+      },
+      "Category": "Core",
+      "Test": "Root Endpoint"
+    },
+    {
+      "Status": "PASS",
+      "Critical": true,
+      "Response": {
+        "ok": false,
+        "supabase": false,
+        "airtable": false,
+        "configuration": {
+          "supabase_configured": false,
+          "airtable_configured": false,
+          "supabase_url": "https://hqhughgdraokwmreronk.supabase.co"
+        }
+      },
+      "Category": "Core",
+      "Test": "Basic Health Check"
+    },
+    {
+      "Status": "PASS",
+      "Critical": false,
+      "Response": {
+        "timestamp": 1759378129.1148026,
+        "overall_status": "unknown",
+        "services": {
+          "supabase": {
+            "status": "not_configured",
+            "latency_ms": 0,
+            "error": "SUPABASE_SERVICE_ROLE_KEY not provided",
+            "url": "https://hqhughgdraokwmreronk.supabase.co"
+          },
+          "airtable": {
+            "status": "not_configured",
+            "latency_ms": 0,
+            "error": "AIRTABLE_API_KEY or AIRTABLE_BASE_ID not provided",
+            "base_id": "not_set"
+          }
+        },
+        "performance": {
+          "average_latency_ms": 0.0,
+          "max_latency_ms": 0,
+          "services_count": 2,
+          "healthy_services": 0
+        }
+      },
+      "Category": "Core",
+      "Test": "Detailed Health Check"
+    },
+    {
+      "Status": "PASS",
+      "Critical": false,
+      "Response": {
+        "current_provider": "openai",
+        "current_model": "gpt-4",
+        "providers": {
+          "openai": {
+            "configured": false,
+            "models": "gpt-4 gpt-4-turbo gpt-3.5-turbo"
+          },
+          "anthropic": {
+            "configured": false,
+            "models": "claude-3-opus claude-3-sonnet claude-3-haiku"
+          },
+          "google": {
+            "configured": false,
+            "models": "gemini-pro gemini-pro-vision"
+          },
+          "ollama": {
+            "configured": true,
+            "models": "llama2 codellama mistral neural-chat"
+          }
+        }
+      },
+      "Category": "AI",
+      "Test": "AI Provider Config"
+    },
+    {
+      "Status": "PASS",
+      "Critical": false,
+      "Response": {
+        "pricing_per_1k_tokens": {
+          "gpt-4": {
+            "input": 0.03,
+            "output": 0.06
+          },
+          "gpt-4-turbo": {
+            "input": 0.01,
+            "output": 0.03
+          },
+          "gpt-3.5-turbo": {
+            "input": 0.0015,
+            "output": 0.002
+          },
+          "claude-3-opus": {
+            "input": 0.015,
+            "output": 0.075
+          },
+          "claude-3-sonnet": {
+            "input": 0.003,
+            "output": 0.015
+          },
+          "claude-3-haiku": {
+            "input": 0.00025,
+            "output": 0.00125
+          },
+          "gemini-pro": {
+            "input": 0.0005,
+            "output": 0.0015
+          },
+          "gemini-pro-vision": {
+            "input": 0.0025,
+            "output": 0.01
+          },
+          "ollama": {
+            "input": 0.0,
+            "output": 0.0
+          }
+        },
+        "currency": "USD",
+        "note": "Prices are approximate and may vary. Check provider documentation for exact pricing.",
+        "last_updated": "2024-10-01",
+        "timestamp": "2025-10-01T21:08:49.12947"
+      },
+      "Category": "Cost",
+      "Test": "Cost Model Pricing"
+    },
+    {
+      "Status": "FAIL",
+      "Error": "Response status code does not indicate success: 500 (Internal Server Error).",
+      "Critical": false,
+      "Category": "Metrics",
+      "Test": "Metrics Snapshot"
+    },
+    {
+      "Status": "PASS",
+      "Critical": false,
+      "Response": {
+        "provider": "openai",
+        "model": "gpt-4",
+        "available_providers": [
+          "openai",
+          "anthropic",
+          "google",
+          "ollama"
+        ],
+        "cost_tracking": true,
+        "telemetry_enabled": true
+      },
+      "Category": "AI",
+      "Test": "Model Whoami"
+    }
+  ],
+  "readiness_status": "READY_WITH_WARNINGS"
+}

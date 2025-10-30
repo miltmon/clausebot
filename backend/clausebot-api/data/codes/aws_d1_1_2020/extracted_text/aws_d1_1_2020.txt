@@ -1,0 +1,14 @@
+AWS D1.1:2025 - Structural Welding Code - Steel
+
+This is a placeholder for extracted text from the AWS D1.1:2025 Structural Welding Code.
+
+In a full implementation, this would contain the actual extracted text from the PDF.
+
+Clause content would be parsed and indexed here.
+
+Key sections include:
+- Clause 6.9.1: Visual Examination Requirements
+- Clause 8.1.1: Welding Procedure Specification
+- Clause 9.1.1: Welder Performance Qualification
+
+This document establishes the essential requirements for structural welding of steel.

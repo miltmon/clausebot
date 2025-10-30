@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  title: ClauseBot API Starter
+  description: |
+    ClauseBot API TypeScript/Express starter kit with OpenAPI 3.1 specification.
+    
+    ## Authentication
+    
+    This API uses Bearer token authentication with scoped API keys:
+    - `READ_ONLY`: Access to search and intel endpoints
+    - `ADMIN`: Full access including quiz generation
+    
+    Include the API key in the Authorization header:
+    ```
+    Authorization: Bearer your_api_key_here
+    ```
+    
+  version: 1.0.0
+  contact:
+    name: ClauseBot Team
+    email: support@clausebot.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+  - url: https://api.clausebot.com
+    description: Production server
+
+security:
+  - BearerAuth: []
+
+paths:
+  /:
+    get:
+      summary: Root endpoint
+      description: Returns basic service information and available endpoints
+      tags:
+        - General
+      security: []
+      responses:
+        '200':
+          description: Service information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service:
+                    type: string
+                    example: "ClauseBot API Starter"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  status:
+                    type: string
+                    example: "running"
+                  endpoints:
+                    type: object
+                  documentation:
+                    type: string
+                    example: "/docs"
+
+  /v1/healthz:
+    get:
+      summary: Health check
+      description: Returns the health status of the API service
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /v1/intel:
+    get:
+      summary: Service intelligence
+      description: Returns detailed information about service capabilities and features
+      tags:
+        - Intelligence
+      security:
+        - BearerAuth: [READ_ONLY]
+      responses:
+        '200':
+          description: Service intelligence data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntelResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /v1/search:
+    get:
+      summary: Search content
+      description: Search through AWS D1.1 welding standards and related content
+      tags:
+        - Search
+      security:
+        - BearerAuth: [READ_ONLY]
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query string
+          schema:
+            type: string
+            example: "clause 4"
+        - name: limit
+          in: query
+          required: false
+          description: Maximum number of results to return
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          required: false
+          description: Number of results to skip for pagination
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: category
+          in: query
+          required: false
+          description: Filter results by category
+          schema:
+            type: string
+            enum: [Fundamentals, Procedures, Visual Inspection, Testing]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /v1/quiz/generate:
+    post:
+      summary: Generate quiz questions
+      description: Generate quiz questions based on specified topic and parameters
+      tags:
+        - Quiz
+      security:
+        - BearerAuth: [ADMIN]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuizGenerateRequest'
+      responses:
+        '200':
+          description: Generated quiz questions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizGenerateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API_KEY
+      description: |
+        API key authentication using Bearer tokens.
+        
+        Scopes:
+        - `READ_ONLY`: Access to search and intel endpoints
+        - `ADMIN`: Full access including quiz generation
+
+  schemas:
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - version
+        - uptime
+        - requestId
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+          example: "healthy"
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-10-27T15:30:00Z"
+        version:
+          type: string
+          example: "1.0.0"
+        uptime:
+          type: integer
+          description: Service uptime in seconds
+          example: 3600
+        requestId:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+    IntelResponse:
+      type: object
+      required:
+        - service
+        - version
+        - environment
+        - features
+        - capabilities
+        - requestId
+      properties:
+        service:
+          type: string
+          example: "ClauseBot API"
+        version:
+          type: string
+          example: "1.0.0"
+        environment:
+          type: string
+          enum: [development, staging, production]
+          example: "development"
+        features:
+          type: array
+          items:
+            type: string
+          example: ["search", "quiz-generation", "health-monitoring"]
+        capabilities:
+          type: array
+          items:
+            type: string
+          example: ["D1.1 AWS welding standards", "clause-based search"]
+        requestId:
+          type: string
+          format: uuid
+
+    SearchResponse:
+      type: object
+      required:
+        - query
+        - results
+        - total
+        - limit
+        - offset
+        - requestId
+      properties:
+        query:
+          type: string
+          example: "clause 4"
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'
+        total:
+          type: integer
+          example: 25
+        limit:
+          type: integer
+          example: 10
+        offset:
+          type: integer
+          example: 0
+        requestId:
+          type: string
+          format: uuid
+
+    SearchResult:
+      type: object
+      required:
+        - id
+        - title
+        - content
+        - category
+        - relevance
+      properties:
+        id:
+          type: string
+          example: "clause-4-1"
+        title:
+          type: string
+          example: "AWS D1.1 Clause 4.1 - General Requirements"
+        content:
+          type: string
+          example: "This clause covers the general requirements..."
+        category:
+          type: string
+          example: "Fundamentals"
+        relevance:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          example: 0.95
+        metadata:
+          type: object
+          additionalProperties: true
+          example:
+            clause: "4.1"
+            section: "General Requirements"
+
+    QuizGenerateRequest:
+      type: object
+      required:
+        - topic
+        - count
+      properties:
+        topic:
+          type: string
+          description: The topic for quiz generation
+          example: "D1.1 Clause 4"
+        count:
+          type: integer
+          minimum: 1
+          maximum: 50
+          description: Number of questions to generate
+          example: 3
+        difficulty:
+          type: string
+          enum: [easy, medium, hard]
+          default: medium
+          example: "medium"
+        category:
+          type: string
+          example: "Fundamentals"
+
+    QuizGenerateResponse:
+      type: object
+      required:
+        - topic
+        - questions
+        - count
+        - requestId
+      properties:
+        topic:
+          type: string
+          example: "D1.1 Clause 4"
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizQuestion'
+        count:
+          type: integer
+          example: 3
+        requestId:
+          type: string
+          format: uuid
+
+    QuizQuestion:
+      type: object
+      required:
+        - id
+        - question
+        - options
+        - correct_answer
+        - category
+        - difficulty
+      properties:
+        id:
+          type: string
+          example: "q-1698765432-0"
+        question:
+          type: string
+          example: "What is the primary purpose of AWS D1.1?"
+        options:
+          type: array
+          items:
+            type: string
+          minItems: 2
+          maxItems: 6
+          example: ["Option A", "Option B", "Option C", "Option D"]
+        correct_answer:
+          type: string
+          example: "Option A"
+        category:
+          type: string
+          example: "Fundamentals"
+        difficulty:
+          type: string
+          enum: [easy, medium, hard]
+          example: "medium"
+        explanation:
+          type: string
+          example: "This question tests knowledge of AWS D1.1 fundamentals."
+
+    ApiError:
+      type: object
+      required:
+        - error
+        - message
+        - code
+        - requestId
+        - timestamp
+      properties:
+        error:
+          type: string
+          example: "Bad Request"
+        message:
+          type: string
+          example: "Missing required parameter"
+        code:
+          type: string
+          example: "MISSING_PARAMETER"
+        requestId:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters or missing required fields
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            error: "Bad Request"
+            message: "Missing required parameter 'q'"
+            code: "MISSING_PARAMETER"
+            requestId: "123e4567-e89b-12d3-a456-426614174000"
+            timestamp: "2025-10-27T15:30:00Z"
+
+    Unauthorized:
+      description: Unauthorized - missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            error: "Unauthorized"
+            message: "Missing or invalid Authorization header"
+            code: "AUTH_MISSING"
+            requestId: "123e4567-e89b-12d3-a456-426614174000"
+            timestamp: "2025-10-27T15:30:00Z"
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'
+          example:
+            error: "Forbidden"
+            message: "Insufficient permissions"
+            code: "AUTH_INSUFFICIENT_SCOPE"
+            requestId: "123e4567-e89b-12d3-a456-426614174000"
+            timestamp: "2025-10-27T15:30:00Z"
+
+tags:
+  - name: General
+    description: General service endpoints
+  - name: Health
+    description: Health check and monitoring endpoints
+  - name: Intelligence
+    description: Service capability and feature information
+  - name: Search
+    description: Content search functionality
+  - name: Quiz
+    description: Quiz generation and management

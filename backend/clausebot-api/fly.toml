@@ -1,0 +1,36 @@
+app = "clausebot-api"
+primary_region = "iad"
+
+[build]
+  dockerfile = "./Dockerfile"
+
+[http_service]
+  internal_port = 8081
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 60
+    hard_limit = 80
+  [[http_service.checks]]
+    interval = "15s"
+    timeout = "3s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/health"
+
+[metrics]
+  port = 8081
+  path = "/health"
+
+[env]
+  PORT = "8081"
+  PLATFORM_VERSION = "AWS D1.1:2025-r1"
+  ALLOW_ORIGINS = "https://clausebot.miltmonndt.com,https://www.miltmonndt.com"
+  READONLY = "0"
+  CLAUSEBOT_EDITION = "AWS_D1.1:2025"
+  CONTENT_DIR = "./data"
+  INDEX_DIR = "./data/codes/aws_d1_1_2020/index"

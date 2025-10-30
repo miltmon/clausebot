@@ -1,0 +1,52 @@
+# Clause 8 Images Specification
+
+## **REQUIRED IMAGES:**
+
+### **1. Clause 8 Repair Image:**
+- **Filename:** `clause8_repair_01.jpg`
+- **Content:** Visual representation of AWS D1.1 Clause 8 repair procedures
+- **Usage:** "What's coming next" section on `/beta/quest-app`
+- **Format:** JPG, optimized for web
+- **Size:** 800x600px recommended
+
+### **2. Clause 8 Access Image:**
+- **Filename:** `clause8_access_02.jpg`
+- **Content:** Visual showing access requirements and procedures
+- **Usage:** Inside app's "Explain" modal as thumbnail reference
+- **Format:** JPG, optimized for web
+- **Size:** 400x300px recommended
+
+### **3. Clause 8 Accept/Reject Image:**
+- **Filename:** `clause8_accept_reject_03.jpg`
+- **Content:** Visual showing acceptance/rejection criteria
+- **Usage:** Reference material in app
+- **Format:** JPG, optimized for web
+- **Size:** 600x400px recommended
+
+## **IMAGE REQUIREMENTS:**
+- **Format:** PNG or JPG
+- **Optimization:** Web-optimized (compressed)
+- **Alt Text:** Descriptive and accessible
+- **Captions:** Technical accuracy required
+
+## **ALT TEXT DRAFTS:**
+```
+clause8_repair_01.jpg: "AWS D1.1 Clause 8 repair procedure diagram showing weld repair steps and requirements"
+clause8_access_02.jpg: "Clause 8 access requirements illustration showing inspection access points and procedures"
+clause8_accept_reject_03.jpg: "Clause 8 acceptance and rejection criteria visual guide for weld quality assessment"
+```
+
+## **CAPTION DRAFTS:**
+```
+clause8_repair_01.jpg: "Figure 8.1: Weld repair procedures per AWS D1.1:2025 Clause 8"
+clause8_access_02.jpg: "Figure 8.2: Access requirements for inspection and repair operations"
+clause8_accept_reject_03.jpg: "Figure 8.3: Acceptance and rejection criteria for repaired welds"
+```
+
+## **DEPLOYMENT:**
+- Upload to assets bucket/folder
+- Reference in app components
+- Ensure proper loading and fallbacks
+- Test on mobile devices
+
+## **STATUS:** ✅ READY FOR ASSET CREATION
