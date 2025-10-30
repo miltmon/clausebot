@@ -1,0 +1,248 @@
+# Module 3 — Welder Performance Qualification (WPQ)
+
+**Scope:** ASME Section IX (performance) + AWS D1.1:2025 (Clause 6 personnel)
+**Tags:** #awsd1.1 #cwi2025 #codeupdate
+
+## Learning outcomes (learner-facing)
+
+1. Explain what a **WPQ/WQTR** is and what it must document.
+2. Determine when a welder is **qualified/not qualified** based on process, position, thickness, diameter, progression, and backing.
+3. Apply **continuity, revocation, and renewal** rules correctly.
+4. Audit a WQTR and confirm the **extent of qualification** for production work.
+
+---
+
+## Lesson 3.1 (≤10 min) — Purpose, Records, and Test Paths
+
+**Objectives**
+
+* Understand why performance qualification exists and what counts as evidence.
+* Know the parts of a **Welder Performance Qualification Record (WPQ/WQTR)**.
+
+**Script (deliver to LMS)**
+
+* **Purpose:** Prove the **individual** can follow a qualified WPS and deposit sound weld metal. *(verify in ASME IX & AWS D1.1)*
+* **Record (WQTR):** Welder ID; process; WPS used; actual essential variables as tested; weld type/position; thickness/diameter; results; limits of qualification; date/certification. *(verify)*
+* **Test paths:**
+
+  * **Test coupon** welded to a qualified WPS → **VT + mechanical tests** and/or **RT/UT** as permitted. *(verify path in each code)*
+  * **Production weld** route may qualify under strict conditions (acceptance + records). *(verify)*
+* **If a welder makes a satisfactory WPS (procedure) test:** That weld may also qualify the welder within stated limits **if** the personnel rules are met and paperwork is completed. *(verify)*
+
+**Micro-drill (2× T/F)**
+
+* "A WPQ must show ranges the welder may use in production." → **True** (extent of qualification must be declared). *(verify)*
+* "Operator skill = same as procedure proof." → **False** (procedure proves metallurgy, performance proves person). *(verify)*
+
+---
+
+## Lesson 3.2 (≤10 min) — Variables & Extent of Qualification
+
+**Objectives**
+
+* Apply essential welder variables and map them to what's qualified.
+* Read the **thickness/diameter/position** tables quickly.
+
+**Script**
+
+* **For performance, variables are essential**—changes beyond qualified limits require requalification. *(verify in ASME IX & AWS D1.1)*
+* **Process:** Change of process (SMAW↔GMAW, etc.) requires requalification; in structural work, **GMAW-S** is treated distinctly from other GMAW modes. *(verify in D1.1)*
+* **F-Number / filler classification:** Moving to filler groups not covered by the test triggers requalification. *(verify)*
+* **Base metals / groupings:** Performance qualification is about **skill**, but base-metal group/combos still affect the extent—you must confirm coverage per the tables. *(verify in code tables)*
+* **Positions:** Harder positions qualify easier ones; **6G** typically covers all, or **2G+5G** in combination. *(verify)*
+* **Vertical progression:** Up vs down are different; qualify for what you'll use. *(verify)*
+* **Backing:** Qualified **without backing** → permitted **with** backing; the reverse is not automatic. *(verify)*
+* **Thickness & diameter:**
+
+  * **ASME IX:** Extent of qualification comes from the **performance range tables** (e.g., deposit thickness & pipe diameter ranges). "≥ \~1/2 in deposited in ≥3 layers" commonly reaches **unlimited thickness**; otherwise max is typically **2× deposited thickness**. *(verify in performance tables)*
+  * **AWS D1.1:** Clause 6 tables define how test thickness/diameter map to production coverage; tubular and plate have specific matrices. *(verify)*
+
+**Micro-drill (choose best answer)**
+
+* Welder tested **vertical up** wants to weld **vertical down**: **Requalify for vertical-down**. *(verify)*
+* Tested **without backing** but production uses backing: **Qualified**. *(verify)*
+
+---
+
+## Lesson 3.3 (≤10 min) — Continuity, Revocation, Renewal & Retest
+
+**Objectives**
+
+* Keep qualifications **effective**; recover from lapses correctly.
+* Execute compliant **retest** plans.
+
+**Script**
+
+* **Continuity:** If a welder does **not weld with a given process for \~6 months**, that process qualification lapses. *(verify each code)*
+* **Revocation:** If there's a **specific reason to question ability**, the qualification may be revoked for that area/process; others remain valid. *(verify)*
+* **Renewal:** Weld and pass a **single test coupon** (or a permitted production weld test) per code to restore prior coverage for that process. *(verify)*
+* **Retest:**
+
+  * **Immediate retest** option exists (e.g., two additional tests) if the rules are followed. *(verify)*
+  * After **training/practice**, do a **complete retest** of failed elements. *(verify)*
+* **Tack Welders / Operators:** Must be qualified per code; scope is narrower; do not assume CJP coverage. *(verify)*
+
+**Exit check**
+
+* "Welder away from GTAW for 7 months; no welds recorded." → **Expired for GTAW; renew per performance rule before assignment.** *(verify)*
+
+---
+
+## Practical artifact — **WPQ Audit & Continuity Tracker** (PDF/MD)
+
+**Section A — Identity & Scope**
+
+* Welder ID; employer; process; WPS used; test date(s); certifier. *(verify)*
+
+**Section B — Extent of Qualification (copy table fields into LMS)**
+
+* **Process & transfer mode** (if applicable)
+* **Positions** (tested → qualified)
+* **Vertical progression** (up/down)
+* **Backing** (with/without)
+* **Thickness** (test t, deposit layers; production range per table)
+* **Diameter** (pipe/tube tested; qualified range)
+* **Base metal grouping coverage** (per table)
+* **Weld types covered** (groove/fillet; CJP/PJP as applicable)
+
+**Section C — Evidence**
+
+* VT/NDE results; mech tests; acceptance; WQTR file link; signatures. *(verify)*
+
+**Section D — Continuity**
+
+* Process log (date/job/WPS); next due date; lapse alert. *(verify)*
+
+**Section E — Dispositions**
+
+* **Accept / Hold / Requalify** + one-line reason with (verify in code).
+
+---
+
+## Short practice tasks (free-response)
+
+**SP-1 — Progression Flip**
+Welder tested **vertical up** on plate groove wants to weld **vertical down** in production. Are they covered? If not, what's needed? *(verify)*
+
+**SP-2 — GMAW-S Boundary**
+Welder qualified with **GMAW (spray)** requests **GMAW-S** fillets on structural steel. Covered or requalify? *(verify in D1.1)*
+
+**SP-3 — Continuity Lapse**
+No SMAW recorded for 7 months. State the renewal path and what documentation must be updated. *(verify)*
+
+---
+
+## Quiz (10 MCQs with rationales)
+
+1. **Purpose of WPQ**
+   Performance qualification primarily proves:
+   A) Procedure metallurgy  B) **Individual skill to produce sound welds**  C) Drawing accuracy  D) Electrode shelf life
+   **Answer:** B — WPQ demonstrates welder/operator proficiency following a qualified WPS. *(verify in code)*
+
+2. **Process change**
+   Qualified in SMAW, asked to GMAW. Action?
+   A) Proceed  B) Supervisor OK  C) **Requalify for GMAW**  D) Add note
+   **Answer:** C — Different process → requalification. *(verify)*
+
+3. **GMAW-S**
+   Welder qualified in GMAW (spray) wants GMAW-S on structural.
+   A) Covered  B) **Not covered; qualify per D1.1**  C) Covered if amperage matches  D) Covered if fillet only
+   **Answer:** B — Short-circuit is treated distinctly in D1.1. *(verify)*
+
+4. **Vertical progression**
+   Qualified vertical **up**; wants vertical **down**.
+   A) Covered  B) Covered if same heat input  C) **Not covered; requalify for down**  D) Only for fillets
+   **Answer:** C — Up vs down are separate for performance. *(verify)*
+
+5. **Backing**
+   Qualified **without backing**; production uses backing.
+   A) **Covered**  B) Not covered  C) Covered only in 1G  D) Covered only on pipe
+   **Answer:** A — Without-backing qualifies with-backing; reverse isn't automatic. *(verify)*
+
+6. **Thickness extent (ASME IX)**
+   Welder deposited ≥ \~1/2 in in ≥3 layers on a groove coupon. Thickness coverage is typically:
+   A) 2×t only  B) 3×t  C) **Unlimited (verify table)**  D) 1.5×t
+   **Answer:** C — Meeting the multi-layer threshold generally opens unlimited thickness; confirm in performance table. *(verify)*
+
+7. **Diameter extent (ASME IX)**
+   Qualified on pipe of a given diameter. Coverage for smaller diameters is controlled by:
+   A) WPS ranges  B) **Performance diameter table**  C) Contractor policy  D) Electrode F-number
+   **Answer:** B — Use the performance table for min/max diameter coverage. *(verify)*
+
+8. **Continuity**
+   No welding recorded for a process for \~6 months.
+   A) Still valid  B) **Expired; renew per code**  C) Valid if supervisor signs  D) Valid if same employer
+   **Answer:** B — Continuity lapse triggers renewal. *(verify)*
+
+9. **Immediate retest**
+   Fail a bend specimen; code allows:
+   A) No retest  B) **Immediate retest per rule (e.g., two additional tests)**  C) Retest after 1 year  D) Only NDE
+   **Answer:** B — Immediate retest is allowed under defined conditions. *(verify)*
+
+10. **Document link**
+    A compliant WQTR must include:
+    A) Pay rate  B) **Process, WPS used, variables as tested, tests/results, qualified ranges, certification**  C) Vacation dates  D) Vendor coupons
+    **Answer:** B — Those elements establish scope and traceability. *(verify)*
+
+*(Each rationale in your LMS should end with "(verify in code)" and avoid quoting.)*
+
+---
+
+## Drop-in seeds (JSON examples)
+
+**module**
+
+```json
+{
+  "course_slug": "cwi-core",
+  "module_slug": "m3-wpq",
+  "title": "Module 3 — Welder Performance Qualification (WPQ)",
+  "order_index": 3,
+  "status": "active",
+  "tags": ["awsd1.1","cwi2025","codeupdate"]
+}
+```
+
+**lessons**
+
+```json
+[
+  {"module_slug":"m3-wpq","lesson_slug":"l1-purpose-records","title":"WPQ Purpose, Records, and Test Paths","duration_min":10,"content_markdown":"## Purpose & Records\\n- WPQ proves individual skill following a qualified WPS. (verify)\\n- WQTR fields: ID, process, WPS, variables tested, tests/results, ranges, certification. (verify)\\n- Test via coupon or qualified production weld routes, as permitted. (verify)"},
+  {"module_slug":"m3-wpq","lesson_slug":"l2-variables-extent","title":"Variables & Extent of Qualification","duration_min":10,"content_markdown":"## Variables & Extent\\n- Process, F-number, positions, progression, backing are essential for performance. (verify)\\n- Use performance tables for thickness/diameter coverage; confirm unlimited thresholds. (verify)\\n- D1.1 treats GMAW-S distinctly. (verify)"},
+  {"module_slug":"m3-wpq","lesson_slug":"l3-continuity-renewal","title":"Continuity, Revocation, Renewal & Retest","duration_min":10,"content_markdown":"## Staying Valid\\n- ~6-month continuity rule per process. (verify)\\n- Revocation on specific reason to question ability. (verify)\\n- Renewal via single coupon or permitted production test path; retest options. (verify)"}
+]
+```
+
+**quiz**
+
+```json
+{"module_slug":"m3-wpq","quiz_slug":"qz-m3-core","title":"M3 Core Quiz — WPQ","num_items":10,"time_limit_min":15,"attempts_allowed":3}
+```
+
+**short_tasks**
+
+```json
+[
+  {"module_slug":"m3-wpq","task_slug":"sp-1-vert-progression","title":"Vertical Progression Flip","instructions":"Welder tested vertical up; production requests vertical down. State coverage and needed action + (verify in code)."},
+  {"module_slug":"m3-wpq","task_slug":"sp-2-gmaw-s","title":"GMAW-S Boundary","instructions":"Welder qualified in GMAW (spray) wants GMAW-S for structural fillets. Covered or requalify? Cite D1.1 + (verify)."},
+  {"module_slug":"m3-wpq","task_slug":"sp-3-continuity","title":"Continuity Lapse","instructions":"No SMAW for 7 months. Describe renewal path and updates required + (verify)."}
+]
+```
+
+---
+
+## QA & governance gates (No-Drift ready)
+
+* **Edition tags:**
+  `{"code_refs":[{"code":"ASME IX","edition":"current"},{"code":"AWS D1.1","edition":"2020"}]}`
+* **Verification banner:** Green when editions match backend; flips yellow on change until re-verified.
+* **Accessibility:** Mobile 375px pass; AA contrast; quiz feedback on; alt text on images.
+* **Analytics:** `lesson_view`, `quiz_start`, `quiz_submit`, `task_submit` emitted with `module=m3-wpq`.
+
+---
+
+## Instructor crib (one-liners to model)
+
+* **Accept** — *Welder tested 6G without backing; tables support all positions and with-backing production. (verify)*
+* **Reject** — *Request to weld GMAW-S based on spray-mode WPQ; D1.1 treats short-circuit distinctly; requalify. (verify)*
+* **Hold** — *Continuity gap >6 months on GTAW; renew per performance rule before assignment. (verify)*

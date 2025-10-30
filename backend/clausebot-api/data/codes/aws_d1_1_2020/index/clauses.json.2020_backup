@@ -1,0 +1,24 @@
+{
+    "edition":  "AWS_D1.1:2020",
+    "version":  "1.0.0",
+    "clauses":  {
+                    "6.9.1":  {
+                                  "summary":  "Requirements for visual examination of welds",
+                                  "title":  "Visual Examination Requirements",
+                                  "document_id":  "aws_d1_1_2020",
+                                  "page":  1
+                              },
+                    "9.1.1":  {
+                                  "summary":  "Requirements for welder performance qualification",
+                                  "title":  "Welder Performance Qualification",
+                                  "document_id":  "aws_d1_1_2020",
+                                  "page":  1
+                              },
+                    "8.1.1":  {
+                                  "summary":  "Requirements for welding procedure specifications",
+                                  "title":  "Welding Procedure Specification",
+                                  "document_id":  "aws_d1_1_2020",
+                                  "page":  1
+                              }
+                }
+}

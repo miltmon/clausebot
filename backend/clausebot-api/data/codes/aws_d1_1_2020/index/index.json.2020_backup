@@ -1,0 +1,42 @@
+{
+    "edition":  "AWS_D1.1:2020",
+    "created":  "2025-09-05T21:37:50Z",
+    "version":  "1.0.0",
+    "documents":  [
+                      {
+                          "content":  {
+                                          "value":  "AWS D1.1:2020 - Structural Welding Code - Steel\r\n\r\nThis is a placeholder for extracted text from the AWS D1.1:2020 Structural Welding Code.\r\n\r\nIn a full implementation, this would contain the actual extracted text from the PDF.\r\n\r\nClause content would be parsed and indexed here.\r\n\r\nKey sections include:\r\n- Clause 6.9.1: Visual Examination Requirements\r\n- Clause 8.1.1: Welding Procedure Specification  \r\n- Clause 9.1.1: Welder Performance Qualification\r\n\r\nThis document establishes the essential requirements for structural welding of steel.\r\n",
+                                          "PSPath":  "C:\\Users\\miltm\\MiltmonNDT_Workspace\\clausebot\\data\\codes\\aws_d1_1_2020\\extracted_text\\aws_d1_1_2020.txt",
+                                          "PSParentPath":  "C:\\Users\\miltm\\MiltmonNDT_Workspace\\clausebot\\data\\codes\\aws_d1_1_2020\\extracted_text",
+                                          "PSChildName":  "aws_d1_1_2020.txt",
+                                          "PSDrive":  {
+                                                          "CurrentLocation":  "Users\\miltm\\MiltmonNDT_Workspace\\clausebot",
+                                                          "Name":  "C",
+                                                          "Provider":  "Microsoft.PowerShell.Core\\FileSystem",
+                                                          "Root":  "C:\\",
+                                                          "Description":  "Acer",
+                                                          "MaximumSize":  null,
+                                                          "Credential":  "System.Management.Automation.PSCredential",
+                                                          "DisplayRoot":  null
+                                                      },
+                                          "PSProvider":  {
+                                                             "ImplementingType":  "Microsoft.PowerShell.Commands.FileSystemProvider",
+                                                             "HelpFile":  "System.Management.Automation.dll-Help.xml",
+                                                             "Name":  "FileSystem",
+                                                             "PSSnapIn":  "Microsoft.PowerShell.Core",
+                                                             "ModuleName":  "Microsoft.PowerShell.Core",
+                                                             "Module":  null,
+                                                             "Description":  "",
+                                                             "Capabilities":  52,
+                                                             "Home":  "C:\\Users\\miltm",
+                                                             "Drives":  "C"
+                                                         },
+                                          "ReadCount":  1
+                                      },
+                          "filename":  "aws_d1_1_2020.txt",
+                          "id":  "aws_d1_1_2020",
+                          "size":  545,
+                          "modified":  "2025-09-05T21:37:46Z"
+                      }
+                  ]
+}

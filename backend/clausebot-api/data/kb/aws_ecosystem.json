@@ -1,0 +1,15 @@
+{
+  "id": "aws_ecosystem_overview",
+  "title": "AWS Ecosystem: Certifications, Training, Standards",
+  "updated": "2025-09-07T00:00:00Z",
+  "category": "professional_development",
+  "tags": ["AWS","CWI","SCWI","CAWI","training","standards"],
+  "summary": "How AWS certs, training, and standards map to CWI prep and practice.",
+  "content": {
+    "certifications": {"core":["CAWI","CWI","SCWI"]},
+    "endorsements": ["D1.1","D1.2","D1.5","D17.1","API 1104","ASME IX/B31.1/B31.3"],
+    "training": ["D1.1 Code Clinic (~4h, ~0.4 CEU)","CWI seminars","self-paced"],
+    "key_texts": ["WIT-T","WIT-W","CM","Welding Inspection Handbook"],
+    "notes": "Verify current details with AWS before publishing."
+  }
+}
