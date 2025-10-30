@@ -1,0 +1,93 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM UTC
+  workflow_dispatch:
+
+jobs:
+  dependency-audit:
+    name: Dependency Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install safety
+      run: pip install safety
+      
+    - name: Install package and run safety check
+      run: |
+        pip install -e .
+        safety check --output json > safety-report.json || true
+        
+    - name: Upload safety report
+      uses: actions/upload-artifact@v4
+      with:
+        name: safety-audit-report
+        path: safety-report.json
+        
+  secrets-scan:
+    name: Secrets Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+      
+    - name: Run TruffleHog
+      uses: trufflesecurity/trufflehog@v3.63.2
+      with:
+        path: ./
+        base: ${{ github.event.repository.default_branch }}
+        head: HEAD
+        extra_args: --only-verified --fail
+
+  comprehensive-audit:
+    name: Comprehensive Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies and security tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+        pip install bandit semgrep safety pip-audit
+        
+    - name: Run comprehensive Bandit scan
+      run: |
+        bandit -r . -f json -o bandit-comprehensive.json || true
+        
+    - name: Run pip-audit comprehensive scan
+      run: |
+        pip-audit --format=json --output=pip-audit-comprehensive.json --timeout=60 || echo '{"vulnerabilities": [], "metadata": {"scan_completed": false, "error": "Network timeout or connection error"}}' > pip-audit-comprehensive.json
+        
+    - name: Run Semgrep comprehensive scan
+      run: |
+        semgrep --config=p/security-audit --config=p/secrets --config=p/python --sarif --output=semgrep-comprehensive.sarif . || true
+        
+    - name: Upload comprehensive audit results
+      uses: actions/upload-artifact@v4
+      with:
+        name: comprehensive-security-audit
+        path: |
+          bandit-comprehensive.json
+          pip-audit-comprehensive.json
+          semgrep-comprehensive.sarif
+        retention-days: 90

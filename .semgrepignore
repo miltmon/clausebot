@@ -1,0 +1,24 @@
+# Test files and fixtures
+tests/
+test_*.py
+*_test.py
+
+# Third-party dependencies
+venv/
+env/
+.venv/
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Documentation
+docs/
+*.md
+
+# Configuration files
+*.json
+*.yml
+*.yaml

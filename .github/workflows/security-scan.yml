@@ -1,0 +1,120 @@
+name: Security Scan
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 2 * * *"  # Nightly at 2 AM UTC
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  dependency-scan:
+    name: Dependency Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pip-audit safety
+
+      - name: Run Safety check (JSON)
+        run: safety check --json --output safety-report.json --exit-code
+        continue-on-error: false
+
+      - name: Run pip-audit (SARIF)
+        run: pip-audit -r requirements.txt -f sarif -o pip-audit.sarif --require-hashes --desc on
+        continue-on-error: false
+
+      - name: Upload SARIF (pip-audit)
+        if: always()
+        uses: github/codeql-action/upload-sarif@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169  # v3.27.9
+        with:
+          sarif_file: pip-audit.sarif
+
+      - name: Upload Safety report (artifact)
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        with:
+          name: safety-report
+          path: safety-report.json
+          retention-days: 30
+
+  code-scan:
+    name: Code Security Scan (CodeQL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # v5.3.0
+        with:
+          python-version: "3.11"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169  # v3.27.9
+        with:
+          languages: python
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169  # v3.27.9
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169  # v3.27.9
+
+  semgrep-scan:
+    name: Semgrep Security Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d  # v1
+        with:
+          config: >
+            p/security-audit
+            p/secrets
+            p/python
+
+      - name: Upload SARIF (Semgrep)
+        if: always()
+        uses: github/codeql-action/upload-sarif@48ab28a6f5dbc2a99bf1e0131198dd8f1df78169  # v3.27.9
+        with:
+          sarif_file: semgrep.sarif
+
+  secrets-scan:
+    name: Secrets Scan (TruffleHog)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@f00221bc2c238037a12c9ea691b8a6e42cb7e4e1  # v3.87.0
+        with:
+          extra_args: --only-verified --fail --json
+
+      - name: Upload TruffleHog results
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        with:
+          name: trufflehog-results
+          path: trufflehog-results.json
+          retention-days: 30

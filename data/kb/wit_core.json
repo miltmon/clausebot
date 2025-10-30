@@ -1,0 +1,11 @@
+{
+  "id": "wit_core",
+  "title": "Welding Inspection Technology (WIT): CWI Essentials",
+  "updated": "2025-09-07T00:00:00Z",
+  "category": "study_resource",
+  "tags": ["WIT","CWI","Part A","visual inspection","NDE","WPS","PQR","WPQ"],
+  "summary": "Core WIT topics for CWI Part A and field practice.",
+  "content": {
+    "focus": ["Visual inspection & discontinuities","Measuring tools","WPS/PQR","Welder quals","NDE overview","Destructive tests","Materials/metallurgy","Safety","Documentation","Codes & standards"]
+  }
+}
