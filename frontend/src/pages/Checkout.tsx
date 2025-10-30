@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Loader2, AlertCircle, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { supabase } from "@/integrations/supabase/client";
 
 const Checkout = () => {
   usePageTitle("Checkout");
@@ -29,7 +30,7 @@ const Checkout = () => {
     basic: {
       name: "ClauseBot.Ai",
       price: "$49.00/month",
-      priceId: "price_basic_monthly", // Replace with your actual Stripe Price ID
+      priceId: "price_1SNmJlGX27lkbwbwhCjF2SX9", // Test price - ClauseBot Pro Subscription $19/month
       features: [
         "AWS D1.1:2025 compliance",
         "Real-time clause citations",
@@ -41,8 +42,8 @@ const Checkout = () => {
     },
     pro: {
       name: "ClauseBot Pro",
-      price: "$99.00/month",
-      priceId: "price_pro_monthly", // Replace with your actual Stripe Price ID
+      price: "$19.00/month",
+      priceId: "price_1SNmJlGX27lkbwbwhCjF2SX9", // Test price - ClauseBot Pro Subscription $19/month
       popular: true,
       features: [
         "All ClauseBot.Ai features",
@@ -87,34 +88,32 @@ const Checkout = () => {
     setLoading(true);
     
     try {
-      // Call your backend to create Stripe Checkout Session
-      const response = await fetch(`${import.meta.env.VITE_API_BASE}/api/create-checkout-session`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      // Call Supabase Edge Function to create Stripe Checkout Session
+      const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+        body: {
           priceId: selectedPlan.priceId,
           plan: plan,
           successUrl: `${window.location.origin}/checkout?success=true&plan=${plan}`,
           cancelUrl: `${window.location.origin}/pricing`,
-        }),
+        },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to create checkout session");
+      if (error) {
+        throw error;
       }
 
-      const { url } = await response.json();
+      if (!data?.url) {
+        throw new Error("No checkout URL returned");
+      }
       
       // Redirect to Stripe Checkout
-      window.location.href = url;
+      window.location.href = data.url;
       
     } catch (error) {
       console.error("Checkout error:", error);
       toast({
         title: "Checkout Error",
-        description: "Failed to start checkout. Please try again or contact support.",
+        description: error instanceof Error ? error.message : "Failed to start checkout. Please try again or contact support.",
         variant: "destructive",
       });
       setLoading(false);
