@@ -1,0 +1,63 @@
+name: Beads Integration CI
+
+on:
+  push:
+    branches: [ main, feat/beads-agent-memory ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  beads-integration:
+    name: Beads Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install PowerShell
+        run: |
+          sudo snap install powershell --classic
+        shell: bash
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        shell: bash
+
+      - name: Start API
+        run: |
+          nohup python -m uvicorn clausebot_api.main:app --host 0.0.0.0 --port 8000 > /tmp/api.log 2>&1 &
+          sleep 3
+        shell: bash
+
+      - name: Wait for API readiness
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://127.0.0.1:8000/health >/dev/null 2>&1; then
+              echo "✅ API ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "❌ API failed to start"; exit 1
+        shell: bash
+
+      - name: Run Beads Integration Tests
+        run: |
+          pwsh -Command "./test_beads_integration.ps1 -BaseUrl http://127.0.0.1:8000"
+        shell: bash
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: beads-test-logs
+          path: /tmp/api.log

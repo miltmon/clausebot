@@ -1,0 +1,319 @@
+openapi: 3.0.3
+info:
+  title: ClauseBot Beads Agent Memory API
+  version: "2025.10.30"
+  description: Beads-inspired agent memory endpoints for ClauseBot
+
+paths:
+  /v1/agent/memory/task:
+    post:
+      summary: Create agent task
+      operationId: createAgentTask
+      tags: [Agent Memory]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+            example:
+              title: "Update AWS D1.1:2025 references in Module 1"
+              description: "Replace outdated AWS D1.1:2020 references"
+              priority: 1
+              task_type: "aws_update"
+              category: "Structural Welding"
+      responses:
+        '201':
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/agent/memory/ready:
+    get:
+      summary: Get ready work (unblocked tasks)
+      operationId: getReadyWork
+      tags: [Agent Memory]
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [hybrid, priority, oldest]
+            default: hybrid
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Ready work items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/agent/memory/blocked:
+    get:
+      summary: Get blocked tasks
+      operationId: getBlockedTasks
+      tags: [Agent Memory]
+      responses:
+        '200':
+          description: Blocked tasks with their blockers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/agent/memory/stats:
+    get:
+      summary: Get agent memory statistics
+      operationId: getAgentMemoryStats
+      tags: [Agent Memory]
+      responses:
+        '200':
+          description: Memory statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/agent/memory/tasks/batch:
+    post:
+      summary: Batch create tasks from agent discovery
+      operationId: batchCreateTasks
+      tags: [Agent Memory]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchTaskCreate'
+      responses:
+        '200':
+          description: Batch creation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/agent/memory/dependency:
+    post:
+      summary: Add task dependency
+      operationId: addDependency
+      tags: [Agent Memory]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDependencyRequest'
+      responses:
+        '201':
+          description: Dependency created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentMemoryResponse'
+
+  /v1/quiz/ready:
+    get:
+      summary: Get quiz-specific ready work
+      operationId: getQuizReadyWork
+      tags: [Quiz Integration]
+      parameters:
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [human, json]
+            default: human
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Quiz ready work
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /v1/quiz/batch-validate:
+    post:
+      summary: Batch validate questions with auto-task creation
+      operationId: batchValidateQuestions
+      tags: [Quiz Integration]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchValidateRequest'
+      responses:
+        '200':
+          description: Validation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchValidateResponse'
+
+components:
+  schemas:
+    CreateTaskRequest:
+      type: object
+      required: [title]
+      properties:
+        title:
+          type: string
+          example: "Update AWS D1.1:2025 references"
+        description:
+          type: string
+        priority:
+          type: integer
+          minimum: 0
+          maximum: 4
+          default: 2
+        task_type:
+          type: string
+          enum: [content_review, question_validation, aws_update, bug, feature, task, epic, chore]
+        category:
+          type: string
+        assignee:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+
+    AgentMemoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/AgentTask'
+            - type: array
+              items:
+                $ref: '#/components/schemas/ReadyWorkItem'
+            - $ref: '#/components/schemas/AgentMemoryStats'
+        message:
+          type: string
+
+    AgentTask:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+        task_type:
+          type: string
+        status:
+          type: string
+          enum: [pending, in_progress, completed, cancelled]
+        category:
+          type: string
+        assignee:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ReadyWorkItem:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/AgentTask'
+        priority_score:
+          type: number
+        age_hours:
+          type: number
+
+    AgentMemoryStats:
+      type: object
+      properties:
+        total_tasks:
+          type: integer
+        open_tasks:
+          type: integer
+        ready_tasks:
+          type: integer
+        blocked_tasks:
+          type: integer
+        dependencies:
+          type: integer
+
+    BatchTaskCreate:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateTaskRequest'
+        source:
+          type: string
+        session_id:
+          type: string
+        parent_task_id:
+          type: string
+
+    AddDependencyRequest:
+      type: object
+      required: [dependent_task_id, blocks_task_id]
+      properties:
+        dependent_task_id:
+          type: string
+        blocks_task_id:
+          type: string
+        dependency_type:
+          type: string
+          enum: [blocks, related, parent_child, discovered_from]
+          default: blocks
+        notes:
+          type: string
+
+    BatchValidateRequest:
+      type: object
+      properties:
+        question_ids:
+          type: array
+          items:
+            type: string
+        category:
+          type: string
+        session_id:
+          type: string
+
+    BatchValidateResponse:
+      type: object
+      properties:
+        total_validated:
+          type: integer
+        valid_count:
+          type: integer
+        invalid_count:
+          type: integer
+        tasks_created:
+          type: array
+          items:
+            type: string
