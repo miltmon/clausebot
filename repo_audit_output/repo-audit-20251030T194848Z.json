@@ -1,0 +1,213 @@
+{
+  "generated_at": "2025-10-30 19:49:02Z",
+  "audit_version": "1.0.0-ps",
+  "repos": {
+    "miltmon/idletime-herb-vault": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/clausebotai": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/clausebot.ai-answer-engine-generative-ui": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/clausebot": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/awsbokphoneapp": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/nextjs-commerce": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/clausebot-api": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/table-id-helper": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/gemini-2-0-flash-image-generation-and-editing": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/wix-classes-subscriptions": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/456-three-dice": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/WeldMap-": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/rgs-family-connect": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    },
+    "miltmon/nextjs-ai-chatbot": {
+      "actions_secrets": {
+        "secrets": []
+      },
+      "latest_workflow_run": {
+        "workflow_runs": []
+      },
+      "_secrets_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "webhooks": [],
+      "collaborators": [],
+      "_hooks_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_collab_error": "Response status code does not indicate success: 401 (Unauthorized).",
+      "_runs_error": "Response status code does not indicate success: 401 (Unauthorized)."
+    }
+  },
+  "external_services": {
+    "airtable": {
+      "status": 200,
+      "url": "https://api.airtable.com",
+      "authenticated": false
+    },
+    "supabase": {
+      "url": "https://hqhughgdraokwmreronk.supabase.co",
+      "status": 0
+    }
+  }
+}
