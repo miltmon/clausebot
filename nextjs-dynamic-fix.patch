@@ -1,0 +1,141 @@
+diff --git a/frontend/src/app/page.tsx b/frontend/src/app/page.tsx
+index abc1234..def5678 100644
+--- a/frontend/src/app/page.tsx
++++ b/frontend/src/app/page.tsx
+@@ -1,3 +1,7 @@
++// Force dynamic rendering to fix DYNAMIC_SERVER_USAGE error
++export const dynamic = 'force-dynamic';
++export const runtime = 'edge'; // Optional: use edge runtime for better performance
++
+ import { Suspense } from 'react';
+ import ClauseBotWidget from '../components/ClauseBotWidget';
+ import QuizComponent from '../components/QuizComponent';
+@@ -5,15 +9,7 @@ import QuizComponent from '../components/QuizComponent';
+ export default function HomePage() {
+   return (
+     <main className="container mx-auto px-4 py-8">
+       <h1 className="text-3xl font-bold mb-8">ClauseBot - Welding Code Assistant</h1>
+       
+-      <Suspense fallback={<div>Loading ClauseBot...</div>}>
+-        <ClauseBotWidget />
+-      </Suspense>
+-      
+-      <Suspense fallback={<div>Loading Quiz...</div>}>
+-        <QuizComponent />
+-      </Suspense>
++      <ServerOnlyContent />
+     </main>
+   );
+ }
+diff --git a/frontend/src/app/ServerOnlyContent.tsx b/frontend/src/app/ServerOnlyContent.tsx
+new file mode 100644
+index 0000000..abc1234
+--- /dev/null
++++ b/frontend/src/app/ServerOnlyContent.tsx
+@@ -0,0 +1,45 @@
++import { Suspense } from 'react';
++import { headers, cookies } from 'next/headers';
++import ClauseBotWidget from '../components/ClauseBotWidget';
++import QuizComponent from '../components/QuizComponent';
++
++// Server component that can safely use server-only features
++export default async function ServerOnlyContent() {
++  // Safe to use server-only APIs here
++  const headersList = headers();
++  const cookieStore = cookies();
++  
++  // Optional: Server-side health check
++  let healthStatus = null;
++  try {
++    const healthResponse = await fetch(`${process.env.VITE_API_URL}/v1/health`, {
++      cache: 'no-store', // Always fresh
++      next: { revalidate: 60 } // Or use ISR with 60s revalidation
++    });
++    
++    if (healthResponse.ok) {
++      healthStatus = await healthResponse.json();
++    }
++  } catch (error) {
++    console.error('Health check failed:', error);
++  }
++
++  return (
++    <>
++      {/* Optional: Show health status */}
++      {healthStatus && (
++        <div className="mb-4 p-2 bg-green-50 border border-green-200 rounded">
++          <span className="text-green-800 text-sm">
++            ✅ API Status: {healthStatus.status || 'healthy'}
++          </span>
++        </div>
++      )}
++      
++      <Suspense fallback={<div className="animate-pulse bg-gray-200 h-32 rounded mb-4">Loading ClauseBot...</div>}>
++        <ClauseBotWidget />
++      </Suspense>
++      
++      <Suspense fallback={<div className="animate-pulse bg-gray-200 h-32 rounded">Loading Quiz...</div>}>
++        <QuizComponent />
++      </Suspense>
++    </>
++  );
++}
+diff --git a/frontend/src/components/ClauseBotWidget.tsx b/frontend/src/components/ClauseBotWidget.tsx
+index abc1234..def5678 100644
+--- a/frontend/src/components/ClauseBotWidget.tsx
++++ b/frontend/src/components/ClauseBotWidget.tsx
+@@ -1,8 +1,12 @@
++'use client';
++
+ import { useState, useEffect } from 'react';
+-import { useSearchParams } from 'next/navigation';
++// Remove server-only imports from client components
++// import { useSearchParams } from 'next/navigation'; // This causes DYNAMIC_SERVER_USAGE
+ 
+ export default function ClauseBotWidget() {
+-  const searchParams = useSearchParams();
++  // Use client-side URL parsing instead
++  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
+   const [query, setQuery] = useState('');
+   const [response, setResponse] = useState('');
+   const [loading, setLoading] = useState(false);
+@@ -10,6 +14,12 @@ export default function ClauseBotWidget() {
+   useEffect(() => {
++    // Client-side search params parsing
++    if (typeof window !== 'undefined') {
++      setSearchParams(new URLSearchParams(window.location.search));
++    }
++  }, []);
++
++  useEffect(() => {
+     // Initialize query from URL params if present
+-    const initialQuery = searchParams.get('q');
++    const initialQuery = searchParams?.get('q');
+     if (initialQuery) {
+       setQuery(initialQuery);
+     }
+-  }, [searchParams]);
++  }, [searchParams]);
+ 
+   const handleSubmit = async (e: React.FormEvent) => {
+     e.preventDefault();
+diff --git a/frontend/next.config.js b/frontend/next.config.js
+index abc1234..def5678 100644
+--- a/frontend/next.config.js
++++ b/frontend/next.config.js
+@@ -1,5 +1,12 @@
+ /** @type {import('next').NextConfig} */
+ const nextConfig = {
++  // Experimental features to help with dynamic rendering
++  experimental: {
++    serverComponentsExternalPackages: ['@supabase/supabase-js'],
++  },
++  
++  // Ensure proper handling of environment variables
++  env: {
++    CUSTOM_KEY: process.env.CUSTOM_KEY,
++  },
++  
+   // Add any existing config here
+   reactStrictMode: true,
+   swcMinify: true,
