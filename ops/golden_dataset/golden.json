@@ -1,0 +1,314 @@
+{
+  "metadata": {
+    "version": "1.1",
+    "created": "2025-11-02",
+    "purpose": "Enhanced golden dataset for ClauseBot RAG validation - 30 comprehensive tests",
+    "standard": "AWS D1.1:2020/2025",
+    "total_tests": 30,
+    "coverage": "Preheat, inspection, qualification, joint design, workmanship, edge cases",
+    "notes": "Expanded from 20 to 30 tests with better edge case coverage and difficulty distribution"
+  },
+  "tests": [
+    {
+      "id": "gd-001",
+      "query": "What is the minimum preheat temperature for welding ASTM A514 steel thicker than 1 inch?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.2.3", "Table 4.1", "4.2"],
+      "min_similarity": 0.70,
+      "source": "quiz_CWI-2025-001",
+      "difficulty": "medium",
+      "category": "preheat_qualification"
+    },
+    {
+      "id": "gd-002",
+      "query": "What file format is required for digital WPS submissions according to AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.1.4", "Annex C.2", "4.1"],
+      "min_similarity": 0.65,
+      "source": "quiz_CWI-2025-002",
+      "difficulty": "hard",
+      "category": "wps_requirements"
+    },
+    {
+      "id": "gd-003",
+      "query": "What is the maximum weld reinforcement allowed for a 1/2 inch fillet weld?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.2.1", "Table 6.1", "6.2"],
+      "min_similarity": 0.75,
+      "source": "quiz_CWI-2025-003",
+      "difficulty": "easy",
+      "category": "inspection_acceptance"
+    },
+    {
+      "id": "gd-004",
+      "query": "What is the required edge preparation angle for a double-V groove joint in steel over 1 inch thick?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["3.3.2", "Figure 3.4", "3.3"],
+      "min_similarity": 0.68,
+      "source": "quiz_CWI-2025-004",
+      "difficulty": "medium",
+      "category": "joint_design"
+    },
+    {
+      "id": "gd-005",
+      "query": "What is the maximum undercut depth allowed for cyclically loaded structures?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.3.4", "Table 5.2", "5.3"],
+      "min_similarity": 0.72,
+      "source": "quiz_CWI-2025-005",
+      "difficulty": "hard",
+      "category": "workmanship_cyclic"
+    },
+    {
+      "id": "gd-006",
+      "query": "What are the visual examination requirements for welds per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.9.1", "6.9"],
+      "min_similarity": 0.78,
+      "source": "clause_index_6.9.1",
+      "difficulty": "easy",
+      "category": "inspection_visual"
+    },
+    {
+      "id": "gd-007",
+      "query": "What are the requirements for welder performance qualification?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["9.1.1", "9.1", "Section 9"],
+      "min_similarity": 0.75,
+      "source": "clause_index_9.1.1",
+      "difficulty": "medium",
+      "category": "qualification_welder"
+    },
+    {
+      "id": "gd-008",
+      "query": "What are the requirements for welding procedure specifications in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["8.1.1", "8.1", "Section 8"],
+      "min_similarity": 0.76,
+      "source": "clause_index_8.1.1",
+      "difficulty": "medium",
+      "category": "wps_general"
+    },
+    {
+      "id": "gd-009",
+      "query": "What preheat temperature is needed for A36 steel?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.2", "Table 4.1", "4.2.3"],
+      "min_similarity": 0.70,
+      "source": "common_compliance_query",
+      "difficulty": "easy",
+      "category": "preheat_common"
+    },
+    {
+      "id": "gd-010",
+      "query": "What are the acceptance criteria for fillet weld visual inspection?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.9", "6.2", "6.9.1"],
+      "min_similarity": 0.72,
+      "source": "inspection_scenario",
+      "difficulty": "medium",
+      "category": "inspection_fillet"
+    },
+    {
+      "id": "gd-011",
+      "query": "Does AWS D1.1 require preheat for thin A36 steel under 1/4 inch?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.2.3", "Table 4.1"],
+      "min_similarity": 0.68,
+      "source": "field_question",
+      "difficulty": "medium",
+      "category": "preheat_thin"
+    },
+    {
+      "id": "gd-012",
+      "query": "How do I qualify a new welder per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["9.1", "9.1.1", "Section 9"],
+      "min_similarity": 0.74,
+      "source": "training_scenario",
+      "difficulty": "easy",
+      "category": "qualification_procedure"
+    },
+    {
+      "id": "gd-013",
+      "query": "What information must be included in a WPS according to AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["8.1", "8.1.1", "4.1"],
+      "min_similarity": 0.70,
+      "source": "documentation_requirement",
+      "difficulty": "medium",
+      "category": "wps_content"
+    },
+    {
+      "id": "gd-014",
+      "query": "What are the visual inspection acceptance limits for undercut in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.3.4", "6.9", "Table 5.2"],
+      "min_similarity": 0.71,
+      "source": "inspection_defect",
+      "difficulty": "hard",
+      "category": "inspection_undercut"
+    },
+    {
+      "id": "gd-015",
+      "query": "What groove weld joint designs are permitted by AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["3.3", "3.3.2", "Figure 3.4"],
+      "min_similarity": 0.69,
+      "source": "design_question",
+      "difficulty": "medium",
+      "category": "joint_types"
+    },
+    {
+      "id": "gd-016",
+      "query": "When is visual examination required during fabrication per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.9.1", "Section 6"],
+      "min_similarity": 0.73,
+      "source": "timing_question",
+      "difficulty": "easy",
+      "category": "inspection_timing"
+    },
+    {
+      "id": "gd-017",
+      "query": "What are the preheat requirements for high-strength steels in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.2.3", "4.2", "Table 4.1"],
+      "min_similarity": 0.71,
+      "source": "material_specific",
+      "difficulty": "medium",
+      "category": "preheat_highstrength"
+    },
+    {
+      "id": "gd-018",
+      "query": "How do I measure weld reinforcement for acceptance per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.2.1", "6.2", "Table 6.1"],
+      "min_similarity": 0.70,
+      "source": "measurement_procedure",
+      "difficulty": "medium",
+      "category": "inspection_measurement"
+    },
+    {
+      "id": "gd-019",
+      "query": "What welder qualification tests are required by AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["9.1.1", "9.1", "Section 9"],
+      "min_similarity": 0.75,
+      "source": "qualification_test",
+      "difficulty": "medium",
+      "category": "qualification_testing"
+    },
+    {
+      "id": "gd-020",
+      "query": "What is the difference between a WPS and a PQR in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["8.1", "8.1.1", "Section 8"],
+      "min_similarity": 0.68,
+      "source": "conceptual_question",
+      "difficulty": "easy",
+      "category": "wps_vs_pqr"
+    },
+    {
+      "id": "gd-021",
+      "query": "What are the requirements for backing bars in groove welds per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["3.3", "3.3.1", "5.19"],
+      "min_similarity": 0.67,
+      "source": "edge_case_backing",
+      "difficulty": "hard",
+      "category": "joint_backing"
+    },
+    {
+      "id": "gd-022",
+      "query": "Can I repair a weld defect without new qualification?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.26", "6.13", "9.4"],
+      "min_similarity": 0.66,
+      "source": "field_scenario_repair",
+      "difficulty": "hard",
+      "category": "repair_qualification"
+    },
+    {
+      "id": "gd-023",
+      "query": "What is the interpass temperature limit for carbon steel welding?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["4.2", "4.2.3", "Table 4.1"],
+      "min_similarity": 0.72,
+      "source": "temperature_control",
+      "difficulty": "medium",
+      "category": "interpass_temperature"
+    },
+    {
+      "id": "gd-024",
+      "query": "Are tack welds required to meet the same acceptance criteria as final welds?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.19", "6.9", "3.4"],
+      "min_similarity": 0.65,
+      "source": "edge_case_tacks",
+      "difficulty": "hard",
+      "category": "tack_weld_requirements"
+    },
+    {
+      "id": "gd-025",
+      "query": "What are the requirements for welding in cold weather per AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.12", "4.2", "6.4"],
+      "min_similarity": 0.68,
+      "source": "environmental_condition",
+      "difficulty": "medium",
+      "category": "cold_weather"
+    },
+    {
+      "id": "gd-026",
+      "query": "How long is a welder qualification valid in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["9.5", "9.1", "Section 9"],
+      "min_similarity": 0.74,
+      "source": "qualification_validity",
+      "difficulty": "easy",
+      "category": "qualification_expiration"
+    },
+    {
+      "id": "gd-027",
+      "query": "What porosity is acceptable in a fillet weld per AWS D1.1 visual inspection?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["6.9", "6.9.1", "Table 6.1"],
+      "min_similarity": 0.70,
+      "source": "defect_acceptance",
+      "difficulty": "medium",
+      "category": "porosity_limits"
+    },
+    {
+      "id": "gd-028",
+      "query": "Does AWS D1.1 allow for essential variable changes without requalification?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["8.3", "4.1", "Table 8.1"],
+      "min_similarity": 0.66,
+      "source": "edge_case_variables",
+      "difficulty": "hard",
+      "category": "essential_variables"
+    },
+    {
+      "id": "gd-029",
+      "query": "What electrode storage requirements does AWS D1.1 specify?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["5.3", "5.3.1", "4.5"],
+      "min_similarity": 0.69,
+      "source": "consumable_storage",
+      "difficulty": "medium",
+      "category": "electrode_storage"
+    },
+    {
+      "id": "gd-030",
+      "query": "Can I use prequalified WPS for all joint configurations in AWS D1.1?",
+      "standard": "AWS D1.1:2020",
+      "expected_clauses": ["3.2", "3.3", "Table 3.1"],
+      "min_similarity": 0.67,
+      "source": "prequalified_limits",
+      "difficulty": "hard",
+      "category": "prequalified_wps"
+    }
+  ]
+}
+
