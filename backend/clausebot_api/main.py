@@ -68,6 +68,18 @@ app.include_router(buildinfo_router, tags=["system"])
 # Welding resources (Pro feature)
 app.include_router(welding_resources_router, tags=["welding-resources"])
 
+# RAG compliance endpoint (feature-flagged)
+RAG_ENABLED = os.getenv("RAG_ENABLED", "false").lower() == "true"
+if RAG_ENABLED:
+    try:
+        from clausebot_api.routes.chat_compliance import router as chat_compliance_router
+        app.include_router(chat_compliance_router, prefix="/v1", tags=["compliance-rag"])
+        print("[startup] ✅ RAG compliance router enabled at /v1/chat/compliance", flush=True)
+    except Exception as e:
+        print(f"[startup] ⚠️ Failed to load RAG router: {e}", flush=True)
+else:
+    print("[startup] RAG compliance router disabled (RAG_ENABLED=false)", flush=True)
+
 @app.get("/health/quiz")
 def quiz_health() -> Dict[str, Any]:
     return {"quiz": "ready", "default_category": DEFAULT_CATEGORY}
