@@ -10,6 +10,11 @@ aiohttp==3.9.1
 # Database & Storage
 supabase==2.6.0
 
+# RAG Dependencies
+openai==1.55.0
+tiktoken==0.8.0
+pgvector==0.3.6
+
 # Airtable integration
 airtable-python-wrapper==0.15.3
 pyairtable==2.3.3

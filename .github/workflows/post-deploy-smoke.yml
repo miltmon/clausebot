@@ -1,0 +1,152 @@
+name: "Post-deploy Smoke Tests (RAG)"
+
+# Trigger on merges/pushes to main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: post-deploy-smoke
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  post-deploy-smoke:
+    name: Post-deploy smoke tests
+    runs-on: ubuntu-latest
+    
+    env:
+      API_BASE: ${{ secrets.API_BASE || 'https://clausebot-api.onrender.com' }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL || '' }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || '' }}
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY || '' }}
+      RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID || '' }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK || '' }}
+      SMOKE_SCRIPT: "ops/smoke-script.sh"
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Bash environment
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y jq curl
+      
+      - name: Optionally wait for Render deploy to finish
+        if: env.RENDER_API_KEY != '' && env.RENDER_SERVICE_ID != ''
+        id: wait_render
+        run: |
+          set -euo pipefail
+          echo "Render API key and Service ID provided — polling Render for latest deploy status..."
+          RENDER_API="https://api.render.com/v1/services/${RENDER_SERVICE_ID}/deploys"
+          echo "Polling $RENDER_API"
+          
+          ATTEMPTS=0
+          MAX_ATTEMPTS=30
+          SLEEP_SEC=20
+          
+          while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
+            ATTEMPTS=$((ATTEMPTS+1))
+            echo "Attempt $ATTEMPTS/$MAX_ATTEMPTS..."
+            
+            RESP=$(curl -sS -H "Accept: application/json" -H "Authorization: Bearer ${RENDER_API_KEY}" "$RENDER_API")
+            STATE=$(echo "$RESP" | jq -r '.[0].deploy.status // empty' 2>/dev/null || true)
+            DEPLOY_ID=$(echo "$RESP" | jq -r '.[0].deploy.id // empty' 2>/dev/null || true)
+            
+            echo "Latest deploy id: $DEPLOY_ID state: $STATE"
+            
+            if [ "$STATE" = "live" ]; then
+              echo "Render reports successful deploy ($STATE)."
+              exit 0
+            fi
+            
+            if [ "$STATE" = "build_failed" ] || [ "$STATE" = "deactivated" ]; then
+              echo "Render reports deploy failed. Exiting early."
+              exit 1
+            fi
+            
+            echo "Waiting ${SLEEP_SEC}s for next poll..."
+            sleep $SLEEP_SEC
+          done
+          
+          echo "Timed out waiting for Render deploy to reach success state."
+          exit 1
+      
+      - name: Make smoke script executable
+        run: |
+          if [ -f "${{ env.SMOKE_SCRIPT }}" ]; then
+            chmod +x "${{ env.SMOKE_SCRIPT }}"
+            echo "Smoke script made executable."
+          else
+            echo "Smoke script not found at ${{ env.SMOKE_SCRIPT }} — fail intentionally."
+            ls -la .
+            exit 1
+          fi
+      
+      - name: Run smoke script
+        id: run_smoke
+        env:
+          API_BASE: ${{ env.API_BASE }}
+          SUPABASE_URL: ${{ env.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ env.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          set -euo pipefail
+          echo "Running smoke script against API_BASE=${API_BASE}..."
+          
+          LOGFILE="smoke-log.txt"
+          
+          if "${{ env.SMOKE_SCRIPT }}" 2>&1 | tee "${LOGFILE}"; then
+            echo "smoke_status=passed" >> $GITHUB_OUTPUT
+            echo "Smoke script passed."
+          else
+            echo "smoke_status=failed" >> $GITHUB_OUTPUT
+            echo "Smoke script FAILED."
+          fi
+      
+      - name: Upload smoke test log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-log
+          path: smoke-log.txt
+      
+      - name: Post Slack notification (optional)
+        if: env.SLACK_WEBHOOK != ''
+        env:
+          SMOKE_STATUS: ${{ steps.run_smoke.outputs.smoke_status || 'unknown' }}
+          COMMIT_SHA: ${{ github.sha }}
+          REPO: ${{ github.repository }}
+          API_BASE: ${{ env.API_BASE }}
+        run: |
+          set -euo pipefail
+          WEBHOOK="${SLACK_WEBHOOK}"
+          STATUS="${SMOKE_STATUS}"
+          COLOR="#36a64f"
+          
+          if [ "$STATUS" = "failed" ]; then
+            COLOR="#d00000"
+          fi
+          
+          TEXT="*Post-deploy smoke tests* for \`${REPO}\` (\`${COMMIT_SHA:0:7}\`) finished with status: *${STATUS}*.\nAPI_BASE: ${API_BASE}\n\n<${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View commit> • Logs: artifact attached."
+          
+          payload="$(jq -n --arg text "$TEXT" --arg color "$COLOR" '{attachments:[{color:$color,text:$text}] }')"
+          curl -sS -X POST -H 'Content-type: application/json' --data "$payload" "$WEBHOOK" || true
+      
+      - name: Fail workflow if smoke failed
+        if: steps.run_smoke.outputs.smoke_status == 'failed'
+        run: |
+          echo "Smoke tests failed — failing workflow to surface in CI."
+          exit 1
+      
+      - name: Success message
+        if: steps.run_smoke.outputs.smoke_status == 'passed'
+        run: |
+          echo "Smoke tests passed — no further action required."
+

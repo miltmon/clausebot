@@ -1,0 +1,141 @@
+name: "Golden Dataset Validation (ClauseBot RAG)"
+
+# Runs nightly + manual trigger
+on:
+  schedule:
+    - cron: '0 3 * * *'  # Daily at 03:00 UTC
+  workflow_dispatch:
+  # Uncomment to enable on push to main (CI gating)
+  # push:
+  #   branches:
+  #     - main
+
+concurrency:
+  group: golden-validation
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  golden-validate:
+    name: Golden dataset validation
+    runs-on: ubuntu-latest
+    
+    env:
+      API_BASE: ${{ secrets.API_BASE || 'https://clausebot-api.onrender.com' }}
+      REPORT_DIR: "ops/reports"
+      GOLDEN_PATH: "ops/golden_dataset/golden.json"
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      
+      - name: Install runtime deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      
+      - name: Run golden validator
+        id: golden_run
+        env:
+          API_BASE: ${{ env.API_BASE }}
+        run: |
+          set -euo pipefail
+          echo "Running golden validation..."
+          mkdir -p "${{ env.REPORT_DIR }}"
+          
+          # Run validator (will exit non-zero on low pass-rate)
+          if python ops/golden-validate.py \
+            --golden "${{ env.GOLDEN_PATH }}" \
+            --api-base "${{ env.API_BASE }}" \
+            --topk 5 \
+            --timeout 15 \
+            --pass-rate 0.90 \
+            --tag ci; then
+            echo "validation_status=passed" >> $GITHUB_OUTPUT
+          else
+            echo "validation_status=failed" >> $GITHUB_OUTPUT
+          fi
+          
+          # List generated reports
+          ls -la "${{ env.REPORT_DIR }}" || true
+      
+      - name: Upload golden-validation report(s)
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-validation-reports
+          path: ops/reports/*
+      
+      - name: Fail job if validator indicated failure
+        run: |
+          set -euo pipefail
+          
+          # Find newest JSON report
+          latest=$(ls -1t ops/reports/golden-report-* 2>/dev/null | head -n1 || true)
+          
+          if [ -z "$latest" ]; then
+            echo "No report found in ops/reports/ — failing job"
+            exit 1
+          fi
+          
+          echo "Latest report: $latest"
+          
+          pass_rate=$(jq -r '.summary.pass_rate // empty' "$latest" || echo "")
+          
+          if [ -z "$pass_rate" ]; then
+            echo "Could not read pass_rate from report — failing job"
+            cat "$latest"
+            exit 1
+          fi
+          
+          echo "Pass rate: $pass_rate"
+          
+          # Compare with threshold
+          THRESH=0.90
+          ok=$(python3 - <<PY
+pr=float("$pass_rate")
+th=float($THRESH)
+print("ok" if pr >= th else "fail")
+PY
+          )
+          
+          if [ "$ok" != "ok" ]; then
+            echo "Pass rate below threshold ($THRESH). Failing workflow so teams can triage."
+            exit 1
+          fi
+          
+          echo "Pass rate >= threshold; job will succeed."
+      
+      - name: Optional Slack notify
+        if: ${{ secrets.SLACK_WEBHOOK != '' }}
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          
+          # Find newest JSON report
+          latest=$(ls -1t ops/reports/golden-report-* | head -n1)
+          
+          pass_rate=$(jq -r '.summary.pass_rate' "$latest")
+          total=$(jq -r '.summary.total_tests' "$latest")
+          passed=$(jq -r '.summary.passed' "$latest")
+          
+          COLOR="#36a64f"
+          if (( $(echo "$pass_rate < 0.90" | bc -l) )); then
+            COLOR="#d00000"
+          fi
+          
+          TEXT="*Golden validation* run finished. pass_rate=${pass_rate}, passed=${passed}/${total}.\nReports attached to workflow artifacts."
+          
+          payload="$(jq -n --arg text "$TEXT" --arg color "$COLOR" '{attachments:[{color:$color,text:$text}] }')"
+          curl -sS -X POST -H 'Content-type: application/json' --data "$payload" "$WEBHOOK" || true
+
