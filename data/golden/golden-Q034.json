@@ -1,0 +1,35 @@
+{
+  "id": "Q034",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What new design provision appears in AWS D1.1:2025 Clause 4.7 regarding Load and Resistance Factor Design (LRFD)?",
+  "expected_answer": "Clause 4.7 defers tubular static strength calculations to AISC specifications for LRFD applications",
+  "category": "design_requirements",
+  "difficulty": "medium",
+  "clause_focus": "4.7",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_4.7",
+    "aws_d1.1_2025_clause_4"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "New subclause 4.7 in D1.1:2025 addresses LRFD (Load and Resistance Factor Design) by deferring static strength calculations for tubular connections to AISC standards. This clarifies the design responsibility boundary and ensures consistency with structural engineering practice for building and bridge codes.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "4.7",
+      "page": "TBD",
+      "excerpt": "LRFD provisions — reference to AISC for tubular connection strength"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q034-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 4.7",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "design_engineering",
+    "cwi_competency": "clause_4_design"
+  }
+}
+

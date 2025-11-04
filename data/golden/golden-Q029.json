@@ -1,0 +1,35 @@
+{
+  "id": "Q029",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What changes were made to inspector qualification requirements in AWS D1.1:2025 Clause 8.14.6.2?",
+  "expected_answer": "Updated certification and qualification criteria for NDT personnel performing code inspections",
+  "category": "inspection_qualification",
+  "difficulty": "hard",
+  "clause_focus": "8.14.6.2",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_8.14.6.2",
+    "aws_d1.1_2025_8.14"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 8.14.6.2 in D1.1:2025 clarifies qualification requirements for inspection personnel, emphasizing alignment with ASNT SNT-TC-1A and ISO 9712 for NDT technicians. This update ensures inspectors have documented competency for advanced methods (PAUT, digital RT) and addresses liability/responsibility boundaries between CWI and engineering roles.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "8.14.6.2",
+      "page": "TBD",
+      "excerpt": "Qualification of inspection personnel — certification requirements"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q029-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 8.14.6.2",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "inspector_responsibilities",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

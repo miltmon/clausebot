@@ -1,0 +1,35 @@
+{
+  "id": "Q039",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What changed for AWS A5 series filler metal references in AWS D1.1:2025 Clause 5.2.3?",
+  "expected_answer": "AWS A5.36 filler metal classifications removed; updated cross-references to current A5 specifications",
+  "category": "filler_metals",
+  "difficulty": "medium",
+  "clause_focus": "5.2.3",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_5.2.3",
+    "aws_d1.1_2025_5.2"
+  ],
+  "min_similarity": 0.70,
+  "top_k": 5,
+  "rationale": "Clause 5.2.3 in D1.1:2025 updates filler metal references by removing obsolete AWS A5.36 classifications and updating cross-references to current A5 specifications (A5.18, A5.20, A5.28, A5.29). This ensures alignment with active filler metal standards and clarifies approved electrodes for prequalified WPS.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "5.2.3",
+      "page": "TBD",
+      "excerpt": "Filler metal requirements — updated A5 series references, A5.36 removed"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q039-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 5.2.3",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "consumables",
+    "cwi_competency": "clause_5_materials"
+  }
+}
+

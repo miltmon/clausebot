@@ -1,0 +1,36 @@
+{
+  "id": "Q036",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What are the updated minimum preheat values for specific steel grades in the new AWS D1.1:2025 Table 5.8?",
+  "expected_answer": "Table 5.8 includes new steel grades with revised minimum preheat temperatures based on thickness and grade",
+  "category": "preheat_requirements",
+  "difficulty": "medium",
+  "clause_focus": "5.8",
+  "table_reference": "Table 5.8",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_table_5_8",
+    "aws_d1.1_2025_5.8"
+  ],
+  "min_similarity": 0.75,
+  "top_k": 5,
+  "rationale": "D1.1:2025 Table 5.8 adds new ASTM material designations and updates minimum preheat values reflecting current metallurgical understanding of hydrogen cracking susceptibility. Key additions include high-performance steels (ASTM A1066, weathering steels) with specific preheat requirements based on carbon equivalent and thickness.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "Table 5.8",
+      "page": "TBD",
+      "excerpt": "Minimum preheat and interpass temperatures — updated for new ASTM grades"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q036-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Table 5.8",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "materials_preheat",
+    "cwi_competency": "clause_5_materials"
+  }
+}
+

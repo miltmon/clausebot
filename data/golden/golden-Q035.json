@@ -1,0 +1,35 @@
+{
+  "id": "Q035",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "How are essential variables for waveform control technology addressed in AWS D1.1:2025 Clause 6.8.1?",
+  "expected_answer": "Clarified requirements for WPS qualification when using advanced waveform control (pulse, CMT, etc.)",
+  "category": "qualification_essential_variables",
+  "difficulty": "hard",
+  "clause_focus": "6.8.1",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_6.8.1",
+    "aws_d1.1_2025_6.8"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 6.8.1 in D1.1:2025 clarifies essential variable requirements for WPS using advanced waveform control technologies (e.g., pulsed GMAW, CMT, STT). Changes to waveform parameters require PQR requalification. This update addresses modern power source capabilities and ensures proper documentation of these critical welding parameters.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "6.8.1",
+      "page": "TBD",
+      "excerpt": "Essential variables — waveform control technology qualification requirements"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q035-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 6.8.1",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "advanced_processes",
+    "cwi_competency": "clause_6_qualification"
+  }
+}
+

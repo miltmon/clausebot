@@ -1,0 +1,36 @@
+{
+  "id": "Q038",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Where are PQR requalification triggers located in AWS D1.1:2025?",
+  "expected_answer": "Clause 6.7 and Table 6.5 — essential variable changes requiring requalification testing",
+  "category": "qualification_retest",
+  "difficulty": "hard",
+  "clause_focus": "6.7",
+  "table_reference": "Table 6.5",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_6.7",
+    "aws_d1.1_2025_table_6_5"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 6.7 and Table 6.5 in D1.1:2025 consolidate all PQR requalification requirements. Changes beyond essential variable limits (e.g., preheat reduction, filler metal class change, welding process addition) trigger mandatory retest. This clarifies contractor obligations and ensures WPS remain supported by valid qualification data.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "6.7 and Table 6.5",
+      "page": "TBD",
+      "excerpt": "PQR requalification — essential variable change limits"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q038-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 6.7",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "wps_maintenance",
+    "cwi_competency": "clause_6_qualification"
+  }
+}
+

@@ -1,0 +1,36 @@
+{
+  "id": "Q032",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Are digital radiography procedures explicitly included in AWS D1.1:2025, and where are they specified?",
+  "expected_answer": "Yes, Clause 8.17.20 and Annex R provide digital RT procedures and acceptance criteria",
+  "category": "radiography_digital",
+  "difficulty": "medium",
+  "clause_focus": "8.17.20",
+  "annex_reference": "Annex R",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_8.17.20",
+    "aws_d1.1_2025_annex_r"
+  ],
+  "min_similarity": 0.70,
+  "top_k": 5,
+  "rationale": "D1.1:2025 explicitly adds digital radiography (RT-D) as a code-approved method in Clause 8.17.20 with supporting procedures in Annex R. This addresses industry shift from film to computed radiography (CR) and digital detector arrays (DDA), providing acceptance criteria, image quality indicators (IQI), and archival requirements for digital images.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "8.17.20 and Annex R",
+      "page": "TBD",
+      "excerpt": "Digital radiography — procedures, IQI requirements, and digital image archival"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q032-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 8.17.20",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "ndt_digital_methods",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

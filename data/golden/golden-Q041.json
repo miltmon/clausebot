@@ -1,0 +1,35 @@
+{
+  "id": "Q041",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Where does AWS D1.1:2025 specify the attenuation factor methodology for ultrasonic testing?",
+  "expected_answer": "Clause 8.18 — attenuation compensation and reference block calibration procedures",
+  "category": "ultrasonics_calibration",
+  "difficulty": "hard",
+  "clause_focus": "8.18",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_8.18",
+    "aws_d1.1_2025_ut_attenuation"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 8.18 in D1.1:2025 provides detailed attenuation factor methodology for UT, including reference block calibration procedures, distance-amplitude correction (DAC) curve construction, and material-specific attenuation coefficients. This ensures consistent sensitivity across varying material conditions and inspector technique.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "8.18",
+      "page": "TBD",
+      "excerpt": "Ultrasonic testing — attenuation factor and DAC curve procedures"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q041-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 8.18",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "ndt_ultrasonics",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

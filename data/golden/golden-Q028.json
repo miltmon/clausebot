@@ -1,0 +1,36 @@
+{
+  "id": "Q028",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Where are all CVN (Charpy V-notch) toughness testing requirements consolidated in AWS D1.1:2025?",
+  "expected_answer": "Table 6.7 — all CVN requirements and essential variable impacts",
+  "category": "qualification_testing",
+  "difficulty": "medium",
+  "clause_focus": "6.7",
+  "table_reference": "Table 6.7",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_table_6_7",
+    "aws_d1.1_2025_6.7"
+  ],
+  "min_similarity": 0.75,
+  "top_k": 5,
+  "rationale": "D1.1:2025 consolidates all CVN testing requirements (previously scattered across Clause 6) into Table 6.7. This table now governs when CVN testing is required as a supplementary essential variable for WPS/PQR qualification, improving clarity for CWI instruction and contractor compliance.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "Table 6.7",
+      "page": "TBD",
+      "excerpt": "CVN toughness testing requirements — supplementary essential variables"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q028-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Table 6.7",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "qualification_testing",
+    "cwi_competency": "clause_6_qualification"
+  }
+}
+

@@ -1,0 +1,36 @@
+{
+  "id": "Q027",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Is Phased Array Ultrasonic Testing (PAUT) now a normative requirement in AWS D1.1:2025, and where are the procedures specified?",
+  "expected_answer": "Yes, PAUT is covered in normative Annex H with full procedural requirements",
+  "category": "inspection_ndt",
+  "difficulty": "medium",
+  "clause_focus": "8.18",
+  "annex_reference": "Annex H",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_annex_h",
+    "aws_d1.1_2025_8.18"
+  ],
+  "min_similarity": 0.70,
+  "top_k": 5,
+  "rationale": "D1.1:2025 elevates PAUT from informative guidance to a normative Annex H, making it a code-approved inspection method with mandatory procedural controls. This addresses industry adoption of PAUT for complex geometries and provides acceptance criteria aligned with conventional UT while leveraging multi-angle beam capabilities.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "Annex H (Normative)",
+      "page": "TBD",
+      "excerpt": "Phased Array Ultrasonic Testing — procedures, calibration, and acceptance criteria"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q027-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Annex H",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "ndt_procedures",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

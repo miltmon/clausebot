@@ -1,0 +1,35 @@
+{
+  "id": "Q040",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "How should digital radiography records be stored and referenced in an inspection report per AWS D1.1:2025 Clause 8.17.21?",
+  "expected_answer": "Digital images must be archived with metadata (exposure parameters, IQI results) and unique identifiers linked to weld records",
+  "category": "records_retention",
+  "difficulty": "hard",
+  "clause_focus": "8.17.21",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_8.17.21",
+    "aws_d1.1_2025_report_metadata"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 8.17.21 in D1.1:2025 specifies requirements for digital RT record retention, including mandatory metadata fields (exposure parameters, IQI identification, spatial calibration), file format standards (DICONDE), and archival procedures ensuring long-term retrievability for code audits and forensic investigations.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "8.17.21",
+      "page": "TBD",
+      "excerpt": "Digital radiography records — metadata requirements and archival standards"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q040-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 8.17.21",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "record_keeping",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

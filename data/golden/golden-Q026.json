@@ -1,0 +1,36 @@
+{
+  "id": "Q026",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What is the minimum preheat temperature for ASTM A514 steel 1.5 inches thick per AWS D1.1:2025 Table 5.8?",
+  "expected_answer": "225°F (107°C)",
+  "category": "preheat_qualification",
+  "difficulty": "medium",
+  "clause_focus": "5.8",
+  "table_reference": "Table 5.8",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_table_5_8",
+    "aws_d1.1_2025_5.8.1"
+  ],
+  "min_similarity": 0.75,
+  "top_k": 5,
+  "rationale": "Table 5.8 in D1.1:2025 consolidates minimum preheat and interpass temperatures for prequalified joints. A514 steel (high-strength quenched and tempered alloy) requires higher preheat than mild steel to prevent hydrogen-induced cracking. For material thickness >1 inch, the specified minimum is 225°F per the revised table.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "Table 5.8",
+      "page": "TBD",
+      "excerpt": "ASTM A514: thickness >1 in. — minimum preheat 225°F"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q026-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Table 5.8",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "materials_preheat",
+    "cwi_competency": "clause_5_materials"
+  }
+}
+

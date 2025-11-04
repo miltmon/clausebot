@@ -1,0 +1,35 @@
+{
+  "id": "Q031",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "What is the updated guidance on geometric unsharpness (Ug) for radiographic testing in AWS D1.1:2025?",
+  "expected_answer": "Revised methodology and limitations aligned with ASME Section V Article 2, including new Ug equation",
+  "category": "radiography_procedures",
+  "difficulty": "hard",
+  "clause_focus": "8.17.12",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_8.17.12",
+    "aws_d1.1_2025_8.17"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "D1.1:2025 updates geometric unsharpness (Ug) calculations to align with ASME Section V Article 2 for both film and digital radiography. The revised equation and acceptance limits ensure adequate image quality for defect detection while accommodating modern digital detector technology.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "8.17.12",
+      "page": "TBD",
+      "excerpt": "Geometric unsharpness — Ug = (F × d) / D — maximum limits for film and digital RT"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q031-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 8.17.12",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "ndt_radiography",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+

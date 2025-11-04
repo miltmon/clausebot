@@ -1,0 +1,36 @@
+{
+  "id": "Q030",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "How has Clause 6.12 on PJP (Partial Joint Penetration) groove welds been reorganized in D1.1:2025?",
+  "expected_answer": "Reorganized to clarify qualification using Figure 5.2 joint details for nontubular connections",
+  "category": "qualification_procedures",
+  "difficulty": "medium",
+  "clause_focus": "6.12",
+  "figure_reference": "Figure 5.2",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_6.12",
+    "aws_d1.1_2025_fig_5_2"
+  ],
+  "min_similarity": 0.70,
+  "top_k": 5,
+  "rationale": "D1.1:2025 Clause 6.12 reorganizes PJP qualification requirements to explicitly reference Figure 5.2 prequalified joint details. This clarification reduces ambiguity for contractors qualifying WPS for nontubular structural connections and ensures proper test plate configuration matches production joint geometry.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "6.12",
+      "page": "TBD",
+      "excerpt": "PJP groove weld qualification — reference to Figure 5.2 joint details"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q030-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 6.12",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "wps_qualification",
+    "cwi_competency": "clause_6_qualification"
+  }
+}
+

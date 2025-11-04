@@ -1,0 +1,35 @@
+{
+  "id": "Q037",
+  "version": "1.0",
+  "standard": "AWS D1.1:2025",
+  "query": "Does AWS D1.1:2025 change the visual inspection hold time requirement after welding completion?",
+  "expected_answer": "Yes, Clause 6.5.3 clarifies minimum delay before visual inspection to allow for hydrogen diffusion",
+  "category": "inspection_timing",
+  "difficulty": "medium",
+  "clause_focus": "6.5.3",
+  "expected_canonical_ids": [
+    "aws_d1.1_2025_6.5.3",
+    "aws_d1.1_2025_visual_hold_time"
+  ],
+  "min_similarity": 0.65,
+  "top_k": 5,
+  "rationale": "Clause 6.5.3 in D1.1:2025 clarifies the visual inspection hold time requirement (typically 48 hours for certain high-strength steels) to allow hydrogen diffusion and prevent delayed cracking. This update addresses field inspection scheduling and ensures CWIs understand the timing requirement for final acceptance.",
+  "citations": [
+    {
+      "source": "AWS D1.1:2025",
+      "clause": "6.5.3",
+      "page": "TBD",
+      "excerpt": "Visual inspection hold time — minimum delay for hydrogen diffusion"
+    }
+  ],
+  "metadata": {
+    "nlm_source_id": "NLM-AWS-D11-2025-Q037-001",
+    "nlm_timestamp": "2025-11-03T00:00:00Z",
+    "code_reference_primary": "AWS D1.1:2025 Clause 6.5.3",
+    "sme_reviewer_initials": "TBD",
+    "cms_tag": "source:notebooklm",
+    "exam_db_category": "inspection_procedures",
+    "cwi_competency": "clause_8_inspection"
+  }
+}
+
