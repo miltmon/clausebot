@@ -1,3 +1,5 @@
+> ⚠️ **ARCHIVED** — Active development has moved to [`miltmon/clausebot-enterprise`](https://github.com/miltmon/clausebot-enterprise). This repository is no longer maintained.
+
 # ClauseBot - Professional Welding Education Platform
 
 **Monorepo consolidation:** Backend (Python/FastAPI) + Frontend (React/TypeScript)
@@ -114,4 +116,5 @@ Professional welding education and compliance tools
 
 **Last Updated:** October 25, 2025  
 **Consolidated by:** Cursor AI Agent
+
 
