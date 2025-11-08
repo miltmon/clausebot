@@ -1,0 +1,7 @@
+.env
+*.env
+node_modules/
+__pycache__/
+dist/
+coverage/
+.rds-combined-ca-bundle.pem
