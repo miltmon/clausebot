@@ -1,0 +1,48 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node deps
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npm i --save-dev jest nock
+          npm i express axios @aws-sdk/client-s3
+
+      - name: Run Node tests
+        run: npx jest --runInBand || true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install psycopg2-binary boto3
+
+      - name: Pre-commit
+        uses: pre-commit/action@v3.0.1
+
+      - name: Trufflehog scan
+        uses: trufflesecurity/trufflehog@v3
+        with:
+          path: .
+          extra_args: '--results=verified,unknown --no-update'
+
+      - name: git-secrets scan
+        run: |
+          sudo apt-get update && sudo apt-get install -y git-secrets
+          git secrets --register-aws
+          git secrets --scan
